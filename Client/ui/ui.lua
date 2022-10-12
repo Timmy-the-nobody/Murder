@@ -20,8 +20,30 @@ local tHUDActions = {
 
             if eChar:IsMurderer() then
                 GM.WebUI:CallEvent( "SetElementInnerHTML", "role", "Murderer", "color: red;" )
+                GM.WebUI:CallEvent( "ShowStartScreen", "You're the Murderer", [[
+                    The murderer has to murder everybody.
+                    The murderer has the ability to run, stab, and throw their knife, but must preferably not get caught in order to not get shot.
+                    The murderer also has the ability to see other player's footprints.
+                ]], GM.Cfg.StartScreenTime )
             else
                 GM.WebUI:CallEvent( "SetElementInnerHTML", "role", "Bystander", "color: blue;" )
+
+                -- Detective
+                if eChar:GetStoredWeapon() and ( eChar:GetStoredWeapon() == WeaponType.Pistol ) then
+                    GM.WebUI:CallEvent( "ShowStartScreen", "You're the Detective", [[
+                        The bystanders and detective have to find out who the murderer is and can only win by killing the murderer.
+                        If the detective kills another bystander, he becomes blind and drops the gun.
+                        Only other bystanders can pick up the gun, however the detective can pick it up again once they are no longer blind.
+                    ]], GM.Cfg.StartScreenTime )
+
+                -- Bystander
+                else
+                    GM.WebUI:CallEvent( "ShowStartScreen", "You're a Bystander", [[
+                        The bystanders and detective have to find out who the murderer is and can only win by killing the murderer.
+                        If the detective kills another bystander, he becomes blind and drops the gun.
+                        Only other bystanders can pick up the gun, however the detective can pick it up again once they are no longer blind.
+                    ]], GM.Cfg.StartScreenTime )
+                end
             end
 
             GM.WebUI:CallEvent( "SetElementDisplay", "hud", "block" )
@@ -77,6 +99,12 @@ local tValueChange = {
     end,
     [ "code_color" ] = function( eChar, xValue )
         GM.WebUI:CallEvent( "SetProperty", "code-color", eChar:GetCodeColor( true ) )
+    end,
+    [ "team_killer" ] = function( eChar, xValue )
+        if not xValue then
+            return
+        end
+        GM.WebUI:CallEvent( "MakeBlind", GM.Cfg.TeamKillBlindTime, GM.Cfg.TeamKillBlindFadeTime )
     end
 }
 

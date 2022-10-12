@@ -58,6 +58,10 @@ end
         desc: Equips the holster weapon
 ]]--
 function Character:EquipWeapon()
+    if ( CurTime() - GM:GetRoundStart() ) < GM.Cfg.StartScreenTime then
+        return
+    end
+
     local iWeaponType = self:GetStoredWeapon()
     if not iWeaponType or not GM.Weapons[ iWeaponType ] then
         return
@@ -66,7 +70,6 @@ function Character:EquipWeapon()
     self:SetWeapon( false )
 
     local eWeapon = GM.Weapons[ iWeaponType ].spawn()
-
     if GM.Weapons[ iWeaponType ].onDrop then
         eWeapon:Subscribe( "Drop", function( _, eChar )
             GM.Weapons[ iWeaponType ].onDrop( eChar, eWeapon )
@@ -129,10 +132,10 @@ function Character:ThrowKnife()
         self:SetValue( "dropping_knife", nil, false )
         self:Drop()
 
-        ePicked:AddImpulse( ( self:GetControlRotation():GetForwardVector() * 800 ) + Vector( 0, 0, 200 ), true )
+        ePicked:AddImpulse( ( self:GetControlRotation():GetForwardVector() * 1000 ) + Vector( 0, 0, 200 ), true )
         ePicked:SetValue( "thrown_knife", true, true )
 
-        local eTrigger = Trigger( ePicked:GetLocation(), Rotator(), Vector( 60 ), TriggerType.Sphere, false, Color.BLACK, { "Character" } )
+        local eTrigger = Trigger( ePicked:GetLocation(), Rotator(), Vector( 80 ), TriggerType.Sphere, false, Color.BLACK, { "Character" } )
         eTrigger:Subscribe( "BeginOverlap", function( _, eEntity )
             if ( eEntity ~= self ) and ( eEntity:GetHealth() > 0 ) then
                 eEntity:ApplyDamage( 100, "", DamageType.RunOverProp, Vector(), self:GetPlayer(), ePicked )

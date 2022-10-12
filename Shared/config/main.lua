@@ -10,12 +10,12 @@ GM.Cfg.PlayersWaitTime = 5000               -- Minimum time to wait for players 
 --------------------------------------------------------------------------------
 GM.Cfg.LootSpawnTime = 1000                 -- Time between loot spawns
 GM.Cfg.MaxLootPerPlayer = 4                 -- Maximum loot per player spawned at the same time
-GM.Cfg.BonusRequiredCollectables = 10       -- Required collectables to get a new pistol
+GM.Cfg.BonusRequiredCollectables = 5        -- Required collectables to get a new pistol
 
 --------------------------------------------------------------------------------
 -- Footprints
 --------------------------------------------------------------------------------
-GM.Cfg.FootPrintMaxTime = 45000             -- Maximum time a footprint will stay on the ground
+GM.Cfg.FootPrintMaxTime = 20000             -- Maximum time a footprint will stay on the ground
 GM.Cfg.FootPrintTick = 330                  -- Time between footprint ticks
 
 --------------------------------------------------------------------------------
@@ -31,6 +31,10 @@ GM.Cfg.TeamKillPenaltyDuration = 20000      -- Speed and weapon pickup penalty f
 GM.Cfg.TeamKillSpeedMultiplier = 0.5        -- Speed penalty for team killers
 GM.Cfg.KnifeSpeedMultiplier = 0.9           -- Speed penalty for knife users
 GM.Cfg.PistolSpeedMultiplier = 0.75         -- Speed penalty for pistol users
+
+GM.Cfg.StartScreenTime = 10000              -- Time the start screen will stay visible
+GM.Cfg.TeamKillBlindTime = 10000            -- Time the screen will be blinded for team killers
+GM.Cfg.TeamKillBlindFadeTime = 10000        -- Time the screen will fade back in for team killers
 
 --------------------------------------------------------------------------------
 -- VOIP

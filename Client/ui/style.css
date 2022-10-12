@@ -164,6 +164,54 @@ p {
 
 /* 
 
+    MISC
+
+*/
+
+#tk-blind-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    display: none;
+}
+
+/* 
+
+    START SCREEN
+
+*/
+
+#start-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    display: none;
+}
+
+#start-screen-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+    font-size: 10vh;
+    font-weight: bold;
+    color: #ecf0f1;    
+}
+
+#start-screen-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0%);
+    font-size: 3vh;
+    font-weight: bold;
+    color: #f39c12;
+}
+
+/* 
+
     SCOREBOARD
 
 */

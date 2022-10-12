@@ -87,16 +87,22 @@ function GM:StartRound()
         eChar:SetCanPunch( false )
         eChar:SetCanDeployParachute( false )
         eChar:SetHighFallingTime( -1 )
+        eChar:SetCameraMode( CameraMode.FPSOnly )
 
         pPlayer:Possess( eChar )
 
         -- Avoid blocking 2 characters on the same spawn
         eChar:SetCollision( CollisionType.IgnoreOnlyPawn )
+        eChar:SetInvulnerable( true )
+        eChar:SetCanDrop( false )
+
         Timer.SetTimeout( function()
             if eChar:IsValid() then
+                eChar:SetCanDrop( true )
+                eChar:SetInvulnerable( false )
                 eChar:SetCollision( CollisionType.Normal )
             end
-        end, ( 250 * k ) )
+        end, GM.Cfg.StartScreenTime )
     end
 
     local tAllChars = Character.GetAll()

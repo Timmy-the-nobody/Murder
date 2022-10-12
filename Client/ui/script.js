@@ -30,3 +30,63 @@ Events.Subscribe( "ShowTarget", function( bVisible, sName, sColor, iX, iY ) {
     dTarget.style.top = iY + "px"
     dTarget.style.display = "block"
 } )
+
+// showStartScreen
+let dStartScreen = document.getElementById( "start-screen" )
+let dStartScreenTitle = document.getElementById( "start-screen-title" )
+let dStartScreenText = document.getElementById( "start-screen-text" )
+
+let showStartScreen = function( sTitle, sText, iTime ) {
+    dStartScreenTitle.innerHTML = sTitle
+    dStartScreenText.innerHTML = sText
+
+    dStartScreen.style.display = "block"
+    dStartScreen.style.opacity = 1
+
+    setTimeout( function() {
+        dStartScreen.animate( [
+            { opacity: 1 },
+            { opacity: 0 }
+        ], {
+            duration: 3000,
+            easing: "ease-in-out"
+        } ).onfinish = function() {
+            dStartScreen.style.display = "none"
+        }
+    }, iTime )
+}
+
+Events.Subscribe( "ShowStartScreen", showStartScreen )
+
+// makeBlind
+let dTKBlindScreen = document.getElementById( "tk-blind-screen" )
+
+let makeBlind = function( iTime, iFadeOutTime ) {
+    dTKBlindScreen.style.opacity = 0
+    dTKBlindScreen.style.display = "block"
+
+    let tAnim = dTKBlindScreen.animate( [
+        { opacity: 0 },
+        { opacity: 1 }
+    ], {
+        duration: 500,
+        easing: "ease-in-out",
+        fill: "forwards"
+    } )
+
+    tAnim.onfinish = function() {
+        setTimeout( function() {
+            dTKBlindScreen.animate( [
+                { opacity: 1 },
+                { opacity: 0 }
+            ], {
+                duration: ( iFadeOutTime || 500 ),
+                easing: "ease-in-out"
+            } ).onfinish = function() {
+                dTKBlindScreen.style.display = "none"
+            }
+        }, ( iTime || 3000 ) )
+    }
+}
+
+Events.Subscribe( "MakeBlind", makeBlind )

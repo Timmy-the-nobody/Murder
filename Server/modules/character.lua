@@ -63,7 +63,7 @@ end
 --------------------------------------------------------------------------------
 --[[ Character:ComputeSpeed ]]--
 function Character:ComputeSpeed()
-    local fSpeedMul = 1.2
+    local fSpeedMul = 1.4
 
 	if self:IsTeamKiller() then
 		fSpeedMul = ( fSpeedMul * GM.Cfg.TeamKillSpeedMultiplier )
