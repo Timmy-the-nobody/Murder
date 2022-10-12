@@ -1,0 +1,17 @@
+{
+    "Lua.diagnostics.globals": [
+        "Character",
+        "Package",
+        "Events",
+        "Server",
+        "Client",
+        "tobool",
+        "Player"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-global",
+        "undefined-field",
+        "param-type-mismatch",
+        "missing-parameter"
+    ]
+}
