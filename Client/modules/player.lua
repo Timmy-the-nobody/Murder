@@ -53,9 +53,9 @@ Client.Subscribe( "Tick", function( fDelta )
 end )
 
 --[[ Interact ]]--
-Input.Register( "Spectate", "LeftMouseButton" )
-Input.Bind( "Spectate", InputEvent.Pressed, function()
-    if not LocalCharacter() then
-        NW.Send( "GM:Player:Spectate" )
-    end
-end )
+-- Input.Register( "Spectate", "LeftMouseButton" )
+-- Input.Bind( "Spectate", InputEvent.Pressed, function()
+--     if not LocalCharacter() then
+--         NW.Send( "GM:Player:Spectate" )
+--     end
+-- end )

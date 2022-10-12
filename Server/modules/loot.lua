@@ -8,14 +8,14 @@ end
 --[[ GM:SpawnLoot ]]--
 function GM:SpawnLoot()
     local sMap = Server.GetMap()
-    if not GM.Cfg.LootPos[ sMap ] then
+    if not GM.Cfg.LootSpawns[ sMap ] then
         return
     end
 
     local iSpawnCount = table.Count( tSpawnedLoot )
 
     -- No more available loot spawns
-    if ( iSpawnCount == #GM.Cfg.LootPos[ sMap ] ) then
+    if ( iSpawnCount == #GM.Cfg.LootSpawns[ sMap ] ) then
         return
     end
 
@@ -31,7 +31,7 @@ function GM:SpawnLoot()
         return
     end
 
-    local tLoot, iLoot = table.Random( GM.Cfg.LootPos[ sMap ] )
+    local tLoot, iLoot = table.Random( GM.Cfg.LootSpawns[ sMap ] )
 
     -- Already spawned, attempt another spawn
     if tSpawnedLoot[ iLoot ] then

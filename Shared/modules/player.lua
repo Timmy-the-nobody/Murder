@@ -1,1 +1,1 @@
-NW.AddNWString( "GM:Player:Spectate" )
+-- NW.AddNWString( "GM:Player:Spectate" )

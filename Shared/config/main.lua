@@ -39,6 +39,9 @@ GM.Cfg.VOIPSetting = VOIPSetting.Global     -- VOIP settings: VOIPSetting.Local,
 GM.Cfg.VOIPChannelDefault = 0               -- Default VOIP channel
 GM.Cfg.VOIPChannelDead = 1                  -- VOIP channel for dead players
 
+--------------------------------------------------------------------------------
+-- Character code
+--------------------------------------------------------------------------------
 GM.Cfg.CodeColors = {                       -- Charactes/Names colors
     Color(0.79, 0.40, 0.14),
     Color(0.81, 0.20, 0.55),
@@ -77,30 +80,4 @@ GM.Cfg.CodeNames = {                        -- Code names
     "X-ray",
     "Yankee",
     "Zulu"
-}
-
-GM.Cfg.LootPos = {                          -- Loot spawns
-    [ "nanos-world::BlankMap" ] = {
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 0, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 100, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 200, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 300, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 400, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 500, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 600, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 700, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 800, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 900, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1000, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1100, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1200, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1300, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1400, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1500, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1600, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1700, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1800, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 1900, 0, 0 ), Rotator( 0, 0, 0 ) },
-        { "nanos-world::SM_Fruit_Pumpkin_01", Vector( 2000, 0, 0 ), Rotator( 0, 0, 0 ) }
-    }
 }

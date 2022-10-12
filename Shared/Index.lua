@@ -26,6 +26,7 @@ Package.Require( "Shared/core/enum.lua" )
 -- Config files
 --------------------------------------------------------------------------------
 Package.Require( "Shared/config/main.lua" )
+Package.Require( "Shared/config/maps.lua" )
 
 --------------------------------------------------------------------------------
 -- Modules

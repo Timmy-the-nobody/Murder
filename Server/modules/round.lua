@@ -1,4 +1,9 @@
---[[ GM:SetRound ]]
+--[[
+    GM:SetRound
+        desc: Sets the round
+        args:
+            iRound: The new round (number)
+]]--
 function GM:SetRound( iRound )
     local iOld = self.CurrentRound
 
@@ -9,7 +14,12 @@ function GM:SetRound( iRound )
     NW.Broadcast( "GM:Round:Sync", self.CurrentRound, self.RoundStart )
 end
 
---[[ GM:EndRound ]]--
+--[[
+    GM:EndRound
+        desc: Ends the current round
+        args:
+            iReason: The reason for the round ending (number)
+]]--
 function GM:EndRound( iReason )
     if ( self:GetRound() ~= RoundType.Playing ) then
         return
@@ -38,7 +48,15 @@ function GM:EndRound( iReason )
 
     Timer.SetTimeout( function()
         -- Clear map entities
-        local tClear = { "Character", "Weapon", "Melee", "Prop", "StaticMesh", "Trigger" }
+        local tClear = {
+            "Character",
+            "Weapon",
+            "Melee",
+            "Prop",
+            "StaticMesh",
+            "Trigger"
+        }
+
         for _, sClass in ipairs( tClear ) do
             for _, v in ipairs( _ENV[ sClass ].GetAll() ) do
                 if v:IsValid() then
@@ -49,19 +67,36 @@ function GM:EndRound( iReason )
     end, GM.Cfg.RoundEndTime or 5000 )
 end
 
---[[ GM:StartRound ]]--
+--[[
+    GM:StartRound
+        desc: Starts the round
+]]--
 function GM:StartRound()
     local tPlayers = Player.GetAll()
     if ( #tPlayers <= 1 ) then
         return print( "Not enough players" )
     end
 
-    for _, pPlayer in ipairs( tPlayers ) do
-        local eChar = Character( Vector(), Rotator(), "nanos-world::SK_Mannequin" )
+    local sMap = Server.GetMap()
+    local tSpawns = GM.Cfg.CharacterSpawns[ sMap ] and GM.Cfg.CharacterSpawns[ sMap ] or { { Vector(), Rotator() } }
+
+    for k, pPlayer in ipairs( tPlayers ) do
+        local tRandomSpawn = tSpawns[ math.random( 1, #tSpawns ) ]
+
+        local eChar = Character( tRandomSpawn[ 1 ], tRandomSpawn[ 2 ] or Rotator(), "nanos-world::SK_Mannequin" )
         eChar:SetCanPunch( false )
         eChar:SetCanDeployParachute( false )
-        eChar:Jump()
+        eChar:SetHighFallingTime( -1 )
+
         pPlayer:Possess( eChar )
+
+        -- Avoid blocking 2 characters on the same spawn
+        eChar:SetCollision( CollisionType.IgnoreOnlyPawn )
+        Timer.SetTimeout( function()
+            if eChar:IsValid() then
+                eChar:SetCollision( CollisionType.Normal )
+            end
+        end, ( 250 * k ) )
     end
 
     local tAllChars = Character.GetAll()
@@ -99,8 +134,8 @@ end
 --------------------------------------------------------------------------------
 -- Events
 --------------------------------------------------------------------------------
+--[[ Server Tick ]]--
 local iNextTick = 0
-
 Server.Subscribe( "Tick", function( fDelta )
     local iTime = CurTime()
     local iRound = GM:GetRound()
@@ -135,7 +170,6 @@ Server.Subscribe( "Tick", function( fDelta )
         if ( iTime > ( iRoundStart + GM.Cfg.RoundEndTime ) ) then
             GM:SetRound( RoundType.NotEnoughPlayers )
         end
-        return
     end
 end )
 
