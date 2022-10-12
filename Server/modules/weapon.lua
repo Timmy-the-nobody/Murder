@@ -77,6 +77,7 @@ function Character:EquipWeapon()
     end
 
     self:PickUp( eWeapon )
+    self:ComputeSpeed()
 end
 
 --[[
@@ -94,8 +95,10 @@ function Character:StoreWeapon()
         return
     end
 
-    self:SetWeapon( iWeaponType )
     ePicked:Destroy()
+
+    self:SetWeapon( iWeaponType )
+    self:ComputeSpeed()
 end
 
 --[[
