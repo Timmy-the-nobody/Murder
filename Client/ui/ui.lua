@@ -2,7 +2,7 @@ GM.WebUI = WebUI( "GUI", "file://ui/index.html", true )
 
 local tHUDActions = {
     [ RoundType.NotEnoughPlayers ] = {
-        title = "Waiting for Players (2 required)",
+        title = "Waiting for Players (min. 2 required)",
         onStart = function()
             GM.WebUI:CallEvent( "SetElementDisplay", "spectating", "none" )
         end,
@@ -95,4 +95,20 @@ Character.Subscribe( "Death", function( eChar )
         GM.WebUI:CallEvent( "SetElementDisplay", "hud", "none" )
         GM.WebUI:CallEvent( "SetElementDisplay", "spectating", "block" )
     end
+end )
+
+--[[ Client Tick ]]--
+local mathCeil = math.ceil
+local CurTime = CurTime
+
+local iNextTick = 0
+Client.Subscribe( "Tick", function( fDelta )
+    if ( CurTime() < iNextTick ) then
+        return
+    end
+
+    iNextTick = CurTime() + 1000
+
+    local iSecondsLeft = mathCeil( GM:GetRoundTimeLeft() / 1000 )
+    GM.WebUI:CallEvent( "SetElementInnerHTML", "round-time", "Time left: " .. iSecondsLeft .. "s" )
 end )
