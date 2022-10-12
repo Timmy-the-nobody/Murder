@@ -19,15 +19,15 @@ function GM:SpawnLoot()
         return
     end
 
-    local iInnocents = 0
+    local iAlive = 0
     for _, v in ipairs( Character.GetAll() ) do
-        if ( v:GetHealth() > 0 ) and not v:IsMurderer() then
-            iInnocents = ( iInnocents + 1 )
+        if ( v:GetHealth() > 0 ) then
+            iAlive = ( iAlive + 1 )
         end
     end
 
     -- Limit reached
-    if ( iSpawnCount >= ( GM.Cfg.MaxLootPerPlayer * iInnocents ) ) then
+    if ( iSpawnCount >= ( GM.Cfg.MaxLootPerPlayer * iAlive ) ) then
         return
     end
 
@@ -52,15 +52,12 @@ function GM:SpawnLoot()
     end )
 
     eLoot:Subscribe( "Interact", function( _, eChar )
-        if eChar:IsMurderer() then
-            return false
-        end
-
         eLoot:Destroy()
 
         local iCollectedLoot = eChar:GetCollectedLoot() + 1
         eChar:SetCollectedLoot( iCollectedLoot )
-        if ( ( iCollectedLoot % GM.Cfg.BonusRequiredCollectables ) == 0 ) then
+
+        if not eChar:IsMurderer() and ( ( iCollectedLoot % GM.Cfg.BonusRequiredCollectables ) == 0 ) then
             if eChar:GetStoredWeapon() then
                 eChar:EquipWeapon()
             end

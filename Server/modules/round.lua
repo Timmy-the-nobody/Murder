@@ -28,6 +28,11 @@ function GM:EndRound( iReason )
     Events.Call( "GM:OnRoundEnd", iReason )
     NW.Broadcast( "GM:Round:RoundEnd", iReason )
 
+    for _, pPlayer in ipairs( Player.GetAll() ) do
+        pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDefault )
+        pPlayer:ResetCamera()
+    end
+
     -- Round ending
     self:SetRound( RoundType.RoundEnd )
 
@@ -55,6 +60,7 @@ function GM:StartRound()
         local eChar = Character( Vector(), Rotator(), "nanos-world::SK_Mannequin" )
         eChar:SetCanPunch( false )
         eChar:SetCanDeployParachute( false )
+        eChar:Jump()
         pPlayer:Possess( eChar )
     end
 
@@ -70,18 +76,21 @@ function GM:StartRound()
     for _, eChar in ipairs( tAllChars ) do
         if not eChar:IsMurderer() then
             tCivs[ #tCivs + 1 ] = eChar
-            eChar:SetCollectedLoot( 0 )
         end
     end
 
     local eGunner = tCivs[ math.random( 1, #tCivs ) ]
     eGunner:SetWeapon( WeaponType.Pistol )
 
-    -- Adjust characters speed, etc..
+    -- Initialize characters values
     for _, eChar in ipairs( tAllChars ) do
+        eChar:SetCollectedLoot( 0 )
         eChar:GenerateCodeName()
         eChar:GenerateCodeColor()
         eChar:ComputeSpeed()
+
+        eChar:SetValue( "default_code_name", eChar:GetCodeName(), false )
+        eChar:SetValue( "default_code_color", eChar:GetCodeColor(), false )
     end
 
     self:SetRound( RoundType.Playing )

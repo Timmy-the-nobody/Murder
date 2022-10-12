@@ -49,8 +49,8 @@ p {
     background-color: var(--code-color);
     border-radius: 50%;
     border: 0.5vh solid rgba(27, 27, 27, 1);
-    box-shadow: inset 0 0 calc(var(--circle_size) * 0.25) rgba(27, 27, 27, 0.75);
-    filter: drop-shadow(0 0 calc(var(--circle_size) * 0.25) rgba(27, 27, 27, 0.75));
+    box-shadow: inset 0 0 calc(var(--circle_size) * 0.2) rgba(27, 27, 27, 0.9);
+    /* filter: drop-shadow(0 0 calc(var(--circle_size) * 0.1) rgba(27, 27, 27, 0.75)); */
 }
 
 #collected-loot {
@@ -62,7 +62,7 @@ p {
     font-weight: bold;
 }
 
-#name {
+#code-name {
     position: absolute;
     left: calc(var(--margin) + (var(--circle_size) * 0.5));
     bottom: calc((var(--circle_size) * 1.2) + var(--margin));
@@ -90,13 +90,17 @@ p {
     padding: 0 var(--margin);
     background-color: rgba(245, 245, 245, 0.212);
     border-radius: 1vh;
+    display: none;
 }
 
 #target {
     position: absolute;
+    display: none;
     right: unset;
     bottom: unset;
-    transform: translate(50%, 50%);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     font-size: 3vh;
 }
 
@@ -109,15 +113,17 @@ p {
     width: fit-content;
     flex-direction: column;
     padding: 0.5vh calc(var(--margin) * 0.5);
-    background-color: rgba(245, 245, 245, 0.212);
+    background-color: #12181d77;
     border-radius: 1vh;
+    border-top: solid 0.5vh #000000;
+    border-bottom: solid 0.5vh #000000;
 }
 
 #round, #round-time {
     width: fit-content;
     font-size: 2vh;
     font-weight: bold;
-    color: var(--role-color);
+    color: #ecf0f1;
     text-shadow: 1px 1px 0.25vh rgba(27, 27, 27, 0.5);
 }
 
@@ -144,7 +150,7 @@ p {
     font-size: 5vh;
     font-weight: bold;
     transform: translate(-50%, -50%);
-    color:rgb(213, 243, 255);
+    color:#ecf0f1;
 }
 
 #end-game-text {
@@ -152,6 +158,16 @@ p {
     text-align: center;
     top: 14%;
     font-size: 7vh;
-    color:rgb(255, 174, 0);
+    color:#f39c12;
     text-transform: uppercase;
+}
+
+/* 
+
+    SCOREBOARD
+
+*/
+
+#scoreboard {
+
 }

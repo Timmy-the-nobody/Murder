@@ -2,7 +2,7 @@
 -- Rounds config
 --------------------------------------------------------------------------------
 GM.Cfg.RoundMaxTime = 900000                -- Maximum duration of a round
-GM.Cfg.RoundEndTime = 1000                  -- Time before the round starts again
+GM.Cfg.RoundEndTime = 10000                  -- Time before the round starts again
 GM.Cfg.PlayersWaitTime = 5000               -- Minimum time to wait for players to join
 
 --------------------------------------------------------------------------------
@@ -19,6 +19,12 @@ GM.Cfg.FootPrintMaxTime = 45000             -- Maximum time a footprint will sta
 GM.Cfg.FootPrintTick = 330                  -- Time between footprint ticks
 
 --------------------------------------------------------------------------------
+-- Disguise
+--------------------------------------------------------------------------------
+GM.Cfg.DisguiseLootRequired = 0             -- Required loot to disguise as a dead player
+GM.Cfg.DisguiseCooldown = 10000             -- Time before a player can disguise again
+
+--------------------------------------------------------------------------------
 -- Misc.
 --------------------------------------------------------------------------------
 GM.Cfg.TeamKillPenaltyDuration = 20000      -- Speed and weapon pickup penalty for team killers
@@ -26,22 +32,24 @@ GM.Cfg.TeamKillSpeedMultiplier = 0.5        -- Speed penalty for team killers
 GM.Cfg.KnifeSpeedMultiplier = 0.9           -- Speed penalty for knife users
 GM.Cfg.PistolSpeedMultiplier = 0.75         -- Speed penalty for pistol users
 
-GM.Cfg.CodeColors = {
-    Color.RED,
-    Color.YELLOW,
-    Color.BLUE,
-    Color.VIOLET,
-    Color.ORANGE
-    -- rgb(52, 152, 219),
-    -- rgb(46, 204, 113),
-    -- rgb(26, 188, 156),
-    -- rgb(155, 89, 182),
-    -- rgb(241, 196, 15),
-    -- rgb(230, 126, 34),
-    -- rgb(231, 76, 60),
-    -- rgb(52, 73, 94),
-    -- rgb(189, 195, 199)
+--------------------------------------------------------------------------------
+-- VOIP
+--------------------------------------------------------------------------------
+GM.Cfg.VOIPSetting = VOIPSetting.Global     -- VOIP settings: VOIPSetting.Local, VOIPSetting.Global or VOIPSetting.Muted
+GM.Cfg.VOIPChannelDefault = 0               -- Default VOIP channel
+GM.Cfg.VOIPChannelDead = 1                  -- VOIP channel for dead players
+
+GM.Cfg.CodeColors = {                       -- Charactes/Names colors
+    Color(0.79, 0.40, 0.14),
+    Color(0.81, 0.20, 0.55),
+    Color(0.90, 0.26, 0.39),
+    Color(0.39, 0.65, 0.28),
+    Color(0.05, 0.23, 0.94),
+    Color(0.09, 0.50, 0.86),
+    Color(0.09, 0.70, 0.76),
+    Color(0.79, 0.71, 0.63),
 }
+
 GM.Cfg.CodeNames = {                        -- Code names
     "Alfa",
     "Bravo",

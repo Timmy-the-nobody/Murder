@@ -1,0 +1,1 @@
+NW.AddNWString( "GM:Player:Spectate" )

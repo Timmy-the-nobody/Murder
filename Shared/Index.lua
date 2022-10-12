@@ -31,5 +31,6 @@ Package.Require( "Shared/config/main.lua" )
 -- Modules
 --------------------------------------------------------------------------------
 Package.Require( "Shared/modules/round.lua" )
+Package.Require( "Shared/modules/player.lua" )
 Package.Require( "Shared/modules/character.lua" )
 Package.Require( "Shared/modules/weapon.lua" )

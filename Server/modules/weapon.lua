@@ -18,6 +18,7 @@ GM.Weapons = {
             eKnife:SetDamageSettings( 0.3, 0.5 )
             eKnife:SetCooldown( 1 )
             eKnife:SetBaseDamage( 100 )
+            eKnife:SetValue( "weapon_type", WeaponType.Knife )
             return eKnife
         end
     },
@@ -33,6 +34,7 @@ GM.Weapons = {
             ePistol:SetAmmoSettings( 1, 99999, 1, 1 )
             ePistol:SetBulletColor( Color( 1, 1, 1 ) )
             ePistol:SetDamage( 100 )
+            ePistol:SetValue( "weapon_type", WeaponType.Pistol )
             return ePistol
         end
     }
@@ -64,7 +66,6 @@ function Character:EquipWeapon()
     self:SetWeapon( false )
 
     local eWeapon = GM.Weapons[ iWeaponType ].spawn()
-    eWeapon:SetValue( "weapon_type", iWeaponType )
 
     if GM.Weapons[ iWeaponType ].onDrop then
         eWeapon:Subscribe( "Drop", function( _, eChar )
@@ -122,15 +123,16 @@ function Character:ThrowKnife()
         end
 
         local iIntervals = 0
-        local iMaxIntervals = math.floor( 2500 / Server.GetTickRate() )
+        local iTickRate = Server.GetTickRate()
+        local iMaxIntervals = math.floor( 2500 / iTickRate )
 
         self:SetValue( "dropping_knife", nil, false )
         self:Drop()
 
-        ePicked:AddImpulse( ( LocalPlayer():GetControlRotation():GetForwardVector() * 600 ) + Vector( 0, 0, 200 ), true )
+        ePicked:AddImpulse( ( self:GetControlRotation():GetForwardVector() * 800 ) + Vector( 0, 0, 200 ), true )
         ePicked:SetValue( "thrown_knife", true, true )
 
-        local eTrigger = Trigger( ePicked:GetLocation(), Rotator(), Vector( 50 ), TriggerType.Sphere, true, Color.RED, { "Character" } )
+        local eTrigger = Trigger( ePicked:GetLocation(), Rotator(), Vector( 60 ), TriggerType.Sphere, false, Color.BLACK, { "Character" } )
         eTrigger:Subscribe( "BeginOverlap", function( _, eEntity )
             if ( eEntity ~= self ) and ( eEntity:GetHealth() > 0 ) then
                 eEntity:ApplyDamage( 100, "", DamageType.RunOverProp, Vector(), self:GetPlayer(), ePicked )
@@ -154,7 +156,7 @@ function Character:ThrowKnife()
             end
 
             eTrigger:SetLocation( ePicked:GetLocation())
-        end, Server.GetTickRate() )
+        end, iTickRate )
     end, 1000 )
 end
 
@@ -165,6 +167,19 @@ Character.Subscribe( "Interact", function( eChar, eObject )
     local iWeaponType = eObject:GetValue( "weapon_type" )
     if not iWeaponType or not GM.Weapons[ iWeaponType ] or not GM.Weapons[ iWeaponType ].canPickup then
         return true
+    end
+
+    local iStoredWeapon = eChar:GetStoredWeapon()
+    if iStoredWeapon and ( iStoredWeapon == iWeaponType ) then
+        return false
+    end
+
+    local ePicked = eChar:GetPicked()
+    if ePicked and ePicked:IsValid() then
+        local iPickedType = ePicked:GetValue( "weapon_type" )
+        if iPickedType and ( iPickedType == iWeaponType ) then
+            return false
+        end
     end
 
     if GM.Weapons[ iWeaponType ].canPickup( eChar ) then

@@ -96,13 +96,99 @@ Character.Subscribe( "GrabProp", function( eChar, _ ) eChar:ComputeSpeed() end )
 --------------------------------------------------------------------------------
 --[[ Character Death ]]--
 Character.Subscribe( "Death", function( eChar, _, _, _, _, pInstigator, eCauser )
-    local pAttacker
-    if pInstigator and pInstigator:GetControlledCharacter() then
-        pAttacker = pInstigator:GetControlledCharacter()
+    -- Send voice in dead players VOIP channel
+    local pPlayer = eChar:GetPlayer()
+    if pPlayer and pPlayer:IsValid() then
+        pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDead )
+        pPlayer:UnPossess()
+        -- pPlayer:FindSpectateTarget()
     end
 
-    if not eChar:IsMurderer() and not pAttacker:IsMurderer() then
-        pAttacker:SetTeamKiller( true )
-        pAttacker:ComputeSpeed()
+    -- Drop stored weapon
+    local iStoredWeapon = eChar:GetStoredWeapon()
+    if iStoredWeapon and GM.Weapons[ iStoredWeapon ] then
+        local eWeapon = GM.Weapons[ iStoredWeapon ].spawn()
+        eWeapon:SetLocation( eChar:GetLocation() )
     end
+
+    -- Murder death
+    if eChar:IsMurderer() then
+        eChar:UnDisguise()
+    end
+
+    local eAttacker
+    if pInstigator and pInstigator:GetControlledCharacter() then
+        eAttacker = pInstigator:GetControlledCharacter()
+    end
+
+    if not eAttacker:IsValid() then
+        return
+    end
+
+    if not eChar:IsMurderer() then
+        -- Murderer kill
+        if eAttacker:IsMurderer() then
+            eAttacker:UnDisguise()
+
+        -- Team kill
+        else
+            eAttacker:SetTeamKiller( true )
+            eAttacker:ComputeSpeed()
+        end
+    end
+end )
+
+--------------------------------------------------------------------------------
+-- Disguise
+--------------------------------------------------------------------------------
+--[[ Character:Disguise ]]--
+function Character:Disguise( eChar )
+    if not IsCharacter( eChar ) then
+        return
+    end
+
+    self:SetPrivateValue( "is_disguised", true )
+    self:SetCodeName( eChar:GetCodeName() )
+    self:SetCodeColor( eChar:GetCodeColor() )
+end
+
+--[[ Character:UnDisguise ]]--
+function Character:UnDisguise()
+    if not self:IsDisguised() then
+        return
+    end
+
+    self:SetPrivateValue( "is_disguised", false )
+    self:SetCodeName( self:GetValue( "default_code_name" ) )
+    self:SetCodeColor( self:GetValue( "default_code_color" ) )
+end
+
+--[[ GM:Character:RequestDisguise ]]--
+NW.Receive( "GM:Character:RequestDisguise", function( pPlayer, eVictim )
+    local eChar = pPlayer:GetControlledCharacter()
+    if not IsCharacter( eChar ) or not eChar:IsMurderer() or ( eChar:GetHealth() <= 0 ) then
+        return
+    end
+
+    if ( eChar:GetCollectedLoot() < GM.Cfg.DisguiseLootRequired ) then
+        return
+    end
+
+    if not IsCharacter( eVictim ) or ( eVictim:GetHealth() > 0 ) then
+        return
+    end
+
+    if ( eChar:GetLocation():DistanceSquared( eVictim:GetLocation() ) > 20000 ) then
+        return
+    end
+
+    local iLastDisguise = eChar:GetValue( "last_disguise" )
+    if iLastDisguise and ( CurTime() < ( iLastDisguise + GM.Cfg.DisguiseCooldown ) ) then
+        return
+    end
+
+    eChar:SetValue( "last_disguise", CurTime(), false )
+
+    eChar:SetCollectedLoot( eChar:GetCollectedLoot() - GM.Cfg.DisguiseLootRequired )
+    eChar:Disguise( eVictim )
 end )

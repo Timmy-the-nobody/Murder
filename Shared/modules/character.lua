@@ -1,3 +1,5 @@
+NW.AddNWString( "GM:Character:RequestDisguise" )
+
 --[[ Character:IsMurderer ]]--
 function Character:IsMurderer()
     return self:GetValue( "murderer", false )
@@ -26,4 +28,9 @@ end
 --[[ Character:GetCollectedLoot ]]--
 function Character:GetCollectedLoot()
     return self:GetValue( "collected_loot", 0 )
+end
+
+--[[ Character:IsDisguised ]]--
+function Character:IsDisguised()
+    return self:GetValue( "is_disguised", false )
 end
