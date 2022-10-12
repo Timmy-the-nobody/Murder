@@ -54,8 +54,40 @@ function Character:SetCodeColor( tColor )
 end
 
 --[[ Character:GenerateCodeColor ]]--
+local function findLessUsedColor()
+    local tAllChars = Character.GetAll()
+    local tColorCount = {}
+
+    for _, eChar in ipairs( tAllChars ) do
+        local tColor = eChar:GetCodeColor()
+        if tColor then
+            tColorCount[ tColor ] = ( tColorCount[ tColor ] or 0 ) + 1
+        end
+    end
+
+    local tUnusedColors = {}
+    for _, tColor in ipairs( GM.Cfg.CodeColors ) do
+        if not tColorCount[ tColor ] then
+            tUnusedColors[ #tUnusedColors + 1 ] = tColor
+        end
+    end
+
+    if ( #tUnusedColors > 0 ) then
+        return tUnusedColors[ math.random( 1, #tUnusedColors ) ]
+    end
+
+    local tLeastUsedColor
+    for tColor, iCount in pairs( tColorCount ) do
+        if not tLeastUsedColor or ( iCount < tColorCount[ tLeastUsedColor ] ) then
+            tLeastUsedColor = tColor
+        end
+    end
+
+    return tLeastUsedColor
+end
+
 function Character:GenerateCodeColor()
-    self:SetCodeColor( GM.Cfg.CodeColors[ math.random( 1, #GM.Cfg.CodeColors ) ] )
+    self:SetCodeColor( findLessUsedColor() )
 end
 
 --------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
-NW.AddNWString( "_GM:PrivateValue:Player" )
-NW.AddNWString( "_GM:PrivateValue:Character" )
+NW.AddNWString( "GM:PrivateValue:Player" )
+NW.AddNWString( "GM:PrivateValue:Character" )
 
 if Server then
     --[[
@@ -11,7 +11,7 @@ if Server then
     ]]--
     function Player:SetPrivateValue( sKey, xValue )
         self:SetValue( sKey, xValue, false )
-        NW.Send( "_GM:PrivateValue:Player", self, sKey, xValue )
+        NW.Send( "GM:PrivateValue:Player", self, sKey, xValue )
     end
 
     --[[
@@ -24,19 +24,19 @@ if Server then
 
         local pPlayer = self:GetPlayer()
         if pPlayer and pPlayer:IsValid() then
-            NW.Send( "_GM:PrivateValue:Character", pPlayer, sKey, xValue )
+            NW.Send( "GM:PrivateValue:Character", pPlayer, sKey, xValue )
         end
     end
 end
 
 if Client then
-    --[[ _GM:PrivateValue:Player ]]--
-    NW.Receive( "_GM:PrivateValue:Player", function( sKey, xValue )
+    --[[ GM:PrivateValue:Player ]]--
+    NW.Receive( "GM:PrivateValue:Player", function( sKey, xValue )
         LocalPlayer():SetValue( sKey, xValue )
     end )
 
-    --[[ _GM:PrivateValue:Character ]]--
-    NW.Receive( "_GM:PrivateValue:Character", function( sKey, xValue )
+    --[[ GM:PrivateValue:Character ]]--
+    NW.Receive( "GM:PrivateValue:Character", function( sKey, xValue )
         local eChar = LocalCharacter()
         if eChar and eChar:IsValid() then
             eChar:SetValue( sKey, xValue )

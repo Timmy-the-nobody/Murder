@@ -1,9 +1,7 @@
 GM = GM or {}
 GM.Cfg = GM.Cfg or {}
 
-_GM = _GM or {}
-
-Package.RequirePackage( "luarun" )
+-- Package.RequirePackage( "luarun" )
 Package.RequirePackage( "nanos-world-weapons" )
 
 --------------------------------------------------------------------------------
