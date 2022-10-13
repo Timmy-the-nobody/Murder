@@ -116,12 +116,12 @@ function Character:ThrowKnife()
 
     local ePicked = self:GetPicked()
     if not ePicked or not ePicked:IsValid() then
-        return false, "You're not carryibng any knife"
+        return false, "You're not carrying any knife"
     end
 
     local iWeaponType = ePicked:GetValue( "weapon_type" )
     if not iWeaponType or ( iWeaponType ~= WeaponType.Knife ) then
-        return false, "You're not carryibng any knife"
+        return false, "You're not carrying any knife"
     end
 
     self:PlayAnimation( "nanos-world::A_Mannequin_Throw_01", AnimationSlotType.FullBody, false, 0.25, 0.25, 1.5, false )

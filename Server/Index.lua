@@ -3,6 +3,7 @@ Package.Require( "modules/player.lua" )
 Package.Require( "modules/character.lua" )
 Package.Require( "modules/weapon.lua" )
 Package.Require( "modules/loot.lua" )
+Package.Require( "modules/flashlight.lua" )
 
 if ( Server.GetMaxPlayers() > #GM.Cfg.CodeNames ) then
     Server.SetMaxPlayers( #GM.Cfg.CodeNames, false )

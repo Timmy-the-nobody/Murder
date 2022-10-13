@@ -54,7 +54,8 @@ function GM:EndRound( iReason )
             "Melee",
             "Prop",
             "StaticMesh",
-            "Trigger"
+            "Trigger",
+            "Light"
         }
 
         for _, sClass in ipairs( tClear ) do
@@ -88,6 +89,7 @@ function GM:StartRound()
         eChar:SetCanDeployParachute( false )
         eChar:SetHighFallingTime( -1 )
         eChar:SetCameraMode( CameraMode.FPSOnly )
+        eChar:AttachFlashlight()
 
         pPlayer:Possess( eChar )
 
@@ -128,6 +130,7 @@ function GM:StartRound()
     -- Initialize characters values
     for _, eChar in ipairs( tAllChars ) do
         eChar:SetCollectedLoot( 0 )
+        eChar:SetFlashlightBattery( 100 )
         eChar:GenerateCodeName()
         eChar:GenerateCodeColor()
         eChar:ComputeSpeed()

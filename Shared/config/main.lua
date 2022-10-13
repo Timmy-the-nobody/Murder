@@ -2,7 +2,7 @@
 -- Rounds config
 --------------------------------------------------------------------------------
 GM.Cfg.RoundMaxTime = 600000                -- Maximum duration of a round
-GM.Cfg.RoundEndTime = 10000                 -- Time before the round starts again
+GM.Cfg.RoundEndTime = 6000                  -- Time before the round starts again
 GM.Cfg.PlayersWaitTime = 10000              -- Minimum time to wait for players to join
 GM.Cfg.MinPlayers = 1                       -- Minimum players to start a round
 
@@ -26,6 +26,12 @@ GM.Cfg.DisguiseLootRequired = 0             -- Required loot to disguise as a de
 GM.Cfg.DisguiseCooldown = 10000             -- Time before a player can disguise again
 
 --------------------------------------------------------------------------------
+-- Flashlight
+--------------------------------------------------------------------------------
+GM.Cfg.FlashlightDrainTime = 500            -- Time between flashlight drain
+GM.Cfg.FlashlightRegenTime = 1000           -- Time between flashlight regen
+
+--------------------------------------------------------------------------------
 -- Misc.
 --------------------------------------------------------------------------------
 GM.Cfg.TeamKillPenaltyDuration = 20000      -- Speed and weapon pickup penalty for team killers
@@ -33,7 +39,7 @@ GM.Cfg.TeamKillSpeedMultiplier = 0.5        -- Speed penalty for team killers
 GM.Cfg.KnifeSpeedMultiplier = 0.9           -- Speed penalty for knife users
 GM.Cfg.PistolSpeedMultiplier = 0.75         -- Speed penalty for pistol users
 
-GM.Cfg.StartScreenTime = 10000              -- Time the start screen will stay visible
+GM.Cfg.StartScreenTime = 5000               -- Time the start screen will stay visible
 GM.Cfg.TeamKillBlindTime = 10000            -- Time the screen will be blinded for team killers
 GM.Cfg.TeamKillBlindFadeTime = 10000        -- Time the screen will fade back in for team killers
 

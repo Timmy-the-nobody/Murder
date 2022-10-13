@@ -113,6 +113,9 @@ local tValueChange = {
         if xValue then
             GM.WebUI:CallEvent( "MakeBlind", GM.Cfg.TeamKillBlindTime, GM.Cfg.TeamKillBlindFadeTime )
         end
+    end,
+    [ "flashlight_battery" ] = function( _, xValue )
+        GM.WebUI:CallEvent( "SetElementInnerText", "flashlight-battery", math.floor( xValue ) .. "%" )
     end
 }
 

@@ -1,7 +1,7 @@
 GM = GM or {}
 GM.Cfg = GM.Cfg or {}
 
--- Package.RequirePackage( "luarun" )
+Package.RequirePackage( "luarun" )
 Package.RequirePackage( "nanos-world-weapons" )
 
 --------------------------------------------------------------------------------
@@ -29,8 +29,9 @@ Package.Require( "Shared/config/maps.lua" )
 --------------------------------------------------------------------------------
 -- Modules
 --------------------------------------------------------------------------------
+Package.Require( "Shared/modules/notify.lua" )
 Package.Require( "Shared/modules/round.lua" )
 Package.Require( "Shared/modules/player.lua" )
 Package.Require( "Shared/modules/character.lua" )
 Package.Require( "Shared/modules/weapon.lua" )
-Package.Require( "Shared/modules/notify.lua" )
+Package.Require( "Shared/modules/flashlight.lua" )
