@@ -15,3 +15,10 @@ EndReason.Unknown = 3
 WeaponType = {}
 WeaponType.Knife = 0
 WeaponType.Pistol = 1
+
+--[[ NotificationType ]]--
+NotificationType = {}
+NotificationType.Generic = 0
+NotificationType.Error = 1
+NotificationType.Warning = 2
+NotificationType.Info = 3

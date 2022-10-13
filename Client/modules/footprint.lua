@@ -30,7 +30,7 @@ end
 --[[ Client Tick ]]--
 local iNextTick = 0
 Client.Subscribe( "Tick", function( fDelta )
-    if CurTime() < iNextTick then
+    if ( CurTime() < iNextTick ) then
         return
     end
 

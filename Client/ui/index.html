@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./font_awesome/css/all.css">
     </head>
 
 	<body>
@@ -12,14 +13,10 @@
         <!-- Team Kill Blindness -->
         <div id="tk-blind-screen"></div>
 
-        <!-- HUD -->
-        <div id="hud">
-            <div id="code-name">Tango</div>
-            <div id="circle">
-                <div id="collected-loot">50</div>
-            </div>
-
-            <div id="role">Bystander</div>
+        <!-- Waiting for players -->
+        <div id="waiting-players">
+            <div id="waiting-players-title">Waiting for players</div>
+            <div id="waiting-players-text">0/2</div>
         </div>
 
         <!-- Misc -->
@@ -29,12 +26,6 @@
         <div id="end-game">
             <p id="game-over">GAME OVER</p>
             <p id="end-game-text">MURDERER WINS</p>
-        </div>
-
-        <!-- Rounds -->
-        <div id="round-container">
-            <div id="round">Waiting for players...</div>
-            <div id="round-time">Time left: 0s</div>
         </div>
 
         <!-- Start Screen -->
@@ -47,10 +38,39 @@
             </div>
         </div>
 
+        <!-- HUD -->
+        <div class="l-container" id="hud">
+            <div id="hud-overlay"></div>
+            <div class="hud-icon fa fa-signature"></div>
+            <div id="code-name" class="hud-text">Tango</div>
+            <div style="margin-right: 1vh;"></div>
+
+            <div class="hud-icon fa fa-fingerprint"></div>
+            <div id="role" class="hud-text">Bystander</div>
+            <div style="margin-right: 1vh;"></div>
+
+            <div class="hud-icon fa fa-box-open"></div>
+            <div id="collected-loot" class="hud-text">Loot: 0</div>
+        </div>
+    
+        <!-- Rounds -->
+        <div class="l-container" id="round-container">
+            <div class="hud-icon fa fa-gears"></div>
+            <div id="round" class="hud-text">Waiting for players...</div>
+            <div style="margin-right: 1vh;"></div>
+
+            <div class="hud-icon fa fa-stopwatch"></div>
+            <div id="round-time" class="hud-text">Time left: 0s</div>
+        </div>
+
+        <div id="notification-container">
+
+        </div>
+
         <!-- Scoreboard -->
         <div id="scoreboard">
         </div>
 	</body>
 
-	<script type="text/javascript" src="./script.js"></script>
+    <script type="text/javascript" src="./script.js"></script>
 </html>

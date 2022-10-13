@@ -1,24 +1,38 @@
 let dRoot = document.querySelector( ":root" )
 let dTarget = document.getElementById( "target" )
+let dStartScreen = document.getElementById( "start-screen" )
+let dStartScreenTitle = document.getElementById( "start-screen-title" )
+let dStartScreenText = document.getElementById( "start-screen-text" )
+let dTKBlindScreen = document.getElementById( "tk-blind-screen" )
+let dNotifContainer = document.getElementById( "notification-container" )
 
-Events.Subscribe( "SetElementDisplay", function( sElement, sDisplay ) {
+// setElementDisplay
+let setElementDisplay = function( sElement, sDisplay ) {
     document.getElementById( sElement ).style.display = sDisplay
-} )
+}
 
-Events.Subscribe( "SetElementInnerHTML", function( sElement, sValue, sStyle ) {
+// setElementInnerText
+let setElementInnerText = function( sElement, sValue, sStyle ) {
     let dElement = document.getElementById( sElement )
-    dElement.innerHTML = sValue
+    dElement.innerText = sValue
 
     if ( sStyle ) {
         dElement.style.cssText = sStyle
     }
-} )
+}
 
-Events.Subscribe( "SetProperty", function( sProperty, sValue ) {
+// setElementProperty
+let setElementProperty = function( sElement, sProperty, sValue ) {
+    document.getElementById( sElement ).style.setProperty( "--" + sProperty, sValue )
+}
+
+// setProperty
+let setProperty = function( sProperty, sValue ) {
     dRoot.style.setProperty( "--" + sProperty, sValue )
-} ) 
+}
 
-Events.Subscribe( "ShowTarget", function( bVisible, sName, sColor, iX, iY ) {
+// showTarget
+let showTarget = function( bVisible, sName, sColor, iX, iY ) {
     if ( !bVisible ) {
         dTarget.style.display = "none"
         return
@@ -29,13 +43,9 @@ Events.Subscribe( "ShowTarget", function( bVisible, sName, sColor, iX, iY ) {
     dTarget.style.left = iX + "px"
     dTarget.style.top = iY + "px"
     dTarget.style.display = "block"
-} )
+}
 
 // showStartScreen
-let dStartScreen = document.getElementById( "start-screen" )
-let dStartScreenTitle = document.getElementById( "start-screen-title" )
-let dStartScreenText = document.getElementById( "start-screen-text" )
-
 let showStartScreen = function( sTitle, sText, iTime ) {
     dStartScreenTitle.innerHTML = sTitle
     dStartScreenText.innerHTML = sText
@@ -56,11 +66,7 @@ let showStartScreen = function( sTitle, sText, iTime ) {
     }, iTime )
 }
 
-Events.Subscribe( "ShowStartScreen", showStartScreen )
-
 // makeBlind
-let dTKBlindScreen = document.getElementById( "tk-blind-screen" )
-
 let makeBlind = function( iTime, iFadeOutTime ) {
     dTKBlindScreen.style.opacity = 0
     dTKBlindScreen.style.display = "block"
@@ -89,4 +95,56 @@ let makeBlind = function( iTime, iFadeOutTime ) {
     }
 }
 
-Events.Subscribe( "MakeBlind", makeBlind )
+// notify
+let notify = function( sText, iTime, sColor, sIcon ) {
+    let dNotif = document.createElement( "div" )
+    dNotif.className = "r-container notification"
+    dNotif.style.setProperty( "--container-color", sColor || "red" )
+
+    let dIconHolder = document.createElement( "div" )
+    dIconHolder.className = "notification-icon-holder"
+    dNotif.appendChild( dIconHolder )
+
+    let dIcon = document.createElement( "div" )
+    dIcon.className = "notification-icon fa fa-" + ( sIcon || "circle-dot" )
+    dIconHolder.appendChild( dIcon )
+
+    let dText = document.createElement( "div" )
+    dText.className = "hud-text"
+    dText.innerText = sText
+    dNotif.appendChild( dText )
+
+    dNotifContainer.appendChild( dNotif )
+
+    dNotif.style.marginRight = "calc(-150%)"
+    dNotif.animate( [
+        { marginRight: "-100%", opacity: 0 },
+        { marginRight: "0%", opacity: 1 }
+    ], {
+        duration: 500,
+        fill: "forwards"
+    } )
+
+    setTimeout( function() {
+        dNotif.animate( [
+            { opacity: 1 },
+            { opacity: 0 }
+        ], {
+            duration: 500
+        } ).onfinish = function() {
+            dNotif.remove()
+        }
+    }, ( iTime || 3000 ) )
+}
+
+// Nanos events
+if ( typeof( Events ) != "undefined" ) {
+    Events.Subscribe( "SetElementDisplay", setElementDisplay )
+    Events.Subscribe( "SetElementInnerText", setElementInnerText )
+    Events.Subscribe( "SetElementProperty", setElementProperty )
+    Events.Subscribe( "SetProperty", setProperty ) 
+    Events.Subscribe( "ShowTarget", showTarget )
+    Events.Subscribe( "ShowStartScreen", showStartScreen )
+    Events.Subscribe( "MakeBlind", makeBlind )
+    Events.Subscribe( "Notify", notify )
+}

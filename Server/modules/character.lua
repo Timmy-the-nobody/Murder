@@ -95,7 +95,7 @@ end
 --------------------------------------------------------------------------------
 --[[ Character:ComputeSpeed ]]--
 function Character:ComputeSpeed()
-    local fSpeedMul = 1.4
+    local fSpeedMul = 1.5
 
 	if self:IsTeamKiller() then
 		fSpeedMul = ( fSpeedMul * GM.Cfg.TeamKillSpeedMultiplier )
@@ -223,4 +223,6 @@ NW.Receive( "GM:Character:RequestDisguise", function( pPlayer, eVictim )
 
     eChar:SetCollectedLoot( eChar:GetCollectedLoot() - GM.Cfg.DisguiseLootRequired )
     eChar:Disguise( eVictim )
+
+    pPlayer:Notify( NotificationType.Info, "You're now disguised!" )
 end )

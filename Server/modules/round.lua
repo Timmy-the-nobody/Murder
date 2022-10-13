@@ -73,14 +73,14 @@ end
 ]]--
 function GM:StartRound()
     local tPlayers = Player.GetAll()
-    if ( #tPlayers <= 1 ) then
-        return print( "Not enough players" )
+    if ( #tPlayers < GM.Cfg.MinPlayers ) then
+        return
     end
 
     local sMap = Server.GetMap()
     local tSpawns = GM.Cfg.CharacterSpawns[ sMap ] and GM.Cfg.CharacterSpawns[ sMap ] or { { Vector(), Rotator() } }
 
-    for k, pPlayer in ipairs( tPlayers ) do
+    for _, pPlayer in ipairs( tPlayers ) do
         local tRandomSpawn = tSpawns[ math.random( 1, #tSpawns ) ]
 
         local eChar = Character( tRandomSpawn[ 1 ], tRandomSpawn[ 2 ] or Rotator(), "nanos-world::SK_Mannequin" )
@@ -120,8 +120,10 @@ function GM:StartRound()
         end
     end
 
-    local eGunner = tCivs[ math.random( 1, #tCivs ) ]
-    eGunner:SetWeapon( WeaponType.Pistol )
+    if ( #tCivs >= 1 ) then
+        local eGunner = tCivs[ math.random( 1, #tCivs ) ]
+        eGunner:SetWeapon( WeaponType.Pistol )
+    end
 
     -- Initialize characters values
     for _, eChar in ipairs( tAllChars ) do
@@ -155,9 +157,9 @@ Server.Subscribe( "Tick", function( fDelta )
 
     if ( iRound == RoundType.NotEnoughPlayers ) then
         if ( iTime > ( iRoundStart + GM.Cfg.PlayersWaitTime ) ) then
-            if ( #Player.GetAll() > 1 ) then
+            -- if ( #Player.GetAll() > 1 ) then
                 GM:StartRound()
-            end
+            -- end
         end
         return
     end
@@ -210,7 +212,6 @@ Player.Subscribe( "Destroy", function( pPlayer )
     end
 
     local bWasMurder = eChar:IsMurderer()
-
     if eChar:IsValid() then
         eChar:Destroy()
     end

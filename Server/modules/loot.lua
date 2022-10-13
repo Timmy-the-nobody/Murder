@@ -54,8 +54,12 @@ function GM:SpawnLoot()
     eLoot:Subscribe( "Interact", function( _, eChar )
         eLoot:Destroy()
 
+        local pPlayer = eChar:GetPlayer()
+
         local iCollectedLoot = eChar:GetCollectedLoot() + 1
         eChar:SetCollectedLoot( iCollectedLoot )
+
+        pPlayer:Notify( NotificationType.Info, "You collected some loot" )
 
         if not eChar:IsMurderer() and ( ( iCollectedLoot % GM.Cfg.BonusRequiredCollectables ) == 0 ) then
             if eChar:GetStoredWeapon() then
@@ -65,6 +69,8 @@ function GM:SpawnLoot()
             eChar:Drop()
             eChar:SetWeapon( WeaponType.Pistol )
             eChar:EquipWeapon()
+
+            pPlayer:Notify( NotificationType.Info, "You collected enough loot and got a bonus weapon!" )
         end
     end )
 

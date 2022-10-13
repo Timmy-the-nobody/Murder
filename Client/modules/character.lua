@@ -1,12 +1,13 @@
 --[[ Interact ]]--
 Input.Bind( "Interact", InputEvent.Pressed, function()
     local eChar = LocalCharacter()
-    if not eChar or ( eChar:GetHealth() <= 0 ) then
+    if not eChar or ( eChar:GetHealth() <= 0 ) or not eChar:IsMurderer() then
         return
     end
 
     -- Attempt to disguise
-    if not eChar:IsMurderer() or ( eChar:GetCollectedLoot() < GM.Cfg.DisguiseLootRequired ) then
+    if ( eChar:GetCollectedLoot() < GM.Cfg.DisguiseLootRequired ) then
+        LocalPlayer():Notify( NotificationType.Error, "Not enough loot to disguise" )
         return
     end
 
@@ -22,7 +23,23 @@ Input.Bind( "Interact", InputEvent.Pressed, function()
         return
     end
 
-    if ( tTrace.Entity:GetHealth() <= 0 ) then
-        NW.Send( "GM:Character:RequestDisguise", tTrace.Entity )
+    if ( tTrace.Entity:GetHealth() > 0 ) then
+        LocalPlayer():Notify( NotificationType.Error, "You can't disguise while this character is alive" )
+        return
+    end
+
+    NW.Send( "GM:Character:RequestDisguise", tTrace.Entity )
+end )
+
+--[[ Character Death ]]--
+Client.SetHighlightColor( Color( 10, 2.5, 0 ), 1, HighlightMode.Always )
+
+Character.Subscribe( "Death", function( eChar )
+    if not LocalCharacter() or ( eChar ~= LocalCharacter() ) then
+        return
+    end
+
+    for _, v in ipairs( Character.GetAll() ) do
+        v:SetHighlightEnabled( true, 1 )
     end
 end )
