@@ -68,7 +68,7 @@ function Character:EnableFlashlight()
         eLight:SetVisibility( true )
     end
 
-    self:SetPrivateValue( "flashlight_enabled", true )
+    self:SetValue( "flashlight_enabled", true, true )
     return true
 end
 
@@ -98,7 +98,7 @@ function Character:DisableFlashlight()
         eLight:SetVisibility( false )
     end
 
-    self:SetPrivateValue( "flashlight_enabled", false )
+    self:SetValue( "flashlight_enabled", false, true )
     return true
 end
 
