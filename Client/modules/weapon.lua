@@ -11,8 +11,7 @@ end )
 --------------------------------------------------------------------------------
 -- Knife highlight
 --------------------------------------------------------------------------------
-local tColor = Color( 2000, 0, 0 )
-Client.SetHighlightColor( tColor, 0, HighlightMode.Always )
+Client.SetHighlightColor( GM.Cfg.KnifeHighlightColor, 0, HighlightMode.Always )
 
 --[[ Melee ValueChange ]]--
 Melee.Subscribe( "ValueChange", function( eMelee, sKey, xValue )

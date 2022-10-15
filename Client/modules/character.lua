@@ -32,7 +32,7 @@ Input.Bind( "Interact", InputEvent.Pressed, function()
 end )
 
 --[[ Character Death ]]--
-Client.SetHighlightColor( Color( 10, 2.5, 0 ), 1, HighlightMode.Always )
+Client.SetHighlightColor( GM.Cfg.DeadPlayerHighlightColor, 1, HighlightMode.Always )
 
 Character.Subscribe( "Death", function( eChar )
     if not LocalCharacter() or ( eChar ~= LocalCharacter() ) then

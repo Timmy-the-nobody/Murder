@@ -39,3 +39,13 @@ function table.Random( tInput )
         iCurKey = ( iCurKey + 1 )
 	end
 end
+
+--[[ table.ClearKeys ]]--
+function table.ClearKeys( tTarget )
+    local tOutput = {}
+    for _, xVal in pairs( tTarget ) do
+        tOutput[ #tOutput + 1 ] = xVal
+    end
+
+    return tOutput
+end

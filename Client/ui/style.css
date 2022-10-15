@@ -14,7 +14,7 @@
 
 :root {
     --margin: 3vh;
-    --roundness: 0.32vh;
+    --roundness: 0.35vh;
 
     --code-color: #00c3ff;
     --role-color: #00c3ff;
@@ -47,6 +47,7 @@ body {
     flex-direction: row;
     padding: 0.5vh;
     background: linear-gradient(90deg, var(--container-color) -150%, var(--bg-color) 50%);
+    overflow: hidden;
 }
 
 .l-container {
@@ -235,6 +236,7 @@ body {
     background-color: var(--container-color);
     margin: -0.5vh;
     margin-right: 0.5vh;
+    border-radius: var(--roundness) 0 0 var(--roundness);
 }
 
 .notification-icon {
@@ -243,6 +245,32 @@ body {
     top: 50%;
     transform: translateY(-50%);
     text-shadow: 0.1vh 0.1vh 0.2vh #00000050;
+}
+
+/* 
+    ADMIN
+*/
+#admin {
+    display: none;
+}
+
+#admin-text, #admin-submode {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--margin) * 3);
+    transform: translate(-50%, -50%);
+    font-size: 3vh;
+    color: var(--main-color);
+    opacity: unset;
+    font-weight: bold;
+    border-bottom: solid 0.4vh var(--main-color);
+}
+
+#admin-submode {
+    bottom: calc(var(--margin) * 2);
+    color: var(--text-color);
+    font-size: 2vh;
+    border: none;
 }
 
 /*

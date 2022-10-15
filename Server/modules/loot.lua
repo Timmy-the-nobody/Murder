@@ -8,14 +8,14 @@ end
 --[[ GM:SpawnLoot ]]--
 function GM:SpawnLoot()
     local sMap = Server.GetMap()
-    if not GM.Cfg.LootSpawns[ sMap ] then
+    if not GM.LootSpawns[ sMap ] then
         return
     end
 
     local iSpawnCount = table.Count( tSpawnedLoot )
 
     -- No more available loot spawns
-    if ( iSpawnCount == #GM.Cfg.LootSpawns[ sMap ] ) then
+    if ( iSpawnCount == #GM.LootSpawns[ sMap ] ) then
         return
     end
 
@@ -31,7 +31,7 @@ function GM:SpawnLoot()
         return
     end
 
-    local tLoot, iLoot = table.Random( GM.Cfg.LootSpawns[ sMap ] )
+    local tLoot, iLoot = table.Random( GM.LootSpawns[ sMap ] )
 
     -- Already spawned, attempt another spawn
     if tSpawnedLoot[ iLoot ] then
@@ -40,7 +40,7 @@ function GM:SpawnLoot()
     end
 
     -- Spawn new loot
-    local eLoot = Prop( tLoot[ 2 ], tLoot[ 3 ], tLoot[ 1 ], CollisionType.Normal )
+    local eLoot = Prop( tLoot, Rotator( 0, 0, 0 ), "nanos-world::SM_Cube", CollisionType.Normal )
     eLoot:SetGravityEnabled( false )
     eLoot:Subscribe( "Destroy", function()
         for k, v in pairs( tSpawnedLoot ) do

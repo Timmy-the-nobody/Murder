@@ -79,12 +79,15 @@ function GM:StartRound()
     end
 
     local sMap = Server.GetMap()
-    local tSpawns = GM.Cfg.CharacterSpawns[ sMap ] and GM.Cfg.CharacterSpawns[ sMap ] or { { Vector(), Rotator() } }
+    local tSpawns = { Vector() }
+    if GM.CharacterSpawns[ sMap ] and ( #GM.CharacterSpawns[ sMap ] > 0 ) then
+        tSpawns = GM.CharacterSpawns[ sMap ]
+    end
 
     for _, pPlayer in ipairs( tPlayers ) do
         local tRandomSpawn = tSpawns[ math.random( 1, #tSpawns ) ]
 
-        local eChar = Character( tRandomSpawn[ 1 ], tRandomSpawn[ 2 ] or Rotator(), "nanos-world::SK_Mannequin" )
+        local eChar = Character( tRandomSpawn + Vector( 0, 0, 40 ), Rotator( 0, math.random( -180, 180 ), 0 ), "nanos-world::SK_Mannequin" )
         eChar:SetCanPunch( false )
         eChar:SetCanDeployParachute( false )
         eChar:SetHighFallingTime( -1 )

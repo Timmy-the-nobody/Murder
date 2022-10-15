@@ -127,6 +127,19 @@ Character.Subscribe( "ValueChange", function( eChar, sKey, xValue )
     end
 end )
 
+Player.Subscribe( "ValueChange", function( pPlayer, sKey, xValue )
+    if LocalPlayer() and ( LocalPlayer() == pPlayer ) then
+        if ( sKey == "admin_mode" ) then
+            GM.WebUI:CallEvent( "SetElementDisplay", "admin", xValue and "block" or "none" )
+            return
+        end
+
+        if ( sKey == "admin_submode" ) then
+            GM.WebUI:CallEvent( "SetElementInnerText", "admin-submode", "[SubMode] " .. GM.AdminSubModes[ xValue ].name )
+        end
+    end
+end )
+
 --[[ Character Death ]]--
 Character.Subscribe( "Death", function( eChar )
     local pPlayer = eChar:GetPlayer()

@@ -8,6 +8,10 @@ local function playerInit( pPlayer )
     pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDefault )
     pPlayer:ResetCamera()
 
+    if pPlayer:IsInAdminMode() then
+        pPlayer:SetPrivateValue( "admin_mode", false )
+    end
+
     -- Sync round state
     NW.Send( "GM:Round:Sync", pPlayer, GM:GetRound(), GM.RoundStart )
 end
