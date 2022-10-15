@@ -20,11 +20,8 @@ Package.Require( "Shared/core/libraries/private_value.lua" )
 -- Misc
 Package.Require( "Shared/core/enum.lua" )
 
---------------------------------------------------------------------------------
--- Config files
---------------------------------------------------------------------------------
+-- Config
 Package.Require( "Shared/config/main.lua" )
-Package.Require( "Shared/config/maps.lua" )
 
 --------------------------------------------------------------------------------
 -- Modules

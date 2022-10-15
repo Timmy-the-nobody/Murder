@@ -7,6 +7,10 @@ end
 
 --[[ GM:SpawnLoot ]]--
 function GM:SpawnLoot()
+    if ( #GM.Cfg.Loot == 0 ) then
+        return
+    end
+
     local sMap = Server.GetMap()
     if not GM.LootSpawns[ sMap ] then
         return
@@ -31,17 +35,31 @@ function GM:SpawnLoot()
         return
     end
 
-    local tLoot, iLoot = table.Random( GM.LootSpawns[ sMap ] )
+    local tLootPos, iLoot = table.Random( GM.LootSpawns[ sMap ] )
 
-    -- Already spawned, attempt another spawn
+    -- Spawn point already use, searching another spawn
     if tSpawnedLoot[ iLoot ] then
         self:SpawnLoot()
         return
     end
 
     -- Spawn new loot
-    local eLoot = Prop( tLoot, Rotator( 0, 0, 0 ), "nanos-world::SM_Cube", CollisionType.Normal )
+    local tRandomLoot, iLootID = table.Random( GM.Cfg.Loot )
+    local tOffset = Vector( 0, 0, -25 )
+    if tRandomLoot.offset then
+        tOffset = tOffset + tRandomLoot.offset
+    end
+
+    local eLoot = Prop(
+        tLootPos + tOffset,
+        Rotator( 0, math.random( -180, 180 ), 0 ),
+        tRandomLoot.mesh,
+        CollisionType.Normal
+    )
+
     eLoot:SetGravityEnabled( false )
+    eLoot:SetValue( "loot_id", iLootID, true )
+
     eLoot:Subscribe( "Destroy", function()
         for k, v in pairs( tSpawnedLoot ) do
             if ( v == eLoot ) then
@@ -56,7 +74,7 @@ function GM:SpawnLoot()
 
         local pPlayer = eChar:GetPlayer()
 
-        local iCollectedLoot = eChar:GetCollectedLoot() + 1
+        local iCollectedLoot = eChar:GetCollectedLoot() + ( GM.Cfg.Loot[ iLootID ].points or 1 )
         eChar:SetCollectedLoot( iCollectedLoot )
 
         pPlayer:Notify( NotificationType.Info, "You collected some loot" )

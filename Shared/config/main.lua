@@ -10,7 +10,7 @@ GM.Cfg.MinPlayers = 1                                           -- Minimum playe
 -- Loot config
 --------------------------------------------------------------------------------
 GM.Cfg.LootSpawnTime = 10000                                    -- Time between loot spawns
-GM.Cfg.MaxLootPerPlayer = 4                                     -- Maximum loot per player spawned at the same time
+GM.Cfg.MaxLootPerPlayer = 10                                    -- Maximum loot per player spawned at the same time
 GM.Cfg.BonusRequiredCollectables = 5                            -- Required collectables to get a new pistol
 
 --------------------------------------------------------------------------------
@@ -52,6 +52,19 @@ GM.Cfg.DeadPlayerHighlightColor = Color( 0.60, 0.34, 0.71 )     -- Color of the 
 GM.Cfg.VOIPSetting = VOIPSetting.Global                         -- VOIP settings: VOIPSetting.Local, VOIPSetting.Global or VOIPSetting.Muted
 GM.Cfg.VOIPChannelDefault = 0                                   -- Default VOIP channel
 GM.Cfg.VOIPChannelDead = 1                                      -- VOIP channel for dead players
+
+--------------------------------------------------------------------------------
+-- Loot
+--------------------------------------------------------------------------------
+GM.Cfg.Loot = {
+    { mesh = "nanos-world::SM_Fruit_Pumpkin_01", points = 1, offset = Vector( 0, 0, 0 ), onPickup = function( eChar ) end },
+    { mesh = "nanos-world::SM_Boltcutters" },
+    { mesh = "nanos-world::SM_Bunny" },
+    { mesh = "nanos-world::SM_Lunchbox_01" },
+    { mesh = "nanos-world::SM_Spraycan_01" },
+    { mesh = "nanos-world::SM_Spraycan_02" },
+    { mesh = "nanos-world::SM_Sunglasses" },
+}
 
 --------------------------------------------------------------------------------
 -- Character code

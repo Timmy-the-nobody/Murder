@@ -92,15 +92,15 @@ function GM:LoadAllSpawns( iSubMode )
             goto continue
         end
 
-        local sTrueMapName = string.sub( sMap, 2, #sMap - 1 )
-        self[ sTable ][ sTrueMapName ] = self[ sTable ][ sTrueMapName ] or {}
+        local sMapName = string.gsub( sMap, "____", "::" )
+        self[ sTable ][ sMapName ] = self[ sTable ][ sMapName ] or {}
 
         for _, v in ipairs( tMapConfig ) do
             if not v[ 1 ] or not v[ 2 ] or not v[ 3 ] then
                 goto continue
             end
 
-            self[ sTable ][ sTrueMapName ][ #self[ sTable ][ sTrueMapName ] + 1 ] = Vector(
+            self[ sTable ][ sMapName ][ #self[ sTable ][ sMapName ] + 1 ] = Vector(
                 v[ 1 ],
                 v[ 2 ],
                 v[ 3 ]
@@ -111,6 +111,8 @@ function GM:LoadAllSpawns( iSubMode )
 
         ::continue::
     end
+
+    print( #self[ sTable ][ sCurMap ] .. " " .. self.AdminSubModes[ iSubMode ].name .. " loaded" )
 end
 
 for k, _ in ipairs( GM.AdminSubModes ) do
@@ -128,7 +130,7 @@ function GM:SaveAllSpawns( iSubMode )
 
     local tFormatted = {}
     for sMap, tSpawns in pairs( GM[ sTable ] ) do
-        local sFormattedMapName = '"' .. sMap .. '"'
+        local sFormattedMapName = string.gsub( sMap, "::", "____" )
         tFormatted[ sFormattedMapName ] = {}
 
         for _, v in ipairs( tSpawns ) do
