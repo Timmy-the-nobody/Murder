@@ -1,3 +1,6 @@
+local iNextTick = 0
+local CurTime = CurTime
+
 --[[
     GM:SetRound
         desc: Sets the round
@@ -28,11 +31,11 @@ function GM:EndRound( iReason )
     iReason = ( iReason or EndReason.Unknown )
 
     if ( iReason == EndReason.MurdererWins ) then
-        print( "murderer wins!" )
+        Package.Log( "Murderer wins!" )
     elseif ( iReason == EndReason.MurdererLoses ) then
-        print( "murderer loses!" )
+        Package.Log( "Murderer loses!" )
     elseif ( iReason == EndReason.MurdererLeft ) then
-        print( "murderer rage quitted!" )
+        Package.Log( "Murderer rage quitted!" )
     end
 
     Events.Call( "GM:OnRoundEnd", iReason )
@@ -149,23 +152,20 @@ end
 -- Events
 --------------------------------------------------------------------------------
 --[[ Server Tick ]]--
-local iNextTick = 0
 Server.Subscribe( "Tick", function( fDelta )
     local iTime = CurTime()
-    local iRound = GM:GetRound()
-    local iRoundStart = GM:GetRoundStart()
-
     if ( iTime < iNextTick ) then
         return
     end
 
-    iNextTick = iTime + 500
+    iNextTick = ( iTime + 500 )
+
+    local iRound = GM:GetRound()
+    local iRoundStart = GM:GetRoundStart()
 
     if ( iRound == RoundType.NotEnoughPlayers ) then
         if ( iTime > ( iRoundStart + GM.Cfg.PlayersWaitTime ) ) then
-            -- if ( #Player.GetAll() > 1 ) then
-                GM:StartRound()
-            -- end
+            GM:StartRound()
         end
         return
     end
@@ -187,8 +187,8 @@ Server.Subscribe( "Tick", function( fDelta )
     end
 end )
 
---[[ handleRoundByAlivePlayers ]]--
-local function handleRoundByAlivePlayers()
+--[[ handleRoundStateByAlivePlayers ]]--
+local function handleRoundStateByAlivePlayers()
     local tAlive = {}
     for _, v in ipairs( Character.GetAll() ) do
         if ( v:GetHealth() > 0 ) then
@@ -206,7 +206,7 @@ Character.Subscribe( "Death", function( eChar )
     if eChar:IsMurderer() then
         GM:EndRound( EndReason.MurdererLoses )
     else
-        handleRoundByAlivePlayers()
+        handleRoundStateByAlivePlayers()
     end
 end )
 
@@ -227,10 +227,11 @@ Player.Subscribe( "Destroy", function( pPlayer )
         return
     end
 
-    handleRoundByAlivePlayers()
+    handleRoundStateByAlivePlayers()
 end )
 
 --[[ Package Load ]]--
 Package.Subscribe( "Load", function()
+    -- Force restarting the game on package load/reload
     GM:SetRound( RoundType.NotEnoughPlayers )
 end )

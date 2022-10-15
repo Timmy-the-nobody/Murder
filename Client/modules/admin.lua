@@ -3,7 +3,7 @@ local ePlaceholder = false
 local eSelectedEnt = false
 local sIDKey = GM.AdminSubModes[ 1 ].placeholderIDKey
 
-local iCollision = CollisionChannel.WorldStatic | CollisionChannel.WorldDynamic | CollisionChannel.PhysicsBody
+local iCollision = CollisionChannel.WorldStatic | CollisionChannel.WorldDynamic | CollisionChannel.PhysicsBody | CollisionChannel.Mesh
 local traceLine = Client.TraceLineSingle
 
 --[[ getEyeTrace ]]--
@@ -39,7 +39,7 @@ end
 
 --[[ enableAdminMode ]]--
 local function enableAdminMode()
-    if adminTick then
+    if adminTick or ePlaceholder or eSelectedEnt then
         disableAdminMode()
     end
 

@@ -12,6 +12,7 @@
         "undefined-global",
         "undefined-field",
         "param-type-mismatch",
-        "missing-parameter"
+        "missing-parameter",
+        "cast-local-type"
     ]
 }

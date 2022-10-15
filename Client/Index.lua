@@ -6,6 +6,8 @@ Package.Require( "modules/character.lua" )
 Package.Require( "modules/weapon.lua" )
 Package.Require( "modules/footprint.lua" )
 Package.Require( "modules/flashlight.lua" )
+
+Package.Require( "modules/maps.lua" )
 Package.Require( "modules/admin.lua" )
 
 Client.SetDebugEnabled( false )
