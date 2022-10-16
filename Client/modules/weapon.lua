@@ -15,19 +15,17 @@ Client.SetHighlightColor( GM.Cfg.KnifeHighlightColor, 0, HighlightMode.Always )
 
 --[[ Melee ValueChange ]]--
 Melee.Subscribe( "ValueChange", function( eMelee, sKey, xValue )
-    if ( sKey == "thrown_knife" ) then
-        eMelee:SetHighlightEnabled( xValue, 0 )
+    if eMelee:IsValid() and ( sKey == "thrown_knife" ) then
+        eMelee:SetHighlightEnabled( tobool( xValue ), 0 )
     end
 end )
 
 --[[ Character Highlight ]]--
 Character.Subscribe( "Highlight", function( _, _, eObject )
-    if not eObject or not eObject:IsValid() then
-        return
-    end
-
-    local bThrownKnife = eObject:GetValue( "thrown_knife" )
-    if bThrownKnife then
-        eObject:SetHighlightEnabled( true, 0 )
+    if eObject and eObject:IsValid() then
+        local bThrownKnife = eObject:GetValue( "thrown_knife" )
+        if bThrownKnife then
+            eObject:SetHighlightEnabled( true, 0 )
+        end
     end
 end )
