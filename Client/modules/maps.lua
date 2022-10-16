@@ -42,6 +42,16 @@ Package.Subscribe( "Load", function()
     end
 end )
 
+--[[ StaticMesh ValueChange ]]--
+StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
+    if ( sKey ~= "door_open" ) or not eSM or not eSM:IsValid() then
+        return
+    end
+
+    local sToggleSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_open_close.ogg"
+    Sound( eSM:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.3, 1, 300 )
+end )
+
 --------------------------------------------------------------------------------
 -- CCTV
 --------------------------------------------------------------------------------

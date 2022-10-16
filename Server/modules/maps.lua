@@ -32,7 +32,7 @@ local function openDoor( eDoor )
         return
     end
 
-    eDoor:SetValue( "door_open", true, false )
+    eDoor:SetValue( "door_open", true, true )
     eDoor:SetValue( "door_anim", true, false )
 
     local tEndPos = tDoors[ eDoor:GetValue( "door_id" ) ].pos
@@ -72,7 +72,7 @@ closeDoor = function( eDoor )
         return
     end
 
-    eDoor:SetValue( "door_open", false, false )
+    eDoor:SetValue( "door_open", false, true )
     eDoor:SetValue( "door_anim", true, false )
 
     local tEndPos = tDoors[ eDoor:GetValue( "door_id" ) ].pos - Vector( 0, 0, iDoorMaxZ )
