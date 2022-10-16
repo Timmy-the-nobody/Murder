@@ -8,6 +8,6 @@ local sToggleSound = "package://" .. Package.GetPath() .. "/Client/resources/sou
 
 Character.Subscribe( "ValueChange", function( eChar, sKey, _ )
     if ( sKey == "flashlight_enabled" ) then
-        Sound( eChar:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.3, 1, 2000 )
+        Sound( eChar:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.3, 1, 300 )
     end
 end )
