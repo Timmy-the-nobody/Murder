@@ -96,6 +96,8 @@ function GM:StartRound()
         eChar:SetHighFallingTime( -1 )
         eChar:SetCameraMode( CameraMode.FPSOnly )
         eChar:SetJumpZVelocity( 600 )
+        eChar:SetAccelerationSettings( 1024, 512, 768, 128, 256, 256, 1024 )
+        eChar:SetBrakingSettings( 4, 2, 1024, 3000, 10, 0 )
         eChar:AttachFlashlight()
 
         pPlayer:Possess( eChar )
@@ -107,7 +109,7 @@ function GM:StartRound()
 
         Timer.SetTimeout( function()
             if eChar:IsValid() then
-                eChar:SetCanDrop( true )
+                -- eChar:SetCanDrop( true )
                 eChar:SetInvulnerable( false )
                 eChar:SetCollision( CollisionType.Normal )
             end
