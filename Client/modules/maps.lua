@@ -49,7 +49,7 @@ StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
     end
 
     local sToggleSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_open_close.ogg"
-    Sound( eSM:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.3, 1, 300 )
+    Sound( eSM:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.2, 1, 80 )
 end )
 
 --------------------------------------------------------------------------------
@@ -61,38 +61,38 @@ end
 
 local tCCTVs = {
     {
-        pos = Vector( -2255, 4460, -250 ),
+        pos = Vector( -2255, 4560, -230 ),
         ang = Rotator( 0, -90, 0 ),
-        scale = Vector( 2 ),
+        scale = Vector( 2.09 ),
+        sceneCapture = {
+            pos = Vector( -656, -643, 180 ),
+            ang = Rotator( -20, 53, 0 ),
+            fov = 100
+        }
+    },
+    {
+        pos = Vector( -2255, 4300, -230 ),
+        ang = Rotator( 0, -90, 0 ),
+        scale = Vector( 2.09 ),
         sceneCapture = {
             pos = Vector( 1647, 9205, 0 ),
-            ang = Rotator( 0, -128, 0 ),
+            ang = Rotator( -35, -100, 0 ),
             fov = 100
         }
     },
     {
-        pos = Vector( -2255, 4200, -250 ),
+        pos = Vector( -2255, 4040, -230 ),
         ang = Rotator( 0, -90, 0 ),
-        scale = Vector( 2 ),
+        scale = Vector( 2.09 ),
         sceneCapture = {
-            pos = Vector( -656, -643, 80 ),
-            ang = Rotator( 0, 53, 0 ),
-            fov = 100
-        }
-    },
-    {
-        pos = Vector( -2255, 3940, -250 ),
-        ang = Rotator( 0, -90, 0 ),
-        scale = Vector( 2 ),
-        sceneCapture = {
-            pos = Vector( -6110.1372070312, 1836.6544189453, 0 ),
-            ang = Rotator( 0, -142, 0 ),
-            fov = 100
+            pos = Vector( -8141, 8075, 50 ),
+            ang = Rotator( -10, -138, 0 ),
+            fov = 80
         }
     }
 }
 
--- TODO: CCTV cameras
+--[[ initCCTV ]]--
 local function initCCTV()
     for _, v in ipairs( tCCTVs ) do
         local eCCTV = StaticMesh( v.pos, v.ang, "nanos-world::SM_TV_Hanging" )
@@ -107,15 +107,15 @@ local function initCCTV()
         local eSceneCapture = SceneCapture(
             v.sceneCapture.pos,
             v.sceneCapture.ang or Rotator(),
-            1024,
-            1024,
-            0.2,
+            512,
+            512,
+            0.25,
             5000,
             v.sceneCapture.fov or 90
         )
 
         eCCTV:SetMaterialFromSceneCapture( eSceneCapture, 1 )
-        eCCTV:SetMaterialColorParameter( "Emissive", Color( 20, 20, 20 ) )
+        eCCTV:SetMaterialColorParameter( "Emissive", Color( 30, 30, 30 ) )
 
         ::continue::
     end
