@@ -25,6 +25,7 @@ local function addFootprint( tPos, tAng, bRight, tColor )
 
     eDecal:SetMaterialTextureParameter( "Texture", sTexturePath )
     eDecal:SetMaterialColorParameter( "Tint", tColor )
+    eDecal:SetMaterialColorParameter( "Emissive", ( tColor * 4 ) )
 end
 
 --[[ Client Tick ]]--
