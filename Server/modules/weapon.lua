@@ -124,7 +124,7 @@ function Character:ThrowKnife()
         return false, "You're not carrying any knife"
     end
 
-    self:PlayAnimation( "nanos-world::A_Mannequin_Throw_01", AnimationSlotType.FullBody, false, 0.25, 0.25, 1.5, false )
+    self:PlayAnimation( "nanos-world::A_Mannequin_Throw_01", AnimationSlotType.FullBody, false, 0.25, 0.25, 3, false )
     self:SetValue( "dropping_knife", true, false )
 
     Timer.SetTimeout( function()
@@ -139,7 +139,7 @@ function Character:ThrowKnife()
         self:SetValue( "dropping_knife", nil, false )
         self:Drop()
 
-        ePicked:AddImpulse( ( self:GetControlRotation():GetForwardVector() * 1200 ), true )
+        ePicked:AddImpulse( ( self:GetControlRotation():GetForwardVector() * 2500 ), true )
         ePicked:SetValue( "thrown_knife", true, true )
 
         local eTrigger = Trigger( ePicked:GetLocation(), Rotator(), Vector( 100 ), TriggerType.Sphere, false, Color.BLACK, { "Character" } )
@@ -162,7 +162,7 @@ function Character:ThrowKnife()
 
             eTrigger:SetLocation( ePicked:GetLocation())
         end, iTickRate )
-    end, 1000 )
+    end, 500 )
 
     return true
 end
