@@ -19,6 +19,7 @@ GM.Weapons = {
             eKnife:SetCooldown( 1 )
             eKnife:SetBaseDamage( 100 )
             eKnife:SetValue( "weapon_type", WeaponType.Knife )
+            eKnife:SetCrosshairMaterial( "nanos-world::MI_Crosshair_Crossbow" )
             return eKnife
         end
     },
@@ -110,7 +111,7 @@ end
         desc: Throw the equiped knife in the direction the character is facing
 ]]--
 function Character:ThrowKnife()
-    if self:GetValue( "dropping_knife" ) then
+    if self:GetValue( "knife_throw_anim" ) then
         return false
     end
 
@@ -125,9 +126,9 @@ function Character:ThrowKnife()
     end
 
     self:PlayAnimation( "nanos-world::A_Mannequin_Throw_01", AnimationSlotType.FullBody, false, 0.25, 0.25, 3, false )
-    self:SetValue( "dropping_knife", true, false )
+    self:SetValue( "knife_throw_anim", true, false )
 
-    Timer.SetTimeout( function()
+    local iThrowAnimTimer = Timer.SetTimeout( function()
         if not self:IsValid() or not ePicked:IsValid() then
             return
         end
@@ -136,12 +137,14 @@ function Character:ThrowKnife()
         local iTickRate = Server.GetTickRate()
         local iMaxIntervals = math.floor( 2500 / iTickRate )
 
-        self:SetValue( "dropping_knife", nil, false )
+        self:SetValue( "knife_throw_anim", nil, false )
         self:Drop()
 
-        ePicked:AddImpulse( ( self:GetControlRotation():GetForwardVector() * 2500 ), true )
+        ePicked:SetRotation( self:GetRotation() + Rotator( 90, 180, 0 ) )
+        ePicked:AddImpulse( ( self:GetControlRotation():GetForwardVector() * 2000 ) + Vector( 0, 0, 100 ), true )
         ePicked:SetValue( "thrown_knife", true, true )
 
+        -- Damage trigger
         local eTrigger = Trigger( ePicked:GetLocation(), Rotator(), Vector( 100 ), TriggerType.Sphere, false, Color.BLACK, { "Character" } )
         eTrigger:Subscribe( "BeginOverlap", function( _, eEntity )
             if ( eEntity ~= self ) and ( eEntity:GetHealth() > 0 ) then
@@ -151,18 +154,36 @@ function Character:ThrowKnife()
 
         Timer.SetInterval( function()
             iIntervals = ( iIntervals + 1 )
-            if not eTrigger:IsValid() then
-                return false
-            end
-
-            if not ePicked:IsValid() or ePicked:GetHandler() or ( iIntervals == iMaxIntervals ) then
+            if not eTrigger:IsValid() or not ePicked:IsValid() or ePicked:GetHandler() or ( iIntervals == iMaxIntervals ) then
                 eTrigger:Destroy()
                 return false
             end
-
             eTrigger:SetLocation( ePicked:GetLocation())
         end, iTickRate )
+
+        -- Giving knife back to the character if it has been picked up
+        local iAutoGiveTimer = Timer.SetTimeout( function()
+            if self:IsValid() and ePicked:IsValid() then
+                ePicked:SetValue( "thrown_knife", nil, true )
+
+                Timer.SetTimeout( function()
+                    if self:IsValid() then
+                        self:PickUp( ePicked )
+                    end
+                end, 100 )
+            end
+        end, GM.Cfg.KnifeAutoPickupDuration )
+
+        Timer.Bind( iAutoGiveTimer, ePicked )
+
+        ePicked:Subscribe( "PickUp", function( _, _ )
+            if Timer.IsValid( iAutoGiveTimer ) then
+                Timer.ClearTimeout( iAutoGiveTimer )
+            end
+        end )
     end, 500 )
+
+    Timer.Bind( iThrowAnimTimer, self )
 
     return true
 end
