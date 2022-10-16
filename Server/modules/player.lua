@@ -1,3 +1,8 @@
+--[[ Player:SetScore ]]--
+function Player:SetScore( iScore )
+    self:SetValue( "score", iScore, true )
+end
+
 --[[ playerInit ]]--
 local function playerInit( pPlayer )
     if not pPlayer or not pPlayer:IsValid() then

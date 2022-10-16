@@ -174,3 +174,60 @@ Client.Subscribe( "Tick", function( fDelta )
     local iSecondsLeft = mathCeil( GM:GetRoundTimeLeft() / 1000 )
     GM.WebUI:CallEvent( "SetElementInnerText", "round-time", "Time left: " .. iSecondsLeft .. "s" )
 end )
+
+--------------------------------------------------------------------------------
+-- Scoreboard
+--------------------------------------------------------------------------------
+--[[ updateScoreboard ]]--
+local function updateScoreboard()
+    for _, pPlayer in ipairs( Player.GetAll() ) do
+        print( pPlayer:GetScore() )
+        GM.WebUI:CallEvent( "UpdateScoreboardRow", pPlayer:GetSteamID(), pPlayer:GetScore(), pPlayer:GetPing() )
+    end
+end
+
+--[[ Player Spawn ]]--
+local function addScoreboardRow( pPlayer )
+    GM.WebUI:CallEvent( "AddScoreboardRow", pPlayer:GetSteamID(), pPlayer:GetName() )
+    updateScoreboard()
+end
+
+Player.Subscribe( "Spawn", addScoreboardRow )
+
+--[[ Player Destroy ]]--
+local function removeScoreboardRow( pPlayer )
+    GM.WebUI:CallEvent( "RemoveScoreboardRow", pPlayer:GetSteamID() )
+    updateScoreboard()
+end
+
+Player.Subscribe( "Destroy", removeScoreboardRow )
+
+--[[ Inputs ]]--
+Input.Register( "Scoreboard", "Tab" )
+Input.Bind( "Scoreboard", InputEvent.Pressed, function()
+    GM.WebUI:CallEvent( "SetElementDisplay", "scoreboard", "flex" )
+    updateScoreboard()
+    Client.SetMouseEnabled( true )
+end )
+
+Input.Bind( "Scoreboard", InputEvent.Released, function()
+    GM.WebUI:CallEvent( "SetElementDisplay", "scoreboard", "none" )
+    Client.SetMouseEnabled( false )
+end )
+
+--[[ Misc. ]]--
+Character.Subscribe( "Death", updateScoreboard )
+Events.Subscribe( "GM:OnRoundChange", updateScoreboard )
+
+Player.Subscribe( "ValueChange", function( pPlayer, sKey, _ )
+    if ( sKey == "score" ) then
+        updateScoreboard()
+    end
+end )
+
+Package.Subscribe( "Load", function()
+    for _, pPlayer in ipairs( Player.GetAll() ) do
+        GM.WebUI:CallEvent( "AddScoreboardRow", pPlayer:GetSteamID(), pPlayer:GetName() )
+    end
+    updateScoreboard()
+end )

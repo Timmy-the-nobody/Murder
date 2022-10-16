@@ -36,18 +36,18 @@ GM.Cfg.FlashlightRegenTime = 1000                               -- Time between 
 --------------------------------------------------------------------------------
 -- Misc.
 --------------------------------------------------------------------------------
-GM.Cfg.TeamKillPenaltyDuration = 20000                          -- Speed and weapon pickup penalty for team killers [default: 20000]
-GM.Cfg.TeamKillSpeedMultiplier = 0.5                            -- Speed penalty for team killers [default: 0.5]
 GM.Cfg.KnifeSpeedMultiplier = 0.9                               -- Speed penalty for knife users [default: 0.9]
 GM.Cfg.PistolSpeedMultiplier = 0.75                             -- Speed penalty for pistol users [default: 0.75]
 
-GM.Cfg.TeamKillBlindTime = 5000                                 -- Time the screen will be blinded for team killers [default: 5000]
+GM.Cfg.TeamKillPenaltyDuration = 20000                          -- Speed and weapon pickup penalty for team killers [default: 20000]
+GM.Cfg.TeamKillSpeedMultiplier = 0.5                            -- Speed penalty for team killers [default: 0.5]
+GM.Cfg.TeamKillBlindTime = 3000                                 -- Time the screen will be blinded for team killers [default: 5000]
 GM.Cfg.TeamKillBlindFadeTime = 10000                            -- Time the screen will fade back in for team killers [default: 10000]
 
 GM.Cfg.KnifeHighlightColor = Color( 20, 0, 0 )                  -- Color of the knife highlight [default: Color( 20, 0, 0 )]
 GM.Cfg.DeadPlayerHighlightColor = Color( 30, 16, 35 )           -- Color of the dead players highlight [default: Color( 30, 16, 35 )]
 
-GM.Cfg.KnifeAutoPickupDuration = 1500                          -- Time a knife will stay on the ground before it gets picked up [default: 15000]
+GM.Cfg.KnifeAutoPickupDuration = 15000                          -- Time a knife will stay on the ground before it gets picked up [default: 15000]
 
 --------------------------------------------------------------------------------
 -- VOIP

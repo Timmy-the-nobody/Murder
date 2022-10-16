@@ -20,9 +20,11 @@
     --role-color: #00c3ff;
 
     --text-color: #dbe5e7;
-    --bg-color: #303030;
+    --bg-color: #303030e0;
+    --bg-color-2: #1f1f1fe0;
     --shadow-color: #000000;
     --main-color: #f39c12;
+    --main-color-2: #d18812;
 }
 
 body {
@@ -39,6 +41,18 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+::-webkit-scrollbar {
+    width: 0.5vh;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0.5vh 0.5vh var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 0.5vh 0.5vh var(--main-color);
 }
 
 .l-container, .r-container {
@@ -282,5 +296,65 @@ body {
 */
 
 #scoreboard {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 80vh;
+    height: 54.5vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: var(--roundness);
+    background-color: var(--bg-color);
+    box-shadow: 0 0 2vh var(--shadow-color);
+    overflow: hidden;
+    backdrop-filter: blur(0.5vh);
+}
 
+#scoreboard-title {
+    position: relative;
+    width: 100%;
+    font-size: 2.5vh;
+    height: fit-content;
+    color: var(--text-color);
+    text-shadow: 0.1vh 0.1vh 0.2vh var(--shadow-color);
+    background-color: var(--main-color);
+    font-weight: bold;
+    padding: 0.5vh;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--main-color),
+        var(--main-color) 1vh,
+        var(--main-color-2) 1vh,
+        var(--main-color-2) 2vh
+    );
+}
+
+#scoreboard-list-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.scoreboard-line {
+    font-size: 2vh;
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    background-color: var(--bg-color-2);
+    padding: 0.5vh;
+    margin-top: unset;
+    border-radius: var(--roundness);
+    border-bottom: solid 1px var(--bg-color);
+}
+
+.scoreboard-line-content {
+    width: 100%;
+    overflow: hidden;
+    /* border-left: solid 0.2vh var(--bg-color); */
+    padding: unset;
+    padding-left: 0.5vh;
+    /* justify-content: space-between; */
 }

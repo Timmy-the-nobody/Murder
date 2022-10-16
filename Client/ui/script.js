@@ -137,6 +137,57 @@ let notify = function( sText, iTime, sColor, sIcon ) {
     }, ( iTime || 3000 ) )
 }
 
+// SCOREBOARD
+let dScoreboardList = document.getElementById( "scoreboard-list-container" )
+
+let addScoreboardRow = function( sSteamID, sName ) {
+    let dLine = document.createElement( "div" )
+    dLine.className = "scoreboard-line"
+    dLine.steamID = sSteamID
+    dScoreboardList.appendChild( dLine )
+
+    let dName = document.createElement( "div" )
+    dName.className = "scoreboard-line-content"
+    dName.style.width = "200%"
+    dName.innerText = sName
+    dLine.appendChild( dName )
+
+    let dScore = document.createElement( "div" )
+    dScore.className = "scoreboard-line-content"
+    dScore.innerText = "0"
+    dScore.style.textAlign = "center"
+    dLine.appendChild( dScore )
+
+    let dPing = document.createElement( "div" )
+    dPing.className = "scoreboard-line-content"
+    dPing.innerText = "0 ms"
+    dPing.style.textAlign = "center"
+    dLine.appendChild( dPing )
+}
+
+// removeScoreboardRow
+let removeScoreboardRow = function( sSteamID ) {
+    for ( let k in dScoreboardList.children ) {
+        let dLine = dScoreboardList.children[ k ]
+        if ( dLine.steamID == sSteamID ) {
+            dLine.remove()
+            return
+        }
+    }
+}
+
+// updateScoreboardRow
+let updateScoreboardRow = function( sSteamID, iScore, iPing ) {
+    for ( let k in dScoreboardList.children ) {
+        let dLine = dScoreboardList.children[ k ]
+        if ( dLine.steamID == sSteamID ) {
+            dLine.children[ 1 ].innerText = iScore
+            dLine.children[ 2 ].innerText = iPing + " ms"
+            return
+        }
+    }
+}
+
 // Nanos events
 if ( typeof( Events ) != "undefined" ) {
     Events.Subscribe( "SetElementDisplay", setElementDisplay )
@@ -147,4 +198,8 @@ if ( typeof( Events ) != "undefined" ) {
     Events.Subscribe( "ShowStartScreen", showStartScreen )
     Events.Subscribe( "MakeBlind", makeBlind )
     Events.Subscribe( "Notify", notify )
+
+    Events.Subscribe( "AddScoreboardRow", addScoreboardRow )
+    Events.Subscribe( "RemoveScoreboardRow", removeScoreboardRow )
+    Events.Subscribe( "UpdateScoreboardRow", updateScoreboardRow )
 }

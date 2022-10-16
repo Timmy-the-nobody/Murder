@@ -30,6 +30,32 @@ function GM:EndRound( iReason )
 
     iReason = ( iReason or EndReason.Unknown )
 
+    local tAllChars = Character.GetAll()
+    for _, eChar in ipairs( tAllChars ) do
+        if not eChar:IsValid() then
+            goto continue
+        end
+
+        if ( iReason == EndReason.MurdererWins ) then
+            if eChar:IsMurderer() then
+                local pPlayer = eChar:GetPlayer()
+                if pPlayer and pPlayer:IsValid() then
+                    pPlayer:SetScore( pPlayer:GetScore() + 1 )
+                end
+                break
+            end
+        else
+            if not eChar:IsMurderer() then
+                local pPlayer = eChar:GetPlayer()
+                if pPlayer and pPlayer:IsValid() then
+                    pPlayer:SetScore( pPlayer:GetScore() + 1 )
+                end
+            end
+        end
+
+        ::continue::
+    end
+
     if ( iReason == EndReason.MurdererWins ) then
         Package.Log( "Murderer wins!" )
     elseif ( iReason == EndReason.MurdererLoses ) then
@@ -41,13 +67,14 @@ function GM:EndRound( iReason )
     Events.Call( "GM:OnRoundEnd", iReason )
     NW.Broadcast( "GM:Round:RoundEnd", iReason )
 
+    -- Round ending
+    self:SetRound( RoundType.RoundEnd )
+
+    -- Clear/Reset stuff
     for _, pPlayer in ipairs( Player.GetAll() ) do
         pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDefault )
         pPlayer:ResetCamera()
     end
-
-    -- Round ending
-    self:SetRound( RoundType.RoundEnd )
 
     Timer.SetTimeout( function()
         -- Clear map entities
