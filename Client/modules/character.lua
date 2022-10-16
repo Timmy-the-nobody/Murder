@@ -5,21 +5,21 @@ Input.Bind( "Interact", InputEvent.Pressed, function()
         return
     end
 
-    -- Attempt to disguise
-    if ( eChar:GetCollectedLoot() < GM.Cfg.DisguiseLootRequired ) then
-        LocalPlayer():Notify( NotificationType.Error, "Not enough loot to disguise" )
-        return
-    end
-
     local tTrace = Client.TraceLineSingle(
         eChar:GetLocation(),
-        ( LocalPlayer():GetCameraRotation():GetForwardVector() * 10000 ),
+        ( LocalPlayer():GetCameraRotation():GetForwardVector() * 500 ),
         CollisionChannel.Pawn,
         TraceMode.ReturnEntity,
         { eChar }
     )
 
     if not tTrace.Entity or not tTrace.Entity:IsValid() or not IsCharacter( tTrace.Entity ) then
+        return
+    end
+
+    -- Attempt to disguise
+    if ( eChar:GetCollectedLoot() < GM.Cfg.DisguiseLootRequired ) then
+        LocalPlayer():Notify( NotificationType.Error, "Not enough loot to disguise" )
         return
     end
 
