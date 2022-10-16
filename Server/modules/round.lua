@@ -68,6 +68,8 @@ function GM:EndRound( iReason )
                 end
             end
         end
+
+        Events.Call( "GM:OnMapCleared" )
     end, GM.Cfg.RoundEndTime or 5000 )
 end
 
@@ -109,7 +111,6 @@ function GM:StartRound()
 
         Timer.SetTimeout( function()
             if eChar:IsValid() then
-                -- eChar:SetCanDrop( true )
                 eChar:SetInvulnerable( false )
                 eChar:SetCollision( CollisionType.Normal )
             end

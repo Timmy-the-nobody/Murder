@@ -3,6 +3,7 @@ if ( Server.GetMap() ~= "murder-underground::nw_underground" ) then
 end
 
 local iDoorMaxZ = 305
+local iDoorAnimDuration = 2.5
 
 local tDoors = {
     { ang = Rotator(0, -90, 0), pos = Vector(-3280.2336425781, 5782.9448242188, 43.621948242188),   scale = Vector(1) },
@@ -19,43 +20,134 @@ local tDoors = {
     { ang = Rotator(0, 0, 0),   pos = Vector(2237.1208496094, 2473.5737304688, 182.86909484863),    scale = Vector(1) },
 }
 
+local closeDoor
+local iStepsPerTick = ( iDoorMaxZ / ( Server.GetTickRate() * iDoorAnimDuration ) )
+
+--[[ openDoor ]]--
+local function openDoor( eDoor )
+    if eDoor:GetValue( "door_open" ) or eDoor:GetValue( "door_anim" ) then
+        return
+    end
+
+    eDoor:SetValue( "door_open", true, false )
+    eDoor:SetValue( "door_anim", true, false )
+
+    local tEndPos = tDoors[ eDoor:GetValue( "door_id" ) ].pos
+    local doorTick
+
+    doorTick = Server.Subscribe( "Tick", function( fDelta )
+        if not eDoor:IsValid() then
+            Server.Unsubscribe( "Tick", doorTick )
+            return
+        end
+
+        local tNewPos = eDoor:GetLocation() + Vector( 0, 0, iStepsPerTick )
+        eDoor:SetLocation( tNewPos )
+
+        if ( tNewPos.Z >= tEndPos.Z ) then
+            Server.Unsubscribe( "Tick", doorTick )
+
+            eDoor:SetLocation( tEndPos )
+            eDoor:SetValue( "door_anim", nil, false )
+
+            if ( table.Count( eDoor:GetValue( "characters_in_sphere", {} ) ) == 0 ) then
+                closeDoor( eDoor )
+                return
+            end
+        end
+    end )
+end
+
+--[[ closeDoor ]]--
+closeDoor = function( eDoor )
+    if not eDoor:GetValue( "door_open" ) or eDoor:GetValue( "door_anim" ) then
+        return
+    end
+
+    local tInSphere = eDoor:GetValue( "characters_in_sphere", {} )
+    if ( table.Count( tInSphere ) > 0 ) then
+        return
+    end
+
+    eDoor:SetValue( "door_open", false, false )
+    eDoor:SetValue( "door_anim", true, false )
+
+    local tEndPos = tDoors[ eDoor:GetValue( "door_id" ) ].pos - Vector( 0, 0, iDoorMaxZ )
+    local doorTick
+
+    doorTick = Server.Subscribe( "Tick", function( fDelta )
+        if not eDoor:IsValid() then
+            Server.Unsubscribe( "Tick", doorTick )
+            return
+        end
+
+        local tNewPos = eDoor:GetLocation() - Vector( 0, 0, iStepsPerTick )
+        eDoor:SetLocation( tNewPos )
+
+        if ( tNewPos.Z <= tEndPos.Z ) then
+            Server.Unsubscribe( "Tick", doorTick )
+
+            eDoor:SetLocation( tEndPos )
+            eDoor:SetValue( "door_anim", nil, false )
+
+            if ( table.Count( eDoor:GetValue( "characters_in_sphere", {} ) ) > 0 ) then
+                openDoor( eDoor )
+                return
+            end
+        end
+    end )
+end
+
 --[[ initDoors ]]--
 local function initDoors()
-    for _, v in ipairs( tDoors ) do
-        local eDoor = StaticMesh( v.pos - Vector( 0, 0, iDoorMaxZ ), v.ang, "murder-underground::SM_Metal_Door_2" )
+    for iDoorID, tDoor in ipairs( tDoors ) do
+        local eDoor = StaticMesh(
+            tDoor.pos - Vector( 0, 0, iDoorMaxZ ),
+            tDoor.ang,
+            "murder-underground::SM_Metal_Door_2"
+        )
+
+        eDoor:SetValue( "door_id", iDoorID, false )
         eDoor:SetValue( "door_open", false, false )
 
-        local tTriggerPos = eDoor:GetLocation() + ( v.ang:GetForwardVector() * 160 ) + Vector( 0, 0, 150 )
-        local eTrigger = Trigger( tTriggerPos, Rotator(), Vector( 400 ), TriggerType.Sphere, false, Color( 1, 0, 0 ), { "Character" } )
-        local tInSphere = {}
+        local eTrigger = Trigger(
+            eDoor:GetLocation() + ( tDoor.ang:GetForwardVector() * 160 ) + Vector( 0, 0, 150 ),
+            Rotator(),
+            Vector( 400 ),
+            TriggerType.Sphere,
+            false,
+            Color( 1, 0, 0 ),
+            { "Character" }
+        )
 
         eTrigger:Subscribe( "BeginOverlap", function( _, eChar )
-            tInSphere[ eChar ] = true
-
-            if not eDoor:GetValue( "door_open" ) then
-                eDoor:SetValue( "door_open", true, false )
-                eDoor:TranslateTo( v.pos, 0.25, 0 )
+            if not eDoor:IsValid() then
+                return
             end
+
+            local tInSphere = eDoor:GetValue( "characters_in_sphere", {} )
+            tInSphere[ eChar ] = true
+            eDoor:SetValue( "characters_in_sphere", tInSphere, false )
+
+            openDoor( eDoor )
         end )
 
         eTrigger:Subscribe( "EndOverlap", function( _, eChar )
-            tInSphere[ eChar ] = nil
-
-            if eDoor:GetValue( "door_open" ) and ( table.Count( tInSphere ) == 0 ) then
-                eDoor:SetValue( "door_open", false, false )
-                eDoor:TranslateTo( v.pos - Vector( 0, 0, iDoorMaxZ ), 0.25, 0 )
+            if not eDoor:IsValid() then
+                return
             end
+
+            local tInSphere = eDoor:GetValue( "characters_in_sphere", {} )
+            tInSphere[ eChar ] = nil
+            eDoor:SetValue( "characters_in_sphere", tInSphere, false )
+
+            closeDoor( eDoor )
         end )
     end
 end
 
+--[[ GM:OnMapCleared ]]--
+Events.Subscribe( "GM:OnMapCleared", initDoors )
+
 --[[ Package Load ]]--
--- initDoors()
-
--- Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
---     if iNew == RoundType.Playing then
---         initDoors()
---     end
--- end )
-
--- Package.Subscribe( "Load", initDoors )
+Package.Subscribe( "Load", initDoors )
