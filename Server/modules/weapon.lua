@@ -140,8 +140,11 @@ function Character:ThrowKnife()
         self:SetValue( "knife_throw_anim", nil, false )
         self:Drop()
 
+        local tForward = self:GetControlRotation():GetForwardVector()
+
+        ePicked:SetLocation( self:GetLocation() + ( tForward * 5 ) + Vector( 0, 0, 50 ) )
         ePicked:SetRotation( self:GetRotation() + Rotator( 90, 180, 0 ) )
-        ePicked:AddImpulse( ( self:GetControlRotation():GetForwardVector() * 2000 ) + Vector( 0, 0, 100 ), true )
+        ePicked:AddImpulse( ( tForward * 2000 ) + Vector( 0, 0, 100 ), true )
         ePicked:SetValue( "thrown_knife", true, true )
 
         -- Damage trigger
