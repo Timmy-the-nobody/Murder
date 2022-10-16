@@ -203,6 +203,10 @@ body {
     font-style: italic;
 }
 
+#start-screen-text {
+    max-width: 75%;
+}
+
 #waiting-players-text {
     font-size: 5vh;
 }
