@@ -95,6 +95,7 @@ function GM:StartRound()
         eChar:SetCanDeployParachute( false )
         eChar:SetHighFallingTime( -1 )
         eChar:SetCameraMode( CameraMode.FPSOnly )
+        eChar:SetJumpZVelocity( 600 )
         eChar:AttachFlashlight()
 
         pPlayer:Possess( eChar )

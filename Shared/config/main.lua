@@ -1,15 +1,15 @@
 --------------------------------------------------------------------------------
 -- Rounds config
 --------------------------------------------------------------------------------
-GM.Cfg.RoundMaxTime = 600000                                    -- Maximum duration of a round
+GM.Cfg.RoundMaxTime = 900000                                    -- Maximum duration of a round
 GM.Cfg.RoundEndTime = 6000                                      -- Time before the round starts again
-GM.Cfg.PlayersWaitTime = 1000                                   -- Minimum time to wait for players to join
-GM.Cfg.MinPlayers = 1                                           -- Minimum players to start a round
+GM.Cfg.PlayersWaitTime = 10000                                  -- Minimum time to wait for players to join
+GM.Cfg.MinPlayers = 2                                           -- Minimum players to start a round
 
 --------------------------------------------------------------------------------
 -- Loot config
 --------------------------------------------------------------------------------
-GM.Cfg.LootSpawnTime = 10000                                    -- Time between loot spawns
+GM.Cfg.LootSpawnTime = 4000                                     -- Time between loot spawns
 GM.Cfg.MaxLootPerPlayer = 10                                    -- Maximum loot per player spawned at the same time
 GM.Cfg.BonusRequiredCollectables = 5                            -- Required collectables to get a new pistol
 
@@ -22,7 +22,7 @@ GM.Cfg.FootPrintTick = 330                                      -- Time between 
 --------------------------------------------------------------------------------
 -- Disguise
 --------------------------------------------------------------------------------
-GM.Cfg.DisguiseLootRequired = 0                                 -- Required loot to disguise as a dead player
+GM.Cfg.DisguiseLootRequired = 2                                 -- Required loot to disguise as a dead player
 GM.Cfg.DisguiseCooldown = 10000                                 -- Time before a player can disguise again
 
 --------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ GM.Cfg.TeamKillSpeedMultiplier = 0.5                            -- Speed penalty
 GM.Cfg.KnifeSpeedMultiplier = 0.9                               -- Speed penalty for knife users
 GM.Cfg.PistolSpeedMultiplier = 0.75                             -- Speed penalty for pistol users
 
-GM.Cfg.StartScreenTime = 500                                    -- Time the start screen will stay visible
+GM.Cfg.StartScreenTime = 10000                                    -- Time the start screen will stay visible
 GM.Cfg.TeamKillBlindTime = 10000                                -- Time the screen will be blinded for team killers
 GM.Cfg.TeamKillBlindFadeTime = 10000                            -- Time the screen will fade back in for team killers
 
@@ -70,14 +70,14 @@ GM.Cfg.Loot = {
 -- Character code
 --------------------------------------------------------------------------------
 GM.Cfg.CodeColors = {                                           -- Charactes/Names colors
-    Color(0.79, 0.40, 0.14),
-    Color(0.81, 0.20, 0.55),
-    Color(0.90, 0.26, 0.39),
-    Color(0.39, 0.65, 0.28),
-    Color(0.05, 0.23, 0.94),
-    Color(0.09, 0.50, 0.86),
-    Color(0.09, 0.70, 0.76),
-    Color(0.79, 0.71, 0.63),
+    Color( 0.2039, 0.5960, 0.8588 ),                                    -- Blue
+    Color( 0.1803, 0.8000, 0.4431 ),                                    -- Green
+    Color( 0.9450, 0.7686, 0.0588 ),                                    -- Yellow
+    Color( 0.9058, 0.2980, 0.2352 ),                                    -- Red
+    Color( 0.6078, 0.3490, 0.7137 ),                                    -- Purple
+    Color( 0.1764, 0.2039, 0.2117 ),                                    -- Black
+    Color( 0.9098, 0.2627, 0.5764 ),                                    -- Pink
+    Color( 0.8745, 0.9019, 0.9137 )                                     -- White
 }
 
 GM.Cfg.CodeNames = {                                            -- Code names
@@ -113,5 +113,6 @@ GM.Cfg.CodeNames = {                                            -- Code names
 -- Admin
 --------------------------------------------------------------------------------
 GM.Cfg.AdminsSteamID = {                    -- Admins SteamID
-    [ "76561198144995316" ] = true          -- Timmy
+    [ "76561198144995316" ] = true,         -- Timmy
+    [ "76561198068443582" ] = true          -- Cedi
 }

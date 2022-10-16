@@ -95,7 +95,11 @@ end
 --------------------------------------------------------------------------------
 --[[ Character:ComputeSpeed ]]--
 function Character:ComputeSpeed()
-    local fSpeedMul = 1.5
+    local fSpeedMul = 1.3
+
+    if self:IsMurderer() and ( self:GetGaitMode() == GaitMode.Sprinting ) then
+        fSpeedMul = 1.5
+    end
 
 	if self:IsTeamKiller() then
 		fSpeedMul = ( fSpeedMul * GM.Cfg.TeamKillSpeedMultiplier )
@@ -115,10 +119,11 @@ function Character:ComputeSpeed()
         end
 	end
 
-    self:SetCanSprint( self:IsMurderer() )
+    -- self:SetCanSprint( self:IsMurderer() )
     self:SetSpeedMultiplier( fSpeedMul )
 end
 
+Character.Subscribe( "GaitModeChanged", function( eChar, _, _ ) eChar:ComputeSpeed() end )
 Character.Subscribe( "Drop", function( eChar, _ ) eChar:ComputeSpeed() end )
 Character.Subscribe( "PickUp", function( eChar, _ ) eChar:ComputeSpeed() end )
 Character.Subscribe( "GrabProp", function( eChar, _ ) eChar:ComputeSpeed() end )
@@ -153,7 +158,7 @@ Character.Subscribe( "Death", function( eChar, _, _, _, _, pInstigator, eCauser 
         eAttacker = pInstigator:GetControlledCharacter()
     end
 
-    if not eAttacker:IsValid() then
+    if not eAttacker or not eAttacker:IsValid() then
         return
     end
 
