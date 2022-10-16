@@ -10,7 +10,7 @@ function Character:AttachFlashlight()
     eFlashlight:SetRelativeRotation( Rotator( 0, 105, 0 ) )
     eFlashlight:SetRelativeLocation( Vector( 24, -12, 14 ) )
 
-    local eLight = Light( Vector(), Rotator(), Color.WHITE, LightType.Spot, 0.5, 2000, 40, 0, 10000, false, true, false )
+    local eLight = Light( Vector(), Rotator(), Color.WHITE, LightType.Spot, 1, 2000, 40, 0, 10000, false, true, false )
     eLight:AttachTo( eFlashlight, AttachmentRule.SnapToTarget, "", -1, false )
     eLight:SetTextureLightProfile( LightProfile.SpotLight_03 )
     eLight:SetRelativeLocation( Vector( 35, 0, 0 ) )

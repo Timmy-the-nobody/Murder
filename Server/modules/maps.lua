@@ -26,7 +26,7 @@ local function initDoors()
         eDoor:SetValue( "door_open", false, false )
 
         local tTriggerPos = eDoor:GetLocation() + ( v.ang:GetForwardVector() * 160 ) + Vector( 0, 0, 150 )
-        local eTrigger = Trigger( tTriggerPos, Rotator(), Vector( 300 ), TriggerType.Sphere, false, Color( 1, 0, 0 ), { "Character" } )
+        local eTrigger = Trigger( tTriggerPos, Rotator(), Vector( 400 ), TriggerType.Sphere, false, Color( 1, 0, 0 ), { "Character" } )
         local tInSphere = {}
 
         eTrigger:Subscribe( "BeginOverlap", function( _, eChar )
@@ -34,7 +34,7 @@ local function initDoors()
 
             if not eDoor:GetValue( "door_open" ) then
                 eDoor:SetValue( "door_open", true, false )
-                eDoor:TranslateTo( v.pos, 0.5, 0 )
+                eDoor:TranslateTo( v.pos, 0.25, 0 )
             end
         end )
 
@@ -43,11 +43,19 @@ local function initDoors()
 
             if eDoor:GetValue( "door_open" ) and ( table.Count( tInSphere ) == 0 ) then
                 eDoor:SetValue( "door_open", false, false )
-                eDoor:TranslateTo( v.pos - Vector( 0, 0, iDoorMaxZ ), 0.5, 0 )
+                eDoor:TranslateTo( v.pos - Vector( 0, 0, iDoorMaxZ ), 0.25, 0 )
             end
         end )
     end
 end
 
 --[[ Package Load ]]--
-Package.Subscribe( "Load", initDoors )
+-- initDoors()
+
+-- Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
+--     if iNew == RoundType.Playing then
+--         initDoors()
+--     end
+-- end )
+
+-- Package.Subscribe( "Load", initDoors )
