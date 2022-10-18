@@ -10,10 +10,11 @@ local traceLine = Client.TraceLineSingle
 local function getEyeTrace( tFilter )
     local pPlayer = LocalPlayer()
     local tPos = pPlayer:GetCameraLocation()
+    local tForward = pPlayer:GetCameraRotation():GetForwardVector()
 
     return traceLine(
-        tPos,
-        tPos + ( pPlayer:GetCameraRotation():GetForwardVector() * 10000 ),
+        tPos + ( tForward * 50 ),
+        tPos + ( tForward * 10000 ),
         iCollision,
         TraceMode.ReturnEntity,
         tFilter or {}
@@ -54,6 +55,10 @@ local function enableAdminMode()
 
     -- Tick event
     local tFilter = { ePlaceholder }
+
+    if LocalCharacter() then
+        tFilter[ #tFilter + 1 ] = LocalCharacter()
+    end
 
     adminTick = Client.Subscribe( "Tick", function( _ )
         local tTrace = getEyeTrace( tFilter )
