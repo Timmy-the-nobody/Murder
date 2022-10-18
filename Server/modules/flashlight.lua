@@ -7,10 +7,10 @@ function Character:AttachFlashlight()
     local eFlashlight = StaticMesh( Vector(), Rotator(), "nanos-world::SM_Flashlight", CollisionType.NoCollision )
     eFlashlight:SetScale( Vector( 0.6 ) )
     eFlashlight:AttachTo( self, AttachmentRule.SnapToTarget, "spine_03", -1, false )
-    eFlashlight:SetRelativeRotation( Rotator( 0, 105, 0 ) )
+    eFlashlight:SetRelativeRotation( Rotator( 0, 100, 0 ) )
     eFlashlight:SetRelativeLocation( Vector( 24, -12, 14 ) )
 
-    local eLight = Light( Vector(), Rotator(), Color.WHITE, LightType.Spot, 1, 2000, 40, 0, 10000, false, true, false )
+    local eLight = Light( Vector(), Rotator(), Color.WHITE, LightType.Spot, 35, 2000, 40, 0, 5000, true, true, false )
     eLight:AttachTo( eFlashlight, AttachmentRule.SnapToTarget, "", -1, false )
     eLight:SetTextureLightProfile( LightProfile.SpotLight_03 )
     eLight:SetRelativeLocation( Vector( 35, 0, 0 ) )
@@ -63,7 +63,10 @@ function Character:EnableFlashlight()
     self:SetValue( "battery_drain_timer", iDrainTimer )
 
     -- Enable light
-    local _, eLight = self:GetAttachedFlashlight()
+    local eSM, eLight = self:GetAttachedFlashlight()
+    if eSM and eSM:IsValid() then
+        eSM:SetMaterialColorParameter( "Emissive", Color( 50, 50, 50 ) )
+    end
     if eLight and eLight:IsValid() then
         eLight:SetVisibility( true )
     end
@@ -93,7 +96,10 @@ function Character:DisableFlashlight()
     self:SetValue( "battery_regen_timer", iRegenTimer )
 
     -- Detach flashlight
-    local _, eLight = self:GetAttachedFlashlight()
+    local eSM, eLight = self:GetAttachedFlashlight()
+    if eSM and eSM:IsValid() then
+        eSM:SetMaterialColorParameter( "Emissive", Color.BLACK )
+    end
     if eLight and eLight:IsValid() then
         eLight:SetVisibility( false )
     end
