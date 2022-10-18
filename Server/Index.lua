@@ -11,17 +11,22 @@ Package.Require( "modules/admin.lua" )
 --------------------------------------------------------------------------------
 -- Assets precache
 --------------------------------------------------------------------------------
+-- SkeletalMesh
 Assets.Precache( "nanos-world::SK_Mannequin", AssetType.SkeletalMesh )
-Assets.Precache( "nanos-world::M_NanosDecal", AssetType.Material )
-Assets.Precache( "nanos-world::MI_Crosshair_Crossbow", AssetType.Material )
+Assets.Precache( "nanos-world::SK_DesertEagle", AssetType.SkeletalMesh )
 Assets.Precache( "nanos-world::SM_M9", AssetType.StaticMesh )
+
+-- Animation
 Assets.Precache( "nanos-world::A_Mannequin_Throw_01", AssetType.Animation )
 Assets.Precache( "nanos-world::AM_Mannequin_Melee_Stab_Attack", AssetType.Animation )
 
+-- Material
+Assets.Precache( "nanos-world::M_NanosDecal", AssetType.Material )
+Assets.Precache( "nanos-world::MI_Crosshair_Crossbow", AssetType.Material )
+
+-- Loot
 for _, v in ipairs( GM.Cfg.Loot ) do
-    if v.mesh then
-        Assets.Precache( v.mesh, AssetType.StaticMesh )
-    end
+    Assets.Precache( v.mesh, AssetType.StaticMesh )
 end
 
 --------------------------------------------------------------------------------

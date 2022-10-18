@@ -25,17 +25,18 @@ local function addFootprint( tPos, tAng, bRight, tColor )
 
     eDecal:SetMaterialTextureParameter( "Texture", sTexturePath )
     eDecal:SetMaterialColorParameter( "Tint", tColor )
-    eDecal:SetMaterialColorParameter( "Emissive", ( tColor * 4 ) )
+    eDecal:SetMaterialColorParameter( "Emissive", ( tColor * 5 ) )
 end
 
 --[[ Client Tick ]]--
-local iNextTick = 0
+local iNextFootprint = 0
 Client.Subscribe( "Tick", function( fDelta )
-    if ( CurTime() < iNextTick ) then
+    local iTime = CurTime()
+    if ( iTime < iNextFootprint ) then
         return
     end
 
-    iNextTick = ( CurTime() + 330 )
+    iNextFootprint = ( iTime + 330 )
 
     local pLocalChar = LocalCharacter()
     if not pLocalChar or not pLocalChar:IsMurderer() then

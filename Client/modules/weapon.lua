@@ -1,3 +1,6 @@
+--------------------------------------------------------------------------------
+-- Weapon Inputs
+--------------------------------------------------------------------------------
 Input.Register( "Equip/Unequip Weapon", "F" )
 Input.Bind( "Equip/Unequip Weapon", InputEvent.Pressed, function()
     NW.Send( "GM:Weapon:Toggle" )

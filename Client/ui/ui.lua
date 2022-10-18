@@ -27,7 +27,7 @@ local tHUDActions = {
                 GM.WebUI:CallEvent( "SetElementInnerText", "role", "Murderer" )
                 GM.WebUI:CallEvent( "ShowStartScreen", "You're the Murderer", [[
                     The murderer has to murder everybody.
-                    <br>The murderer has the ability to run fast, stab, and throw their knife, but must preferably not get caught in order to not get shot.
+                    <br>The murderer has the ability to sprint faster, stab, and throw their knife, but must preferably not get caught in order to not get shot.
                     <br>The murderer also has the ability to see other player's footprints.
                 ]], GM.Cfg.StartScreenTime )
             else
@@ -181,7 +181,6 @@ end )
 --[[ updateScoreboard ]]--
 local function updateScoreboard()
     for _, pPlayer in ipairs( Player.GetAll() ) do
-        print( pPlayer:GetScore() )
         GM.WebUI:CallEvent( "UpdateScoreboardRow", pPlayer:GetSteamID(), pPlayer:GetScore(), pPlayer:GetPing() )
     end
 end
