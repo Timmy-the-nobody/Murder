@@ -19,26 +19,46 @@ end
 
 --[[ Client Tick ]]--
 local bTargetVisible = false
+local iNextTick = 0
 
 Client.Subscribe( "Tick", function( fDelta )
-    local pPlayer = LocalPlayer()
-    if not pPlayer or not pPlayer:IsValid() or not GM.WebUI then
+    local iTime = CurTime()
+    if ( iTime < iNextTick ) or not GM.WebUI then
         return
     end
 
-    local eChar = LocalCharacter()
+    iNextTick = ( iTime + 250 )
+
+    local tTrace
     local xExclude
+
+    local eChar = LocalCharacter()
     if eChar and eChar:IsValid() then
         xExclude = { eChar }
+
+        tTrace = Client.TraceLineSingle(
+            eChar:GetLocation(),
+            ( eChar:GetControlRotation():GetForwardVector() * 500 ),
+            CollisionChannel.Pawn,
+            TraceMode.ReturnEntity,
+            xExclude
+        )
     end
 
-    local tTrace = Client.TraceLineSingle(
-        pPlayer:GetCameraLocation(),
-        ( LocalPlayer():GetCameraRotation():GetForwardVector() * 10000 ),
-        CollisionChannel.Pawn,
-        TraceMode.ReturnEntity,
-        xExclude
-    )
+    if not tTrace then
+        local pPlayer = LocalPlayer()
+        if not pPlayer or not pPlayer:IsValid() then
+            return
+        end
+
+        tTrace = Client.TraceLineSingle(
+            pPlayer:GetCameraLocation(),
+            ( LocalPlayer():GetCameraRotation():GetForwardVector() * 500 ),
+            CollisionChannel.Pawn,
+            TraceMode.ReturnEntity,
+            xExclude
+        )
+    end
 
     if tTrace.Entity and tTrace.Entity:IsValid() then
         bTargetVisible = true
