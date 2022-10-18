@@ -103,6 +103,7 @@ body {
     HUD (misc)
 */
 #spectating, #target {
+    display: none;
     position: absolute;
     right: var(--margin);
     bottom: var(--margin);
@@ -120,8 +121,6 @@ body {
 }
 
 #target {
-    position: absolute;
-    display: none;
     right: unset;
     bottom: unset;
     left: 50%;
@@ -192,7 +191,7 @@ body {
 }
 
 #waiting-players {
-    background-color: #000000cc;
+    background-color: #0000007a;
 }
 
 #start-screen-title, #waiting-players-title {
