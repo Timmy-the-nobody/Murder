@@ -1,18 +1,23 @@
+--[[
+    Credits:
+        Gamemode made with <3 by Timmy (https://github.com/Timmy-the-nobody)
+        Inspired by MechanicalMind's Murder gamemode (https://github.com/MechanicalMind/murder)
+        Audio from Zapsplat.com
+]]--
 --------------------------------------------------------------------------------
 -- Rounds config
 --------------------------------------------------------------------------------
 GM.Cfg.RoundMaxTime = 900000                                    -- Maximum duration of a round [default: 900000]
 GM.Cfg.RoundEndTime = 6000                                      -- Time before the round starts again [default: 6000]
-GM.Cfg.PlayersWaitTime = 1000                                  -- Minimum time to wait for players to join [default: 10000]
+GM.Cfg.PlayersWaitTime = 2500                                  -- Minimum time to wait for players to join [default: 25000]
 GM.Cfg.StartScreenTime = 1000                                  -- Time the start screen will stay visible [default: 10000]
-
 GM.Cfg.MinPlayers = 1                                           -- Minimum players to start a round [default: 2]
 
 --------------------------------------------------------------------------------
 -- Loot config
 --------------------------------------------------------------------------------
-GM.Cfg.LootSpawnTime = 400                                     -- Time between loot spawns [default: 4000]
-GM.Cfg.MaxLootPerPlayer = 100                                    -- Maximum loot per player spawned at the same time [default: 10]
+GM.Cfg.LootSpawnTime = 4000                                     -- Time between loot spawns [default: 4000]
+GM.Cfg.MaxLootPerPlayer = 5                                     -- Maximum loot per player spawned at the same time [default: 10]
 GM.Cfg.BonusRequiredCollectables = 5                            -- Required collectables to get a new pistol [default: 5]
 
 --------------------------------------------------------------------------------
@@ -41,7 +46,7 @@ GM.Cfg.PistolSpeedMultiplier = 0.75                             -- Speed penalty
 
 GM.Cfg.TeamKillPenaltyDuration = 20000                          -- Speed and weapon pickup penalty for team killers [default: 20000]
 GM.Cfg.TeamKillSpeedMultiplier = 0.5                            -- Speed penalty for team killers [default: 0.5]
-GM.Cfg.TeamKillBlindTime = 3000                                 -- Time the screen will be blinded for team killers [default: 5000]
+GM.Cfg.TeamKillBlindTime = 5000                                 -- Time the screen will be blinded for team killers [default: 5000]
 GM.Cfg.TeamKillBlindFadeTime = 10000                            -- Time the screen will fade back in for team killers [default: 10000]
 
 GM.Cfg.KnifeHighlightColor = Color( 20, 0, 0 )                  -- Color of the knife highlight [default: Color( 20, 0, 0 )]
@@ -81,7 +86,6 @@ GM.Cfg.CodeColors = {                                           -- Charactes/Nam
     Color( 0.9450, 0.7686, 0.0588 ),                                    -- Yellow
     Color( 0.9058, 0.2980, 0.2352 ),                                    -- Red
     Color( 0.6078, 0.3490, 0.7137 ),                                    -- Purple
-    -- Color( 0.1764, 0.2039, 0.2117 ),                                    -- Black
     Color( 0.9098, 0.2627, 0.5764 ),                                    -- Pink
     Color( 0.8745, 0.9019, 0.9137 )                                     -- White
 }
