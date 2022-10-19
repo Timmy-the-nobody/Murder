@@ -120,10 +120,10 @@ function GM:StartRound()
         local tRandomSpawn = tSpawns[ math.random( 1, #tSpawns ) ]
 
         local eChar = Character( tRandomSpawn + Vector( 0, 0, 40 ), Rotator( 0, math.random( -180, 180 ), 0 ), "nanos-world::SK_Mannequin" )
+        eChar:SetCameraMode( CameraMode.FPSOnly )
         eChar:SetCanPunch( false )
         eChar:SetCanDeployParachute( false )
         eChar:SetHighFallingTime( -1 )
-        -- eChar:SetCameraMode( CameraMode.FPSOnly )
         eChar:SetJumpZVelocity( 600 )
         eChar:SetAccelerationSettings( 1024, 512, 768, 128, 256, 256, 1024 )
         eChar:SetBrakingSettings( 4, 2, 1024, 3000, 10, 0 )
@@ -264,6 +264,5 @@ end )
 
 --[[ Package Load ]]--
 Package.Subscribe( "Load", function()
-    -- Force restarting the game on package load/reload
     GM:SetRound( RoundType.NotEnoughPlayers )
 end )

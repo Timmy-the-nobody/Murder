@@ -27,7 +27,7 @@ local tIntro = {
             text = "Office (2)",
             duration = 5000,
             start = { pos = Vector( -3105, 5573, 256 ), ang = Rotator( 339, 332, 32 ) },
-            target = { pos = Vector( -801, 5544, -49 ), ang = Rotator( 350, 233, -32 ) }
+            target = { pos = Vector( -801, 5544, -49 ), ang = Rotator( 350, 233, -12 ) }
         },
 
         {

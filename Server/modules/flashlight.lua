@@ -127,3 +127,63 @@ NW.Receive( "GM:Flashlight:Toggle", function( pPlayer )
         end
     end
 end )
+
+--------------------------------------------------------------------------------
+-- Light bug
+--------------------------------------------------------------------------------
+if not GM.Cfg.FlashlightBugDelay then
+    return
+end
+
+--[[ triggerLightBug ]]--
+local function triggerLightBug()
+    local tHasFlashlightEnabled = {}
+    for _, v in ipairs( Character.GetAll() ) do
+        if v:IsValid() and v:IsFlashlightEnabled() then
+            tHasFlashlightEnabled[ #tHasFlashlightEnabled + 1 ] = v
+        end
+    end
+
+    if ( #tHasFlashlightEnabled == 0 ) then
+        return
+    end
+
+    local eChar = tHasFlashlightEnabled[ math.random( 1, #tHasFlashlightEnabled ) ]
+    if not eChar or not eChar:IsValid() then
+        return
+    end
+
+    local iIntervals = 0
+    local iTimer = Timer.SetInterval( function()
+        if ( iIntervals == 5 ) then
+            return false
+        end
+
+        iIntervals = iIntervals + 1
+
+        if ( iIntervals < 3 ) or ( iIntervals > 4 ) then
+            if eChar:IsFlashlightEnabled() then
+                eChar:DisableFlashlight()
+            else
+                eChar:EnableFlashlight()
+            end
+        end
+    end, 150 )
+
+    Timer.Bind( iTimer, eChar )
+end
+
+--[[ Server Tick ]]--
+local iNextLightBug = 0
+Server.Subscribe( "Tick", function( fDelta )
+    local iTime = CurTime()
+    if ( iTime < iNextLightBug ) then
+        return
+    end
+
+    iNextLightBug = ( iTime + GM.Cfg.FlashlightBugDelay )
+
+    if ( GM:GetRound() == RoundType.Playing ) then
+        triggerLightBug()
+    end
+end )

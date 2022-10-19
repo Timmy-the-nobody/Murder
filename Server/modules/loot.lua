@@ -77,7 +77,7 @@ function GM:SpawnLoot()
         local iCollectedLoot = eChar:GetCollectedLoot() + ( GM.Cfg.Loot[ iLootID ].points or 1 )
         eChar:SetCollectedLoot( iCollectedLoot )
 
-        pPlayer:Notify( NotificationType.Info, "You collected some loot" )
+        pPlayer:Notify( NotificationType.Generic, "You collected some loot" )
 
         if not eChar:IsMurderer() and ( ( iCollectedLoot % GM.Cfg.BonusRequiredCollectables ) == 0 ) then
             if eChar:GetStoredWeapon() then

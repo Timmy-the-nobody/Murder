@@ -14,6 +14,7 @@ GM.Weapons = {
         end,
         spawn = function()
             local eKnife = Melee( Vector(), Rotator(), "nanos-world::SM_M9", CollisionType.Normal, true, HandlingMode.Throwable, "" )
+            eKnife:SetScale( Vector( 0.8 ) )
             eKnife:AddAnimationCharacterUse( "nanos-world::AM_Mannequin_Melee_Stab_Attack" )
             eKnife:SetDamageSettings( 0.3, 0.5 )
             eKnife:SetCooldown( 1 )

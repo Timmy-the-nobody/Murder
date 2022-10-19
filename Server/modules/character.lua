@@ -95,10 +95,10 @@ end
 --------------------------------------------------------------------------------
 --[[ Character:ComputeSpeed ]]--
 function Character:ComputeSpeed()
-    local fSpeedMul = 1.3
+    local fSpeedMul = 1.2
 
     if self:IsMurderer() and ( self:GetGaitMode() == GaitMode.Sprinting ) then
-        fSpeedMul = 1.5
+        fSpeedMul = 1.35
     end
 
 	if self:IsTeamKiller() then

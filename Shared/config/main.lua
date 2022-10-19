@@ -9,7 +9,7 @@
 --------------------------------------------------------------------------------
 GM.Cfg.RoundMaxTime = 900000                                    -- Maximum duration of a round [default: 900000]
 GM.Cfg.RoundEndTime = 6000                                      -- Time before the round starts again [default: 6000]
-GM.Cfg.PlayersWaitTime = 2500                                  -- Minimum time to wait for players to join [default: 25000]
+GM.Cfg.PlayersWaitTime = 1000                                  -- Minimum time to wait for players to join [default: 25000]
 GM.Cfg.StartScreenTime = 1000                                  -- Time the start screen will stay visible [default: 10000]
 GM.Cfg.MinPlayers = 1                                           -- Minimum players to start a round [default: 2]
 
@@ -37,6 +37,7 @@ GM.Cfg.FootPrintTick = 330                                      -- Time between 
 --------------------------------------------------------------------------------
 GM.Cfg.FlashlightDrainTime = 500                                -- Time between flashlight drain [default: 500]
 GM.Cfg.FlashlightRegenTime = 1000                               -- Time between flashlight regen [default: 1000]
+GM.Cfg.FlashlightBugDelay = 60000                               -- Time before the flashlight bug happens [default: 60000, false to disable]
 
 --------------------------------------------------------------------------------
 -- Misc.

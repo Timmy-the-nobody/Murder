@@ -53,7 +53,7 @@ Client.Subscribe( "Tick", function( fDelta )
 
         tTrace = Client.TraceLineSingle(
             pPlayer:GetCameraLocation(),
-            ( LocalPlayer():GetCameraRotation():GetForwardVector() * 500 ),
+            ( pPlayer:GetCameraRotation():GetForwardVector() * 500 ),
             CollisionChannel.Pawn,
             TraceMode.ReturnEntity,
             xExclude
@@ -71,11 +71,3 @@ Client.Subscribe( "Tick", function( fDelta )
         end
     end
 end )
-
---[[ Interact ]]--
--- Input.Register( "Spectate", "LeftMouseButton" )
--- Input.Bind( "Spectate", InputEvent.Pressed, function()
---     if not LocalCharacter() then
---         NW.Send( "GM:Player:Spectate" )
---     end
--- end )
