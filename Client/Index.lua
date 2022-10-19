@@ -9,8 +9,13 @@ Package.Require( "modules/footprint.lua" )
 Package.Require( "modules/flashlight.lua" )
 
 Package.Require( "modules/world.lua" )
-Package.Require( "modules/maps.lua" )
+-- Package.Require( "modules/maps.lua" )
 Package.Require( "modules/intro.lua" )
 Package.Require( "modules/admin.lua" )
+
+-- Map files
+for _, sPath in ipairs( Package.GetFiles( "Client/maps", ".lua" ) ) do
+    Package.Require( sPath )
+end
 
 Client.SetDebugEnabled( false )

@@ -1,46 +1,38 @@
+if ( Client.GetMap() ~= "murder-underground::nw_underground" ) then
+    return
+end
+
 --------------------------------------------------------------------------------
 -- Doors
 --------------------------------------------------------------------------------
-local tMaps = {
-    [ "murder-underground::nw_underground" ] = {
-        load = function()
-            for _, v in ipairs( StaticMesh.GetAll() ) do
-                if v:IsFromLevel() and ( v:GetMesh() == "/Game/murder_underground/ResearchMegaPack/ResearchUnderground/Meshes/SM_Metal_Door_2.SM_Metal_Door_2" ) then
-                    v:Destroy()
-                end
-            end
-        end,
-        listDoors = function()
-            local tDoors = {}
-            for _, v in ipairs( StaticMesh.GetAll() ) do
-                if v:IsFromLevel() and ( v:GetMesh() == "/Game/murder_underground/ResearchMegaPack/ResearchUnderground/Meshes/SM_Metal_Door_2.SM_Metal_Door_2" ) then
-                    tDoors[ #tDoors + 1 ] = {
-                        pos = v:GetLocation(),
-                        ang = v:GetRotation(),
-                        scale = v:GetScale()
-                    }
-                end
-            end
-            print( NanosUtils.Dump( tDoors ) )
+local sDoorSM = "/Game/murder_underground/ResearchMegaPack/ResearchUnderground/Meshes/SM_Metal_Door_2.SM_Metal_Door_2"
+
+--[[ destroyAllDoors ]]--
+local function destroyAllDoors()
+    for _, v in ipairs( StaticMesh.GetAll() ) do
+        if v:IsFromLevel() and ( v:GetMesh() == sDoorSM ) then
+            v:Destroy()
         end
-    }
-}
-
---[[ Package Load ]]--
-Package.Subscribe( "Load", function()
-    local sMap = Client.GetMap()
-    if not tMaps[ sMap ] then
-        return
     end
+end
 
-    -- if tMaps[ sMap ].listDoors then
-    --     tMaps[ sMap ].listDoors()
-    -- end
-
-    if tMaps[ sMap ].load then
-        tMaps[ sMap ].load()
+--[[
+    dumpDoorsList
+        desc: Debug function to get door pos, ang, scale
+]]--
+local function dumpDoorsList()
+    local tDoors = {}
+    for _, v in ipairs( StaticMesh.GetAll() ) do
+        if v:IsFromLevel() and ( v:GetMesh() == "/Game/murder_underground/ResearchMegaPack/ResearchUnderground/Meshes/SM_Metal_Door_2.SM_Metal_Door_2" ) then
+            tDoors[ #tDoors + 1 ] = {
+                pos = v:GetLocation(),
+                ang = v:GetRotation(),
+                scale = v:GetScale()
+            }
+        end
     end
-end )
+    print( NanosUtils.Dump( tDoors ) )
+end
 
 --[[ StaticMesh ValueChange ]]--
 StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
@@ -49,16 +41,12 @@ StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
     end
 
     local sToggleSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_open_close.ogg"
-    Sound( eSM:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.2, 1, 80 )
+    Sound( eSM:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.3, 1, 60 )
 end )
 
 --------------------------------------------------------------------------------
 -- CCTV
 --------------------------------------------------------------------------------
-if ( Client.GetMap() ~= "murder-underground::nw_underground" ) then
-    return
-end
-
 local tCCTVs = {
     {
         pos = Vector( -2255, 4560, -230 ),
@@ -122,4 +110,7 @@ local function initCCTV()
 end
 
 --[[ Package Load ]]--
-Package.Subscribe( "Load", initCCTV )
+Package.Subscribe( "Load", function()
+    destroyAllDoors()
+    initCCTV()
+end )

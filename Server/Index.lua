@@ -4,9 +4,12 @@ Package.Require( "modules/character.lua" )
 Package.Require( "modules/weapon.lua" )
 Package.Require( "modules/loot.lua" )
 Package.Require( "modules/flashlight.lua" )
-
-Package.Require( "modules/maps.lua" )
 Package.Require( "modules/admin.lua" )
+
+-- Map files
+for _, sPath in ipairs( Package.GetFiles( "Server/maps", ".lua" ) ) do
+    Package.Require( sPath )
+end
 
 --------------------------------------------------------------------------------
 -- Assets precache
