@@ -10,7 +10,7 @@ GM.Weapons = {
             eObject:SetValue( "thrown_knife", false, true )
         end,
         onDrop = function( eChar, eObject )
-            eObject:SetValue( "thrown_knife", true, true )
+            -- eObject:SetValue( "thrown_knife", true, true )
         end,
         spawn = function()
             local eKnife = Melee( Vector(), Rotator(), "nanos-world::SM_M9", CollisionType.Normal, true, HandlingMode.Throwable, "" )
@@ -153,22 +153,28 @@ function Character:ThrowKnife()
         eTrigger:Subscribe( "BeginOverlap", function( _, eEntity )
             if ( eEntity ~= self ) and ( eEntity:GetHealth() > 0 ) then
                 eEntity:ApplyDamage( 100, "", DamageType.RunOverProp, Vector(), self:GetPlayer(), ePicked )
+                ePicked:AddImpulse( -ePicked:GetVelocity(), true )
             end
         end )
 
-        Timer.SetInterval( function()
+        local iTriggerTimer = Timer.SetInterval( function()
             iIntervals = ( iIntervals + 1 )
-            if not eTrigger:IsValid() or not ePicked:IsValid() or ePicked:GetHandler() or ( iIntervals == iMaxIntervals ) then
-                eTrigger:Destroy()
+            if not ePicked:IsValid() or ePicked:GetHandler() or ( iIntervals == iMaxIntervals ) then
+                if eTrigger:IsValid() then
+                    eTrigger:Destroy()
+                end
                 return false
             end
-            eTrigger:SetLocation( ePicked:GetLocation())
+
+            eTrigger:SetLocation( ePicked:GetLocation() )
         end, iTickRate )
+
+        Timer.Bind( iTriggerTimer, eTrigger )
 
         -- Giving knife back to the character if it has been picked up
         local iAutoGiveTimer = Timer.SetTimeout( function()
             if self:IsValid() and ePicked:IsValid() then
-                ePicked:SetValue( "thrown_knife", nil, true )
+                ePicked:SetValue( "thrown_knife", false, true )
 
                 Timer.SetTimeout( function()
                     if self:IsValid() then
@@ -232,29 +238,32 @@ end )
 --[[ Toggle equip/unequip ]]--
 NW.Receive( "GM:Weapon:Toggle", function( pPlayer )
     local eChar = pPlayer:GetControlledCharacter()
-    if eChar and eChar:IsValid() then
-        local ePicked = eChar:GetPicked()
+    if not eChar or not eChar:IsValid() then
+        return
+    end
 
-        local bSuccess, sError = eChar[ ePicked and "StoreWeapon" or "EquipWeapon" ]( eChar )
-        if bSuccess then
-            if ePicked then
-                pPlayer:Notify( NotificationType.Generic, "Weapon stored" )
-            else
-                pPlayer:Notify( NotificationType.Generic, "Weapon equipped" )
-            end
-        else
-            pPlayer:Notify( NotificationType.Error, sError )
-        end
+    local ePicked = eChar:GetPicked()
+    local bSuccess, sError = eChar[ ePicked and "StoreWeapon" or "EquipWeapon" ]( eChar )
+
+    if bSuccess then
+        pPlayer:Notify( NotificationType.Generic, ePicked and "Weapon stored" or "Weapon equipped" )
+        return
+    end
+
+    if sError then
+        pPlayer:Notify( NotificationType.Error, sError )
     end
 end )
 
 --[[ ThrowKnife ]]--
 NW.Receive( "GM:Weapon:ThrowKnife", function( pPlayer )
     local eChar = pPlayer:GetControlledCharacter()
-    if eChar and eChar:IsValid() and eChar:IsMurderer() then
-        local bSuccess, sError = eChar:ThrowKnife()
-        if not bSuccess and sError then
-            pPlayer:Notify( NotificationType.Error, sError )
-        end
+    if not eChar or not eChar:IsValid() or not eChar:IsMurderer() then
+        return
+    end
+
+    local bSuccess, sError = eChar:ThrowKnife()
+    if not bSuccess and sError then
+        pPlayer:Notify( NotificationType.Error, sError )
     end
 end )
