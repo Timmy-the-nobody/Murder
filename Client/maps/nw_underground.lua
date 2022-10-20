@@ -35,13 +35,14 @@ local function dumpDoorsList()
 end
 
 --[[ StaticMesh ValueChange ]]--
+local sDoorSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_open_close.ogg"
+
 StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
     if ( sKey ~= "door_open" ) or not eSM or not eSM:IsValid() then
         return
     end
 
-    local sToggleSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_open_close.ogg"
-    Sound( eSM:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.3, 1, 60 )
+    Sound( eSM:GetLocation(), sDoorSound, false, true, SoundType.SFX, 0.3, 1, 60 )
 end )
 
 --------------------------------------------------------------------------------
