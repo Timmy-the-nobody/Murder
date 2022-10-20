@@ -93,7 +93,7 @@ end
 --[[ Player ValueChange ]]--
 Player.Subscribe( "ValueChange", function( pPlayer, sKey, xValue )
     if ( pPlayer == LocalPlayer() ) then
-        if ( sKey == "admin_mode" ) then
+        if ( sKey == "admin_mode_enabled" ) then
             if xValue then
                 enableAdminMode()
             else
@@ -108,7 +108,7 @@ Player.Subscribe( "ValueChange", function( pPlayer, sKey, xValue )
 end )
 
 StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
-    if not LocalPlayer():IsInAdminMode() then
+    if not LocalPlayer():IsAdminModeEnabled() then
         return
     end
 
@@ -120,7 +120,7 @@ end )
 
 --[[ LeftClick ]]--
 Input.Bind( "LeftClick", InputEvent.Pressed, function()
-    if not LocalPlayer():IsInAdminMode() then
+    if not LocalPlayer():IsAdminModeEnabled() then
         return
     end
 
@@ -142,7 +142,7 @@ end )
 
 --[[ Admin Submode ]]--
 Input.Bind( "Reload", InputEvent.Pressed, function()
-    if LocalPlayer():IsInAdminMode() then
+    if LocalPlayer():IsAdminModeEnabled() then
         NW.Send( "GM:Admin:ChangeSubMode" )
     end
 end )

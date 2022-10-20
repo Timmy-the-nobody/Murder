@@ -190,7 +190,7 @@ end
 --------------------------------------------------------------------------------
 --[[ GM:Admin:AddSpawn ]]--
 NW.Receive( "GM:Admin:AddSpawn", function( pPlayer, tPos )
-    if pPlayer:IsInAdminMode() then
+    if pPlayer:IsAdminModeEnabled() then
         local iSubMode = pPlayer:GetAdminSubMode()
         if GM:AddSpawn( iSubMode, tPos ) then
             pPlayer:Notify( NotificationType.Info, GM.AdminSubModes[ iSubMode ].name .. " added" )
@@ -200,7 +200,7 @@ end )
 
 --[[ GM:Admin:RemoveSpawn ]]--
 NW.Receive( "GM:Admin:RemoveSpawn", function( pPlayer, iID )
-    if pPlayer:IsInAdminMode() then
+    if pPlayer:IsAdminModeEnabled() then
         local iSubMode = pPlayer:GetAdminSubMode()
         if GM:RemoveSpawn( iSubMode, iID ) then
             pPlayer:Notify( NotificationType.Info, GM.AdminSubModes[ iSubMode ].name .. " removed" )
@@ -208,34 +208,49 @@ NW.Receive( "GM:Admin:RemoveSpawn", function( pPlayer, iID )
     end
 end )
 
+--------------------------------------------------------------------------------
+-- Admin mode/sub-mode
+--------------------------------------------------------------------------------
+--[[ Player:SetAdminModeEnabled ]]--
+function Player:SetAdminModeEnabled( bEnabled )
+    bEnabled = tobool( bEnabled )
+    self:SetPrivateValue( "admin_mode_enabled", bEnabled )
+
+    local iSubMode = self:GetAdminSubMode()
+
+    if bEnabled then
+        self:SetAdminSubMode( iSubMode )
+    else
+        GM:DestroyAllPlaceholders( iSubMode )
+    end
+end
+
 --[[ GM:Admin:Toggle ]]--
 NW.Receive( "GM:Admin:ToggleAdminMode", function( pPlayer )
     if GM.Cfg.AdminsSteamID[ pPlayer:GetSteamID() ] then
-        local bEnabled = not pPlayer:IsInAdminMode()
-        local iSubMode = pPlayer:GetAdminSubMode()
-
-        pPlayer:SetPrivateValue( "admin_mode", bEnabled )
-
-        if bEnabled then
-            pPlayer:SetPrivateValue( "admin_submode", iSubMode )
-            GM:SpawnAllPlaceholders( iSubMode )
-        else
-            GM:DestroyAllPlaceholders( iSubMode )
-        end
+        pPlayer:SetAdminModeEnabled( not pPlayer:IsAdminModeEnabled() )
     end
 end )
 
---[[ GM:Admin:ChangeSubMode ]]--
-NW.Receive( "GM:Admin:ChangeSubMode", function( pPlayer )
-    if not pPlayer:IsInAdminMode() then
+--[[
+    Player:SetAdminSubMode
+        desc: Sets the admin tool submode
+]]--
+function Player:SetAdminSubMode( iSubMode )
+    if not self:IsAdminModeEnabled() then
         return
     end
 
-    local iOldMode = pPlayer:GetAdminSubMode()
-    local iNewMode = GM.AdminSubModes[ iOldMode + 1 ] and ( iOldMode + 1 ) or 1
-
+    local iOldMode = self:GetAdminSubMode()
     GM:DestroyAllPlaceholders( iOldMode )
 
-    pPlayer:SetPrivateValue( "admin_submode", iNewMode )
+    local iNewMode = GM.AdminSubModes[ iSubMode ] and iSubMode or 1
+    self:SetPrivateValue( "admin_submode", iNewMode )
     GM:SpawnAllPlaceholders( iNewMode )
+end
+
+--[[ GM:Admin:ChangeSubMode ]]--
+NW.Receive( "GM:Admin:ChangeSubMode", function( pPlayer )
+    local iOldMode = pPlayer:GetAdminSubMode()
+    pPlayer:SetAdminSubMode( GM.AdminSubModes[ iOldMode + 1 ] and ( iOldMode + 1 ) or 1 )
 end )

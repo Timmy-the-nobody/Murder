@@ -16,9 +16,9 @@ GM.AdminSubModes = {
     }
 }
 
---[[ Player:IsInAdminMode ]]--
-function Player:IsInAdminMode()
-    return self:GetValue( "admin_mode", false )
+--[[ Player:IsAdminModeEnabled ]]--
+function Player:IsAdminModeEnabled()
+    return self:GetValue( "admin_mode_enabled", false )
 end
 
 --[[ Player:GetAdminSubMode ]]--
