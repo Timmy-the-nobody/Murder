@@ -42,7 +42,6 @@ function GM:EndRound( iReason )
                 if pPlayer and pPlayer:IsValid() then
                     pPlayer:SetScore( pPlayer:GetScore() + 1 )
                 end
-                break
             end
         else
             if not eChar:IsMurderer() then
@@ -84,6 +83,7 @@ function GM:EndRound( iReason )
             "Melee",
             "Prop",
             "StaticMesh",
+            "Particle",
             "Trigger",
             "Light"
         }

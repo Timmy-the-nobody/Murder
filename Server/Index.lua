@@ -28,8 +28,8 @@ Assets.Precache( "nanos-world::M_NanosDecal", AssetType.Material )
 Assets.Precache( "nanos-world::MI_Crosshair_Crossbow", AssetType.Material )
 
 -- Loot
-for _, v in ipairs( GM.Cfg.Loot ) do
-    Assets.Precache( v.mesh, AssetType.StaticMesh )
+for _, oLootManager in ipairs( LootManager.GetAll() ) do
+    Assets.Precache( oLootManager:GetMesh(), AssetType.StaticMesh )
 end
 
 --------------------------------------------------------------------------------

@@ -17,6 +17,8 @@ end )
 -- Ambiance Sounds
 --------------------------------------------------------------------------------
 local sPackagePath = Package.GetPath()
+local tPlaying = {}
+
 local tAmbiance = {
     [ RoundType.NotEnoughPlayers ] = {
         { path = "package://" .. sPackagePath .. "/Client/resources/sounds/ambiance_01.ogg", volume = 0.7 }
@@ -29,8 +31,7 @@ local tAmbiance = {
     }
 }
 
-local tPlaying = {}
-
+--[[ GM:OnRoundChange ]]--
 Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
     if tPlaying[ iOld ] and tPlaying[ iOld ]:IsPlaying() then
         tPlaying[ iOld ]:FadeOut( 5, 0, true )
@@ -43,7 +44,7 @@ Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
             true,
             true,
             SoundType.SFX,
-            0.25,
+            0.2,
             1,
             -1,
             -1,
@@ -78,21 +79,24 @@ Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
     )
 end )
 
+--[[ GM:OnRoundEnd ]]--
 Events.Subscribe( "GM:OnRoundEnd", function( iReason )
-    if iReason == EndReason.MurdererWins then
-        Sound(
-            Vector(),
-            "package://" .. sPackagePath .. "/Client/resources/sounds/game_end_murderer_wins.ogg",
-            true,
-            true,
-            SoundType.SFX,
-            0.3,
-            1,
-            -1,
-            -1,
-            AttenuationFunction.Linear,
-            false,
-            SoundLoopMode.Never
-        )
+    if ( iReason == EndReason.MurdererWins ) then
+        Timer.SetTimeout( function()
+            Sound(
+                Vector(),
+                "package://" .. sPackagePath .. "/Client/resources/sounds/game_end_murderer_wins.ogg",
+                true,
+                true,
+                SoundType.SFX,
+                0.3,
+                1,
+                -1,
+                -1,
+                AttenuationFunction.Linear,
+                false,
+                SoundLoopMode.Never
+            )
+        end, 2000 )
     end
 end )

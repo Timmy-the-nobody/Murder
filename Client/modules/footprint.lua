@@ -28,48 +28,58 @@ local function addFootprint( tPos, tAng, bRight, tColor )
     eDecal:SetMaterialColorParameter( "Emissive", ( tColor * 5 ) )
 end
 
---[[ Client Tick ]]--
-local iNextFootprint = 0
-Client.Subscribe( "Tick", function( fDelta )
-    local iTime = CurTime()
-    if ( iTime < iNextFootprint ) then
-        return
-    end
-
-    iNextFootprint = ( iTime + 330 )
-
+--[[ initFootprintTick ]]--
+local function initFootprintTick()
     local pLocalChar = LocalCharacter()
     if not pLocalChar or not pLocalChar:IsMurderer() then
         return
     end
 
-    for _, eChar in ipairs( Character.GetAll() ) do
-        if ( eChar == pLocalChar ) or ( eChar:GetHealth() <= 0 ) then
-            goto continue
+    local iNextFootprint = 0
+
+    local tickFunc
+    tickFunc = Client.Subscribe( "Tick", function( fDelta )
+        local iTime = CurTime()
+        if ( iTime < iNextFootprint ) then
+            return
         end
 
-        if ( eChar:GetFallingMode() ~= FallingMode.None ) or ( eChar:GetGaitMode() == GaitMode.None ) then
-            goto continue
+        iNextFootprint = ( iTime + 330 )
+
+        if not pLocalChar:IsValid() or ( GM:GetRound() ~= RoundType.Playing ) then
+            Client.Unsubscribe( "Tick", tickFunc )
+            return
         end
 
-        local tAng = eChar:GetRotation()
-        local bRight = eChar:GetValue( "last_footstep_right", false )
-        eChar:SetValue( "last_footstep_right", not bRight )
+        for _, eChar in ipairs( Character.GetAll() ) do
+            if not eChar:IsValid() or ( eChar == pLocalChar ) or ( eChar:GetHealth() <= 0 ) then
+                goto continue
+            end
 
-        addFootprint(
-            eChar:GetLocation() + ( tAng:GetRightVector() * ( bRight and 10 or -10 ) ),
-            tAng + Rotator( 0, 0, 0 ),
-            bRight,
-            eChar:GetCodeColor()
-        )
+            if ( eChar:GetFallingMode() ~= FallingMode.None ) or ( eChar:GetGaitMode() == GaitMode.None ) then
+                goto continue
+            end
 
-        ::continue::
-    end
-end )
+            local tAng = eChar:GetRotation()
+            local bRight = eChar:GetValue( "last_footstep_right", false )
+            eChar:SetValue( "last_footstep_right", not bRight )
+
+            addFootprint(
+                eChar:GetLocation() + ( tAng:GetRightVector() * ( bRight and 10 or -10 ) ),
+                tAng + Rotator( 0, 0, 0 ),
+                bRight,
+                eChar:GetCodeColor()
+            )
+
+            ::continue::
+        end
+    end )
+end
 
 --[[ GM:OnRoundChange ]]--
 Events.Subscribe( "GM:OnRoundChange", function( _, iNew )
-    if ( iNew ~= RoundType.Playing ) then
+    if ( iNew == RoundType.Playing ) then
+        initFootprintTick()
         return
     end
 

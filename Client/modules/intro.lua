@@ -1,3 +1,7 @@
+local Vector = Vector
+local Rotator = Rotator
+local CurTime = CurTime
+
 --------------------------------------------------------------------------------
 -- Config
 --------------------------------------------------------------------------------
@@ -5,6 +9,12 @@ local bDebugIntro = false       -- Put on true to stay in freecam, and place the
 
 local tIntro = {
     [ "murder-underground::nw_underground" ] = {
+        {
+            text = "Area 01",
+            duration = 5000,
+            start = { pos = Vector( -1560, 3847, -350 ), ang = Rotator( 0, 90, 0 ) },
+            target = { pos = Vector( -1560, 3847, -1050 ), ang = Rotator( 0, 90, 0 ) }
+        },
         {
             text = "Tunnel",
             duration = 5000,
@@ -72,33 +82,30 @@ end
 
 
 --[[ transition from A to B, in a given time ]]--
-local function moveFloat( fA, fB, iStartMs, iTime, iDurationMs )
-    local iEndMs = ( iStartMs + iDurationMs )
-    if ( iTime < iStartMs ) or ( iTime > iEndMs ) then
+local function moveFloat( fA, fB, iStartTime, iCurTime, iDurationMs )
+    local iEndMs = ( iStartTime + iDurationMs )
+    if ( iCurTime < iStartTime ) or ( iCurTime > iEndMs ) then
         return fB
     end
 
-    return ( fA + ( ( fB - fA ) * math.abs( iStartMs - iTime ) / iDurationMs ) )
+    return ( fA + ( ( fB - fA ) * math.abs( iStartTime - iCurTime ) / iDurationMs ) )
 end
 
-
-local function moveVector( tStart, tEnd, iStartMs, iDuration )
-    local iTime = CurTime()
-
+--[[ moveVector ]]--
+local function moveVector( tStart, tEnd, iStartTime, iCurTime, iDuration )
     return Vector(
-        moveFloat( tStart.X, tEnd.X, iStartMs, iTime, iDuration ),
-        moveFloat( tStart.Y, tEnd.Y, iStartMs, iTime, iDuration ),
-        moveFloat( tStart.Z, tEnd.Z, iStartMs, iTime, iDuration )
+        moveFloat( tStart.X, tEnd.X, iStartTime, iCurTime, iDuration ),
+        moveFloat( tStart.Y, tEnd.Y, iStartTime, iCurTime, iDuration ),
+        moveFloat( tStart.Z, tEnd.Z, iStartTime, iCurTime, iDuration )
     )
 end
 
-local function moveRotator( tStart, tEnd, iStartMs, iDuration )
-    local iTime = CurTime()
-
+--[[ moveRotator ]]--
+local function moveRotator( tStart, tEnd, iStartTime, iCurTime, iDuration )
     return Rotator(
-        moveFloat( tStart.Pitch, tEnd.Pitch, iStartMs, iTime, iDuration ),
-        moveFloat( tStart.Yaw, tEnd.Yaw, iStartMs, iTime, iDuration ),
-        moveFloat( tStart.Roll, tEnd.Roll, iStartMs, iTime, iDuration )
+        moveFloat( tStart.Pitch, tEnd.Pitch, iStartTime, iCurTime, iDuration ),
+        moveFloat( tStart.Yaw, tEnd.Yaw, iStartTime, iCurTime, iDuration ),
+        moveFloat( tStart.Roll, tEnd.Roll, iStartTime, iCurTime, iDuration )
     )
 end
 
@@ -114,18 +121,20 @@ local function translateCameraTo( tTargetPos, tTargetAng, iDuration, callback )
         lastTranslateTo = false
     end
 
-    local iStart = CurTime()
     iDuration = ( iDuration or 5000 )
 
+    local iStartTime = CurTime()
     local tStartPos = pPlayer:GetCameraLocation() or Vector()
     local tStartAng = pPlayer:GetCameraRotation() or Rotator()
 
     local tickFunc
     tickFunc = Client.Subscribe( "Tick", function( fDelta )
-        pPlayer:SetCameraLocation( moveVector( tStartPos, tTargetPos, iStart, iDuration ) )
-        pPlayer:SetCameraRotation( moveRotator( tStartAng, tTargetAng, iStart, iDuration ) )
+        local iCurTime = CurTime()
 
-        if pPlayer:GetCameraLocation():Equals( tTargetPos, 0.00001 ) then
+        pPlayer:SetCameraLocation( moveVector( tStartPos, tTargetPos, iStartTime, iCurTime, iDuration ) )
+        pPlayer:SetCameraRotation( moveRotator( tStartAng, tTargetAng, iStartTime, iCurTime, iDuration ) )
+
+        if pPlayer:GetCameraLocation():Equals( tTargetPos, 0.0001 ) then
             if callback then
                 callback()
             end
@@ -157,7 +166,6 @@ local function setIntroStep( iStep )
 
     translateCameraTo( tStep.target.pos, tStep.target.ang, tStep.duration, function()
         if bIntroRunning then
-            print( iStep + 1 )
             setIntroStep( iStep + 1 )
         end
     end )
@@ -169,7 +177,6 @@ local function startIntro()
     Client.SetMouseEnabled( true )
 
     setIntroStep( 1 )
-
     bIntroRunning = true
 end
 
@@ -177,9 +184,7 @@ end
 Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
     if ( iNew == RoundType.NotEnoughPlayers ) then
         startIntro()
-        print( "start")
     else
         stopIntro()
-        print( "stop")
     end
 end )

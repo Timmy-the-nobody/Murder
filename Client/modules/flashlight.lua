@@ -1,3 +1,4 @@
+--[[ Flashlight Input ]]--
 Input.Register( "Flashlight", "H" )
 Input.Bind( "Flashlight", InputEvent.Pressed, function()
     NW.Send( "GM:Flashlight:Toggle" )
@@ -7,7 +8,9 @@ end )
 local sToggleSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/flashlight_toggle.ogg"
 
 Character.Subscribe( "ValueChange", function( eChar, sKey, _ )
-    if ( sKey == "flashlight_enabled" ) then
-        Sound( eChar:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.3, 1, 60 )
+    if ( sKey ~= "flashlight_enabled" ) or not eChar or not eChar:IsValid() then
+        return
     end
+
+    Sound( eChar:GetLocation(), sToggleSound, false, true, SoundType.SFX, 0.3, 1, 60 )
 end )

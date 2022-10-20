@@ -102,7 +102,7 @@ body {
 /*
     HUD (misc)
 */
-#spectating, #target {
+#spectating, #spectating-disclose, #target {
     display: none;
     position: absolute;
     right: var(--margin);
@@ -116,7 +116,13 @@ body {
     right: 50%;
     transform: translateX(50%);
     padding: 0 var(--margin);
-    background-color: var(--bg-color);
+    background: repeating-linear-gradient(
+        45deg,
+        var(--bg-color),
+        var(--bg-color) 1vh,
+        var(--bg-color-2) 1vh,
+        var(--bg-color-2) 2vh
+    );
     border-radius: var(--roundness);
 }
 
@@ -127,6 +133,28 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 3vh;
+}
+
+@keyframes disclose-anim {
+	from { transform: translate(50%, 1); }
+	to { transform: translate(50%, -1vh); }
+}
+
+#spectating-disclose {
+    position: absolute;
+    text-align: center;
+    right: 50%;
+    font-size: 2.5vh;
+    transform: translateX(50%);
+    width: 60vh;
+    color: var(--main-color);
+    top: var(--margin);
+
+    animation-name: disclose-anim;
+	animation-duration: 0.5s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 /*
@@ -217,6 +245,7 @@ body {
 }
 
 #start-screen-text {
+    width: 75%;
     max-width: 75%;
 }
 

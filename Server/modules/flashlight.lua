@@ -174,16 +174,16 @@ local function triggerLightBug()
 end
 
 --[[ Server Tick ]]--
-local iNextLightBug = 0
-Server.Subscribe( "Tick", function( fDelta )
-    local iTime = CurTime()
-    if ( iTime < iNextLightBug ) then
+local iLightBugInterval = false
+
+Events.Subscribe( "GM:OnRoundChange", function( _, iNew )
+    if ( iNew ~= RoundType.Playing ) then
+        if iLightBugInterval and Timer.IsValid( iLightBugInterval ) then
+            Timer.ClearInterval( iLightBugInterval )
+            iLightBugInterval = false
+        end
         return
     end
 
-    iNextLightBug = ( iTime + GM.Cfg.FlashlightBugDelay )
-
-    if ( GM:GetRound() == RoundType.Playing ) then
-        triggerLightBug()
-    end
+    iLightBugInterval = Timer.SetInterval( triggerLightBug, GM.Cfg.FlashlightBugDelay )
 end )

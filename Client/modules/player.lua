@@ -1,5 +1,6 @@
 local mathFloor = math.floor
 local worldToScreen = Client.ProjectWorldToScreen
+local traceLine = Client.TraceLineSingle
 
 --[[
     LocalPlayer
@@ -19,15 +20,11 @@ end
 
 --[[ Client Tick ]]--
 local bTargetVisible = false
-local iNextTick = 0
 
 Client.Subscribe( "Tick", function( fDelta )
-    local iTime = CurTime()
-    if ( iTime < iNextTick ) or not GM.WebUI then
+    if not GM.WebUI then
         return
     end
-
-    iNextTick = ( iTime + 250 )
 
     local tTrace
     local xExclude
@@ -36,7 +33,7 @@ Client.Subscribe( "Tick", function( fDelta )
     if eChar and eChar:IsValid() then
         xExclude = { eChar }
 
-        tTrace = Client.TraceLineSingle(
+        tTrace = traceLine(
             eChar:GetLocation(),
             ( eChar:GetControlRotation():GetForwardVector() * 500 ),
             CollisionChannel.Pawn,
@@ -51,7 +48,7 @@ Client.Subscribe( "Tick", function( fDelta )
             return
         end
 
-        tTrace = Client.TraceLineSingle(
+        tTrace = traceLine(
             pPlayer:GetCameraLocation(),
             ( pPlayer:GetCameraRotation():GetForwardVector() * 500 ),
             CollisionChannel.Pawn,

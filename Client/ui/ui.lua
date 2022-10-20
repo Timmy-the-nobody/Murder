@@ -1,14 +1,30 @@
+local mathCeil = math.ceil
+local CurTime = CurTime
+
 GM.WebUI = WebUI( "GUI", "file://ui/index.html", true )
 
+--[[ updateWaitingPlayers ]]--
+local function updateWaitingPlayers()
+    local iPlyCount = #Player.GetAll()
+    if ( iPlyCount < GM.Cfg.MinPlayers ) then
+        GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-title", "Awaiting for players" )
+        GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-text", iPlyCount .. "/" .. GM.Cfg.MinPlayers )
+    else
+        GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-title", iPlyCount .. " player(s) ready!" )
+        GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-text", "The game is about to start" )
+    end
+end
+
+--[[ Round based updates ]]--
 local tHUDActions = {
     [ RoundType.NotEnoughPlayers ] = {
-        title = "Waiting for Players (min. 2 required)",
+        title = "Waiting for Players (min. " .. GM.Cfg.MinPlayers .. " required)",
         onStart = function()
             GM.WebUI:CallEvent( "SetElementDisplay", "hud", "none" )
             GM.WebUI:CallEvent( "SetElementDisplay", "spectating", "none" )
-
+            GM.WebUI:CallEvent( "SetElementDisplay", "spectating-disclose", "none" )
             GM.WebUI:CallEvent( "SetElementDisplay", "waiting-players", "block" )
-            GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-text", #Player.GetAll() .. "/" .. GM.Cfg.MinPlayers )
+            updateWaitingPlayers()
         end,
         onEnd = function()
             GM.WebUI:CallEvent( "SetElementDisplay", "waiting-players", "none" )
@@ -20,6 +36,7 @@ local tHUDActions = {
             local eChar = LocalCharacter()
             if not eChar then
                 GM.WebUI:CallEvent( "SetElementDisplay", "spectating", "block" )
+                GM.WebUI:CallEvent( "SetElementDisplay", "spectating-disclose", "block" )
                 return
             end
 
@@ -81,20 +98,15 @@ Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
 end )
 
 --[[ GM:OnRoundEnd ]]--
+local tRoundEndReason = {
+    [ EndReason.MurdererWins ] = "Murderer Wins",
+    [ EndReason.MurdererLoses ] = "Survivors Wins",
+    [ EndReason.MurdererLeft ] = "Murderer Left"
+}
+
 Events.Subscribe( "GM:OnRoundEnd", function( iReason )
-    if ( iReason == EndReason.MurdererWins ) then
-        GM.WebUI:CallEvent( "SetElementInnerText", "end-game-text", "Murderer Wins" )
-        return
-    end
-
-    if ( iReason == EndReason.MurdererLoses ) then
-        GM.WebUI:CallEvent( "SetElementInnerText", "end-game-text", "Survivors Wins" )
-        return
-    end
-
-    if ( iReason == EndReason.MurdererLeft ) then
-        GM.WebUI:CallEvent( "SetElementInnerText", "end-game-text", "Murderer Left" )
-        return
+    if tRoundEndReason[ iReason ] then
+        GM.WebUI:CallEvent( "SetElementInnerText", "end-game-text", tRoundEndReason[ iReason ] )
     end
 end )
 
@@ -129,7 +141,7 @@ end )
 
 Player.Subscribe( "ValueChange", function( pPlayer, sKey, xValue )
     if LocalPlayer() and ( LocalPlayer() == pPlayer ) then
-        if ( sKey == "admin_mode" ) then
+        if ( sKey == "admin_mode_enabled" ) then
             GM.WebUI:CallEvent( "SetElementDisplay", "admin", xValue and "block" or "none" )
             return
         end
@@ -146,30 +158,25 @@ Character.Subscribe( "Death", function( eChar )
     if pPlayer and ( pPlayer == LocalPlayer() ) then
         GM.WebUI:CallEvent( "SetElementDisplay", "hud", "none" )
         GM.WebUI:CallEvent( "SetElementDisplay", "spectating", "block" )
+        GM.WebUI:CallEvent( "SetElementDisplay", "spectating-disclose", "block" )
     end
 end )
 
 --[[ Player Spawn ]]--
-Player.Subscribe( "Spawn", function()
-    GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-text", #Player.GetAll() .. "/" .. GM.Cfg.MinPlayers )
-end )
+Player.Subscribe( "Spawn", updateWaitingPlayers )
 
 --[[ Player Destroy ]]--
-Player.Subscribe( "Destroy", function()
-    GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-text", #Player.GetAll() .. "/" .. GM.Cfg.MinPlayers )
-end )
+Player.Subscribe( "Destroy", updateWaitingPlayers )
 
 --[[ Client Tick ]]--
-local mathCeil = math.ceil
-local CurTime = CurTime
-
 local iNextTick = 0
 Client.Subscribe( "Tick", function( fDelta )
-    if ( CurTime() < iNextTick ) then
+    local iTime = CurTime()
+    if ( iTime < iNextTick ) then
         return
     end
 
-    iNextTick = CurTime() + 1000
+    iNextTick = iTime + 1000
 
     local iSecondsLeft = mathCeil( GM:GetRoundTimeLeft() / 1000 )
     GM.WebUI:CallEvent( "SetElementInnerText", "round-time", "Time left: " .. iSecondsLeft .. "s" )

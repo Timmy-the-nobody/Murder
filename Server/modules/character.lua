@@ -11,18 +11,25 @@ end
 --------------------------------------------------------------------------------
 --[[ Character:SetTeamKiller ]]--
 function Character:SetTeamKiller( bTeamKiller )
-    if bTeamKiller and self:IsTeamKiller() then
+    bTeamKiller = tobool( bTeamKiller )
+    if ( bTeamKiller == self:IsTeamKiller() ) then
         return
     end
 
-    self:SetPrivateValue( "team_killer", tobool( bTeamKiller ) )
-    self:Drop()
+    self:SetPrivateValue( "team_killer", bTeamKiller )
+    self:ComputeSpeed()
 
+    -- Team kill penalty
     local oTimer = Timer.SetTimeout( function()
         self:SetTeamKiller( false )
     end, GM.Cfg.TeamKillPenaltyDuration )
 
     Timer.Bind( oTimer, self )
+
+    -- Drop current weapon
+    if bTeamKiller then
+        self:Drop()
+    end
 end
 
 --------------------------------------------------------------------------------
@@ -97,13 +104,9 @@ end
 function Character:ComputeSpeed()
     local fSpeedMul = 1.2
 
-    if self:IsMurderer() and ( self:GetGaitMode() == GaitMode.Sprinting ) then
-        fSpeedMul = 1.35
+    if not self:IsMurderer() and self:IsTeamKiller() then
+        fSpeedMul = ( fSpeedMul * GM.Cfg.TeamKillSpeedMultiplier )
     end
-
-	if self:IsTeamKiller() then
-		fSpeedMul = ( fSpeedMul * GM.Cfg.TeamKillSpeedMultiplier )
-	end
 
 	local ePicked = self:GetPicked()
 	if ePicked and ePicked:IsValid() then
@@ -138,7 +141,6 @@ Character.Subscribe( "Death", function( eChar, _, _, _, _, pInstigator, eCauser 
     if pPlayer and pPlayer:IsValid() then
         pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDead )
         pPlayer:UnPossess()
-        -- pPlayer:FindSpectateTarget()
     end
 
     -- Drop stored weapon
@@ -170,7 +172,6 @@ Character.Subscribe( "Death", function( eChar, _, _, _, _, pInstigator, eCauser 
         -- Team kill
         else
             eAttacker:SetTeamKiller( true )
-            eAttacker:ComputeSpeed()
         end
     end
 end )

@@ -1,24 +1,19 @@
 local tSpawnedLoot = {}
+local sMap = Server.GetMap()
 
 --[[ Character:SetCollectedLoot ]]--
-function Character:SetCollectedLoot( iLoot )
-    self:SetPrivateValue( "collected_loot", iLoot )
+function Character:SetCollectedLoot( iLootCount )
+    self:SetPrivateValue( "collected_loot", iLootCount )
 end
 
 --[[ GM:SpawnLoot ]]--
 function GM:SpawnLoot()
-    if ( #GM.Cfg.Loot == 0 ) then
-        return
-    end
-
-    local sMap = Server.GetMap()
-    if not GM.LootSpawns[ sMap ] then
+    local tLootManagers = LootManager.GetAll()
+    if ( #tLootManagers == 0 ) or not GM.LootSpawns[ sMap ] then
         return
     end
 
     local iSpawnCount = table.Count( tSpawnedLoot )
-
-    -- No more available loot spawns
     if ( iSpawnCount == #GM.LootSpawns[ sMap ] ) then
         return
     end
@@ -35,30 +30,26 @@ function GM:SpawnLoot()
         return
     end
 
-    local tLootPos, iLoot = table.Random( GM.LootSpawns[ sMap ] )
+    local tLootPos, iLootPos = table.Random( GM.LootSpawns[ sMap ] )
 
     -- Spawn point already use, searching another spawn
-    if tSpawnedLoot[ iLoot ] then
+    if tSpawnedLoot[ iLootPos ] then
         self:SpawnLoot()
         return
     end
 
     -- Spawn new loot
-    local tRandomLoot, iLootID = table.Random( GM.Cfg.Loot )
-    local tOffset = Vector( 0, 0, -25 )
-    if tRandomLoot.offset then
-        tOffset = tOffset + tRandomLoot.offset
-    end
+    local oRandomLoot, iLootID = table.Random( tLootManagers )
 
     local eLoot = Prop(
-        tLootPos + tOffset,
+        tLootPos + Vector( 0, 0, -25 ) + oRandomLoot:GetOffset(),
         Rotator( 0, math.random( -180, 180 ), 0 ),
-        tRandomLoot.mesh,
+        oRandomLoot:GetMesh(),
         CollisionType.Normal
     )
 
     eLoot:SetGravityEnabled( false )
-    eLoot:SetValue( "loot_id", iLootID, true )
+    eLoot:SetValue( "loot_manager_id", iLootID, true )
 
     eLoot:Subscribe( "Destroy", function()
         for k, v in pairs( tSpawnedLoot ) do
@@ -70,14 +61,19 @@ function GM:SpawnLoot()
     end )
 
     eLoot:Subscribe( "Interact", function( _, eChar )
+        local tPickupPos = eLoot:GetLocation()
         eLoot:Destroy()
 
         local pPlayer = eChar:GetPlayer()
+        if not pPlayer or not pPlayer:IsValid() then
+            return
+        end
 
-        local iCollectedLoot = eChar:GetCollectedLoot() + ( GM.Cfg.Loot[ iLootID ].points or 1 )
+        local iCollectedLoot = eChar:GetCollectedLoot() + oRandomLoot:GetLootPoints()
         eChar:SetCollectedLoot( iCollectedLoot )
 
-        pPlayer:Notify( NotificationType.Generic, "You collected some loot" )
+        pPlayer:Notify( NotificationType.Generic, oRandomLoot:GetName() .. " collected!" )
+        NW.Broadcast( "GM:Loot:PickupSound", tPickupPos )
 
         if not eChar:IsMurderer() and ( ( iCollectedLoot % GM.Cfg.BonusRequiredCollectables ) == 0 ) then
             if eChar:GetStoredWeapon() then
@@ -92,7 +88,7 @@ function GM:SpawnLoot()
         end
     end )
 
-    tSpawnedLoot[ iLoot ] = eLoot
+    tSpawnedLoot[ iLootPos ] = eLoot
 end
 
 --[[ GM:LootTick ]]--
