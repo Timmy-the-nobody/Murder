@@ -8,13 +8,13 @@ Client.SetOutlineColor( Color( 6.48, 4.16, 0.48 ), 0, 1 )
 -- end )
 
 --[[ Character Highlight ]]--
--- Character.Subscribe( "Highlight", function( eChar, bIsEnabled, eObject )
---     if LocalCharacter() and ( LocalCharacter() == eChar )  then
---         if eObject and eObject:IsValid() and eObject:GetValue( "loot_manager_id" ) then
---             eObject:SetOutlineEnabled( true, 0 )
---         end
---     end
--- end )
+Character.Subscribe( "Highlight", function( eChar, bIsEnabled, eObject )
+    if LocalCharacter() and ( LocalCharacter() == eChar )  then
+        if eObject and eObject:IsValid() and eObject:GetValue( "loot_manager_id" ) then
+            eObject:SetOutlineEnabled( true, 0 )
+        end
+    end
+end )
 
 NW.Receive( "GM:Loot:PickupSound", function( tPos )
     Sound( tPos, "nanos-world::A_Object_PickUp", false, true, SoundType.SFX, 1, 1, 60 )
