@@ -18,7 +18,7 @@ GM.Weapons = {
             eKnife:AddAnimationCharacterUse( "nanos-world::AM_Mannequin_Melee_Stab_Attack" )
             eKnife:SetDamageSettings( 0.3, 0.5 )
             eKnife:SetCooldown( 1 )
-            eKnife:SetBaseDamage( 100 )
+            eKnife:SetBaseDamage( 1000 )
             eKnife:SetValue( "weapon_type", WeaponType.Knife )
             eKnife:SetCrosshairMaterial( "nanos-world::MI_Crosshair_Crossbow" )
             return eKnife
@@ -35,7 +35,7 @@ GM.Weapons = {
             local ePistol = NanosWorldWeapons.DesertEagle( Vector(), Rotator() )
             ePistol:SetAmmoSettings( 1, 99999, 1, 1 )
             ePistol:SetBulletColor( Color( 1, 1, 1 ) )
-            ePistol:SetDamage( 100 )
+            ePistol:SetDamage( 1000 )
             ePistol:SetValue( "weapon_type", WeaponType.Pistol )
             return ePistol
         end

@@ -271,3 +271,8 @@ Package.Subscribe( "Load", function()
     end
     updateScoreboard()
 end )
+
+--[[ Player VOIP ]]--
+Player.Subscribe( "VOIP", function( pPlayer, bIsTalking )
+    GM.WebUI:CallEvent( ( bIsTalking and "AddTalker" or "RemoveTalker" ), pPlayer:GetSteamID(), pPlayer:GetName() )
+end )

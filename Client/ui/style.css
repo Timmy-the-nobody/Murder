@@ -54,18 +54,19 @@ body {
     display: flex;
     flex-direction: row;
     padding: 0.5vh;
-    background: linear-gradient(90deg, var(--container-color) -150%, var(--bg-color) 50%);
     overflow: hidden;
 }
 
 .l-container {
     border-left: solid 0.6vh var(--container-color);
     border-radius: 0 var(--roundness) var(--roundness) 0;
+    background: linear-gradient(90deg, var(--container-color) -150%, var(--bg-color) 50%);
 }
 
 .r-container {
     border-right: solid 0.6vh var(--container-color);
     border-radius: var(--roundness) 0 0 var(--roundness);
+    background: linear-gradient(-90deg, var(--container-color) -150%, var(--bg-color) 50%);
 }
 
 .hud-icon {
@@ -200,9 +201,9 @@ body {
     font-size: 2.5vh;
     font-style: italic;
     margin: 0;
-    height: 4vh;
-    line-height: 4vh;
-    background-color: ;
+    height: 3vh;
+    line-height: 3vh;
+    background-color: var(--bg-color);
     background: repeating-linear-gradient(
         -45deg,
         var(--bg-color),
@@ -288,7 +289,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    height: calc(100% - (var(--margin) * 2));
+    height: calc(50% - var(--margin));
     right: var(--margin);
     top: var(--margin);
 }
@@ -411,5 +412,20 @@ body {
     font-size: 1.8vh;
     padding: unset;
     padding-left: 0.5vh;
-    /* justify-content: space-between; */
+}
+
+/*
+    Voice HUD
+*/
+#voice-hud-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 0.5vh;
+    position: absolute;
+    height: calc(50vh - var(--margin));
+    bottom: var(--margin);
+    right: var(--margin);
+    /* background-color: var(--main-color); */
 }

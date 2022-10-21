@@ -7,6 +7,7 @@ let dTKBlindScreen = document.getElementById( "tk-blind-screen" )
 let dNotifContainer = document.getElementById( "notification-container" )
 let dRoundOverviewList = document.getElementById( "round-overview-list" )
 let dRoundOverviewMurderer = document.getElementById( "round-overview-murderer" )
+let dVoiceHUDContainer = document.getElementById( "voice-hud-container" )
 
 // setElementDisplay
 let setElementDisplay = function( sElement, sDisplay ) {
@@ -216,6 +217,30 @@ let updateRoundOverview = function( tData ) {
     console.log( JSON.stringify( tData ) )
 }
 
+// addTalker
+let addTalker = function( sSteamID, sName ) {
+    let dTalker = document.createElement( "div" )
+    dTalker.className = "r-container"
+    dTalker.style.marginTop = "auto 0"
+    dTalker.style.alignSelf = "flex-end"
+    dTalker.style.setProperty( "--container-color", "#2ecc71" )
+    dTalker.talkerSteamID = sSteamID
+    dTalker.innerHTML = `<div class="hud-icon fa fa-microphone" style="margin-right: 0.75vh; color: #2ecc71"></div>` + sName
+
+    dVoiceHUDContainer.appendChild( dTalker )
+}
+
+// removeTalker
+let removeTalker = function( sSteamID ) {
+    for ( let k in dVoiceHUDContainer.children ) {
+        let dTalker = dVoiceHUDContainer.children[ k ]
+        if ( dTalker.talkerSteamID == sSteamID ) {
+            dTalker.remove()
+            return
+        }
+    }
+}
+
 // Nanos events
 if ( typeof( Events ) != "undefined" ) {
     Events.Subscribe( "SetElementDisplay", setElementDisplay )
@@ -232,4 +257,7 @@ if ( typeof( Events ) != "undefined" ) {
     Events.Subscribe( "UpdateScoreboardRow", updateScoreboardRow )
 
     Events.Subscribe( "UpdateRoundOverview", updateRoundOverview )
+
+    Events.Subscribe( "AddTalker", addTalker )
+    Events.Subscribe( "RemoveTalker", removeTalker )
 }
