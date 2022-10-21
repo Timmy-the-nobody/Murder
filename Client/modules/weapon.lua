@@ -23,18 +23,6 @@ Melee.Subscribe( "ValueChange", function( eMelee, sKey, xValue )
     if eMelee:IsValid() and ( sKey == "thrown_knife" ) then
         eMelee:SetHighlightEnabled( tobool( xValue ), 0 )
 
-        -- local eBillboard = Billboard(
-        --     Vector(),
-        --     "nanos-world::M_NanosTranslucent_Depth",
-        --     Vector2D( 0.05, 0.05 ),
-        --     true
-        -- )
-
-        -- eBillboard:SetMaterialTextureParameter( "Texture", "package://" .. Package.GetPath() .. "/Client/resources/images/bayonet.png" )
-        -- eBillboard:SetMaterialScalarParameter( "Opacity", 1 )
-        -- eBillboard:SetMaterialColorParameter( "Tint", Color.WHITE )
-        -- eBillboard:AttachTo( eMelee, AttachmentRule.SnapToTarget, "", -1 )
-
         if xValue then
             Sound( eMelee:GetLocation(), sKnifeThrowSound, false, true, SoundType.SFX, 0.35, 1, 50 )
 
@@ -54,7 +42,7 @@ Melee.Subscribe( "ValueChange", function( eMelee, sKey, xValue )
                 Particle(
                     eMelee:GetLocation() + Vector( 0, 0, 20 ),
                     Rotator( 2000 * fScale ),
-                    "nanos-world::P_Smoke_06", -- .. math.random( 1, 6 ),
+                    "nanos-world::P_Smoke_06",
                     true,
                     true
                 ):SetScale( Vector( 0.25 * fScale ) + 0.05 )

@@ -5,6 +5,8 @@ let dStartScreenTitle = document.getElementById( "start-screen-title" )
 let dStartScreenText = document.getElementById( "start-screen-text" )
 let dTKBlindScreen = document.getElementById( "tk-blind-screen" )
 let dNotifContainer = document.getElementById( "notification-container" )
+let dRoundOverviewList = document.getElementById( "round-overview-list" )
+let dRoundOverviewMurderer = document.getElementById( "round-overview-murderer" )
 
 // setElementDisplay
 let setElementDisplay = function( sElement, sDisplay ) {
@@ -189,33 +191,13 @@ let updateScoreboardRow = function( sSteamID, iScore, iPing ) {
 }
 
 // updateRoundOverview
-// -- {
-//     --     "codename":"Kilo",
-//     --     "collectedLoot":4,
-//     --     "color":"rgb(222.99749404192,229.98449832201,232.99349606037)",
-//     --     "isAlive":true,
-//     --     "isMurderer":true,
-//     --     "possesserName":"Timmy"
-//     -- },
-//     -- {
-//     --     "codename":"Alfa",
-//     --     "collectedLoot":1,
-//     --     "color":"rgb(51.994498595595,151.98000401258,218.99399846792)",
-//     --     "isAlive":false,
-//     --     "isMurderer":false,
-//     --     "possesserName":"???"
-//     -- }
-
-let dRoundOverviewList = document.getElementById( "round-overview-list" )
-
 let updateRoundOverview = function( tData ) {
     dRoundOverviewList.innerHTML = ""
 
     for ( let k in tData ) {
         let v = tData[ k ]
         if ( v.isMurderer ) {
-            let dROMurderer = document.getElementById( "round-overview-murderer" )
-            dROMurderer.innerHTML = `
+            dRoundOverviewMurderer.innerHTML = `
                 <b style="color: ` + v.color + `;">` + v.codename + `</b> was the murderer!
             `
         }
