@@ -16,13 +16,10 @@
     --margin: 3vh;
     --roundness: 0.35vh;
 
-    --code-color: #00c3ff;
-    --role-color: #00c3ff;
-
     --text-color: #dbe5e7;
     --bg-color: #303030e0;
     --bg-color-2: #1f1f1fe0;
-    --shadow-color: #000000;
+    --shadow-color: #00000086;
     --main-color: #f39c12;
     --main-color-2: #d18812;
 }
@@ -36,10 +33,7 @@ body {
     font-family: Borda;
     color: var(--text-color);
     font-size: 1.6vh;
-
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    text-shadow: 0.1vh 0.1vh 0.2vh var(--shadow-color);
     user-select: none;
 }
 
@@ -78,7 +72,6 @@ body {
     color: var(--text-color);
     font-size: 1.8vh;
     margin: 0 0.4vh;
-    text-shadow: 0.1vh 0.1vh 0.2vh var(--shadow-color);
 }
 
 .hud-text {
@@ -86,8 +79,7 @@ body {
     color: var(--text-color);
     font-size: 1.6vh;
     margin: 0 0.4vh;
-    opacity: 0.75;
-    text-shadow: 0.1vh 0.1vh 0.2vh var(--shadow-color);
+    opacity: 0.75;    
 }
 
 /*
@@ -109,7 +101,6 @@ body {
     bottom: var(--margin);
     font-size: 3vh;
     font-weight: bold;
-    text-shadow: 0.1vh 0.1vh 0.2vh var(--shadow-color);
 }
 
 #spectating {
@@ -169,7 +160,7 @@ body {
 }
 
 /*
-    WINNER UI
+    Game End
 */
 #end-game {
     display: none;
@@ -192,6 +183,41 @@ body {
     font-size: 7vh;
     color:var(--main-color);
     text-transform: uppercase;
+}
+
+/*
+    Round Overview
+*/
+#round-overview {
+    display: none;
+    width: 70vh;
+    height: 40vh;
+}
+
+#round-overview-murderer {
+    width: 100%;
+    text-align: center;
+    font-size: 2.5vh;
+    font-style: italic;
+    margin: 0;
+    height: 4vh;
+    line-height: 4vh;
+    background-color: ;
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--bg-color),
+        var(--bg-color) 1vh,
+        var(--bg-color-2) 1vh,
+        var(--bg-color-2) 2vh
+    );
+}
+
+#round-overview-list {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /*
@@ -322,30 +348,24 @@ body {
 /*
     SCOREBOARD
 */
-
-#scoreboard {
-    display: none;
+.menu {
     flex-direction: column;
     position: absolute;
-    width: 80vh;
-    height: 54.5vh;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: var(--roundness);
     background-color: var(--bg-color);
-    box-shadow: 0 0 2vh var(--shadow-color);
+    box-shadow: 0 0 0.5vh var(--shadow-color);
     overflow: hidden;
     backdrop-filter: blur(0.5vh);
 }
 
-#scoreboard-title {
+.menu-header {
     position: relative;
-    width: 100%;
     font-size: 2.5vh;
     height: fit-content;
     color: var(--text-color);
-    text-shadow: 0.1vh 0.1vh 0.2vh var(--shadow-color);
     background-color: var(--main-color);
     font-weight: bold;
     padding: 0.5vh 1vh;
@@ -356,6 +376,13 @@ body {
         var(--main-color-2) 1vh,
         var(--main-color-2) 2vh
     );
+    box-shadow: 0 1px 0.5vh var(--shadow-color);
+}
+
+#scoreboard {
+    display: none;
+    width: 80vh;
+    height: 50vh;
 }
 
 #scoreboard-list-container {
@@ -381,7 +408,7 @@ body {
 .scoreboard-line-content {
     width: 100%;
     overflow: hidden;
-    /* border-left: solid 0.2vh var(--bg-color); */
+    font-size: 1.8vh;
     padding: unset;
     padding-left: 0.5vh;
     /* justify-content: space-between; */

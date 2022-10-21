@@ -7,17 +7,17 @@
 --------------------------------------------------------------------------------
 -- Rounds config
 --------------------------------------------------------------------------------
-GM.Cfg.RoundMaxTime = 900000                                    -- Maximum duration of a round [default: 900000]
-GM.Cfg.RoundEndTime = 10000                                     -- Time before the round starts again [default: 6000]
-GM.Cfg.PlayersWaitTime = 1000                                  -- Minimum time to wait for players to join [default: 25000]
+GM.Cfg.RoundMaxTime = 600000                                    -- Maximum duration of a round [default: 900000]
+GM.Cfg.RoundEndTime = 15000                                     -- Time before the round starts again [default: 6000]
+GM.Cfg.PlayersWaitTime = 1000                                  -- Minimum time to wait for players to join [default: 10000]
 GM.Cfg.StartScreenTime = 1000                                  -- Time the start screen will stay visible [default: 10000]
-GM.Cfg.MinPlayers = 1                                           -- Minimum players to start a round [default: 2]
+GM.Cfg.MinPlayers = 2                                           -- Minimum players to start a round [default: 2]
 
 --------------------------------------------------------------------------------
 -- Loot config
 --------------------------------------------------------------------------------
-GM.Cfg.LootSpawnTime = 100                                     -- Time between loot spawns [default: 4000]
-GM.Cfg.MaxLootPerPlayer = 300                                     -- Maximum loot per player spawned at the same time [default: 10]
+GM.Cfg.LootSpawnTime = 4000                                     -- Time between loot spawns [default: 4000]
+GM.Cfg.MaxLootPerPlayer = 3                                     -- Maximum loot per player spawned at the same time [default: 3]
 GM.Cfg.BonusRequiredCollectables = 5                            -- Required collectables to get a new pistol [default: 5]
 GM.Cfg.LootHaloDistance = 1000000                               -- Maximum distance from the loot for the outline to show up [default: 1000000]
 
@@ -30,13 +30,13 @@ GM.Cfg.DisguiseCooldown = 10000                                 -- Time before a
 --------------------------------------------------------------------------------
 -- Footprints
 --------------------------------------------------------------------------------
-GM.Cfg.FootPrintMaxTime = 30000                                 -- Maximum time a footprint will stay on the ground [default: 15000]
+GM.Cfg.FootPrintMaxTime = 30000                                 -- Maximum time a footprint will stay on the ground [default: 30000]
 GM.Cfg.FootPrintTick = 330                                      -- Time between footprint ticks [default: 330]
 
 --------------------------------------------------------------------------------
 -- Flashlight
 --------------------------------------------------------------------------------
-GM.Cfg.FlashlightDrainTime = 250                                -- Time between flashlight drain [default: 500]
+GM.Cfg.FlashlightDrainTime = 500                                -- Time between flashlight drain [default: 500]
 GM.Cfg.FlashlightRegenTime = 1000                               -- Time between flashlight regen [default: 1000]
 GM.Cfg.FlashlightBugDelay = 60000                               -- Time before the flashlight bug happens [default: 60000, false to disable]
 
@@ -47,7 +47,7 @@ GM.Cfg.DefaultSpeed = 1.2                                       -- Default playe
 GM.Cfg.KnifeSpeedMultiplier = 1.2                               -- Speed penalty for knife holders [default: 0.9]
 GM.Cfg.PistolSpeedMultiplier = 0.8                              -- Speed penalty for pistol holders [default: 0.75]
 GM.Cfg.TeamKillPenaltyDuration = 20000                          -- Speed and weapon pickup penalty for team killers [default: 20000]
-GM.Cfg.TeamKillSpeedMultiplier = 0.5                            -- Speed penalty for team killers [default: 0.5]
+GM.Cfg.TeamKillSpeedMultiplier = 0.8                            -- Speed penalty for team killers [default: 0.5]
 GM.Cfg.TeamKillBlindTime = 5000                                 -- Time the screen will be blinded for team killers [default: 5000]
 GM.Cfg.TeamKillBlindFadeTime = 10000                            -- Time the screen will fade back in for team killers [default: 10000]
 

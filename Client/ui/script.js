@@ -188,6 +188,52 @@ let updateScoreboardRow = function( sSteamID, iScore, iPing ) {
     }
 }
 
+// updateRoundOverview
+// -- {
+//     --     "codename":"Kilo",
+//     --     "collectedLoot":4,
+//     --     "color":"rgb(222.99749404192,229.98449832201,232.99349606037)",
+//     --     "isAlive":true,
+//     --     "isMurderer":true,
+//     --     "possesserName":"Timmy"
+//     -- },
+//     -- {
+//     --     "codename":"Alfa",
+//     --     "collectedLoot":1,
+//     --     "color":"rgb(51.994498595595,151.98000401258,218.99399846792)",
+//     --     "isAlive":false,
+//     --     "isMurderer":false,
+//     --     "possesserName":"???"
+//     -- }
+
+let dRoundOverviewList = document.getElementById( "round-overview-list" )
+
+let updateRoundOverview = function( tData ) {
+    dRoundOverviewList.innerHTML = ""
+
+    for ( let k in tData ) {
+        let v = tData[ k ]
+        if ( v.isMurderer ) {
+            let dROMurderer = document.getElementById( "round-overview-murderer" )
+            dROMurderer.innerHTML = `
+                <b style="color: ` + v.color + `;">` + v.codename + `</b> was the murderer!
+            `
+        }
+
+        let sIcon = ( v.isAlive ? `fa-trophy` : `fa-skull-crossbones` )
+        let sIconCol = ( v.isAlive ? `#f1c40f` : `#7f8c8d` )
+
+        dRoundOverviewList.innerHTML += `
+            <div class="scoreboard-line-content" style="margin-top: 0.5vh">
+                <div class="hud-icon fa ` + sIcon + `" style="width: 2vh; text-align: center; color: ` + sIconCol + `;"></div>
+                <b style="color: ` + v.color + `;">` + v.codename + `</b> was <b>` + v.possesserName + `</b>'s codename (Loot collected: <b>` + v.collectedLoot + `</b>)
+            </div>
+        `
+    }
+
+    console.log( JSON.stringify( tData ) )
+}
+
 // Nanos events
 if ( typeof( Events ) != "undefined" ) {
     Events.Subscribe( "SetElementDisplay", setElementDisplay )
@@ -202,4 +248,6 @@ if ( typeof( Events ) != "undefined" ) {
     Events.Subscribe( "AddScoreboardRow", addScoreboardRow )
     Events.Subscribe( "RemoveScoreboardRow", removeScoreboardRow )
     Events.Subscribe( "UpdateScoreboardRow", updateScoreboardRow )
+
+    Events.Subscribe( "UpdateRoundOverview", updateRoundOverview )
 }

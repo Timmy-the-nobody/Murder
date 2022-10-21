@@ -3,7 +3,7 @@ local sMap = Server.GetMap()
 
 --[[ Character:SetCollectedLoot ]]--
 function Character:SetCollectedLoot( iLootCount )
-    self:SetPrivateValue( "collected_loot", iLootCount )
+    self:SetValue( "collected_loot", iLootCount, true )
 end
 
 --[[ GM:SpawnLoot ]]--
@@ -71,6 +71,10 @@ function GM:SpawnLoot()
 
         local iCollectedLoot = eChar:GetCollectedLoot() + oRandomLoot:GetLootPoints()
         eChar:SetCollectedLoot( iCollectedLoot )
+
+        if eChar:IsMurderer() then
+            eChar:SetValue( "total_loot", self:GetValue( "total_loot", 0 ) + 1, true )
+        end
 
         pPlayer:Notify( NotificationType.Generic, oRandomLoot:GetName() .. " collected!" )
         NW.Broadcast( "GM:Loot:PickupSound", tPickupPos )

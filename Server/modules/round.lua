@@ -44,7 +44,7 @@ function GM:EndRound( iReason )
                 end
             end
         else
-            if not eChar:IsMurderer() then
+            if not eChar:IsMurderer() and ( eChar:GetHealth() > 0 ) then
                 local pPlayer = eChar:GetPlayer()
                 if pPlayer and pPlayer:IsValid() then
                     pPlayer:SetScore( pPlayer:GetScore() + 1 )
@@ -131,6 +131,7 @@ function GM:StartRound()
         eChar:AttachFlashlight()
 
         pPlayer:Possess( eChar )
+        eChar:SetValue( "possesser_name", pPlayer:GetName(), true )
 
         -- Avoid blocking 2 characters on the same spawn
         eChar:SetCollision( CollisionType.IgnoreOnlyPawn )

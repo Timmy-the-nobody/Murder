@@ -7,7 +7,7 @@ GM.WebUI = WebUI( "GUI", "file://ui/index.html", true )
 local function updateWaitingPlayers()
     local iPlyCount = #Player.GetAll()
     if ( iPlyCount < GM.Cfg.MinPlayers ) then
-        GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-title", "Awaiting for players" )
+        GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-title", "Awaiting players" )
         GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-text", iPlyCount .. "/" .. GM.Cfg.MinPlayers )
     else
         GM.WebUI:CallEvent( "SetElementInnerText", "waiting-players-title", iPlyCount .. " player(s) ready!" )
@@ -68,7 +68,6 @@ local tHUDActions = {
                 end
             end
 
-            GM.WebUI:CallEvent( "SetElementProperty", "hud", "container-color", eChar:GetCodeColor( true ) )
             GM.WebUI:CallEvent( "SetElementDisplay", "hud", "flex" )
         end,
         onEnd = function()
@@ -82,6 +81,7 @@ local tHUDActions = {
         end,
         onEnd = function()
             GM.WebUI:CallEvent( "SetElementDisplay", "end-game", "none" )
+            GM.WebUI:CallEvent( "SetElementDisplay", "round-overview", "none" )
         end
     }
 }
@@ -97,6 +97,38 @@ Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
     end
 end )
 
+--[[ updateRoundOverview ]]--
+local function updateRoundOverview()
+    local tData = {}
+    for _, v in ipairs( Character.GetAll() ) do
+        if not v:IsValid() then
+            goto continue
+        end
+
+        local iInd = ( #tData + 1 )
+        local iLootCount = 0
+        if v:GetValue( "total_loot" ) then
+            iLootCount = v:GetValue( "total_loot" )
+        else
+            iLootCount = v:GetCollectedLoot()
+        end
+
+        tData[ iInd ] = {
+            codename = v:GetCodeName(),
+            color = v:GetCodeColor( true ),
+            isMurderer = v:IsMurderer(),
+            isAlive = ( v:GetHealth() > 0 ),
+            collectedLoot = iLootCount,
+            possesserName = v:GetValue( "possesser_name", "???" )
+        }
+
+        ::continue::
+    end
+
+    GM.WebUI:CallEvent( "UpdateRoundOverview", tData )
+    GM.WebUI:CallEvent( "SetElementDisplay", "round-overview", "block" )
+end
+
 --[[ GM:OnRoundEnd ]]--
 local tRoundEndReason = {
     [ EndReason.MurdererWins ] = "Murderer Wins",
@@ -108,6 +140,8 @@ Events.Subscribe( "GM:OnRoundEnd", function( iReason )
     if tRoundEndReason[ iReason ] then
         GM.WebUI:CallEvent( "SetElementInnerText", "end-game-text", tRoundEndReason[ iReason ] )
     end
+
+    Timer.SetTimeout( updateRoundOverview, 0 )
 end )
 
 --[[ Character ValueChange ]]--
@@ -119,7 +153,7 @@ local tValueChange = {
         GM.WebUI:CallEvent( "SetElementInnerText", "code-name", xValue )
     end,
     [ "code_color" ] = function( eChar, _ )
-        GM.WebUI:CallEvent( "SetProperty", "code-color", eChar:GetCodeColor( true ) )
+        GM.WebUI:CallEvent( "SetElementProperty", "hud", "container-color", eChar:GetCodeColor( true ) )
     end,
     [ "team_killer" ] = function( _, xValue )
         if xValue then
