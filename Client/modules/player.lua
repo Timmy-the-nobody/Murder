@@ -33,9 +33,10 @@ Client.Subscribe( "Tick", function( fDelta )
     if eChar and eChar:IsValid() then
         xExclude = { eChar }
 
+        local tPos = eChar:GetLocation()
         tTrace = traceLine(
-            eChar:GetLocation(),
-            ( eChar:GetControlRotation():GetForwardVector() * 500 ),
+            tPos,
+            tPos + ( eChar:GetControlRotation():GetForwardVector() * 500 ),
             CollisionChannel.Pawn,
             TraceMode.ReturnEntity,
             xExclude
@@ -48,9 +49,10 @@ Client.Subscribe( "Tick", function( fDelta )
             return
         end
 
+        local tPos = pPlayer:GetCameraLocation()
         tTrace = traceLine(
-            pPlayer:GetCameraLocation(),
-            ( pPlayer:GetCameraRotation():GetForwardVector() * 500 ),
+            tPos,
+            tPos + ( pPlayer:GetCameraRotation():GetForwardVector() * 2500 ),
             CollisionChannel.Pawn,
             TraceMode.ReturnEntity,
             xExclude
