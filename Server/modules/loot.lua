@@ -73,7 +73,7 @@ function GM:SpawnLoot()
         eChar:SetCollectedLoot( iCollectedLoot )
 
         if eChar:IsMurderer() then
-            eChar:SetValue( "total_loot", self:GetValue( "total_loot", 0 ) + 1, true )
+            eChar:SetValue( "total_loot", eChar:GetValue( "total_loot", 0 ) + 1, true )
         end
 
         pPlayer:Notify( NotificationType.Generic, oRandomLoot:GetName() .. " collected!" )

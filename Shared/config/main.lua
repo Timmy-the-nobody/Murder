@@ -7,11 +7,11 @@
 --------------------------------------------------------------------------------
 -- Rounds config
 --------------------------------------------------------------------------------
-GM.Cfg.RoundMaxTime = 600000                                    -- Maximum duration of a round [default: 900000]
-GM.Cfg.RoundEndTime = 15000                                     -- Time before the round starts again [default: 6000]
-GM.Cfg.PlayersWaitTime = 1000                                  -- Minimum time to wait for players to join [default: 10000]
-GM.Cfg.StartScreenTime = 1000                                  -- Time the start screen will stay visible [default: 10000]
-GM.Cfg.MinPlayers = 2                                           -- Minimum players to start a round [default: 2]
+GM.Cfg.RoundMaxTime = 600000                                    -- Maximum duration of a round [default: 600000]
+GM.Cfg.RoundEndTime = 15000                                     -- Time before the round starts again [default: 15000]
+GM.Cfg.PlayersWaitTime = 20000                                  -- Minimum time to wait for players to join [default: 20000]
+GM.Cfg.StartScreenTime = 10000                                  -- Time the start screen will stay visible [default: 10000]
+GM.Cfg.MinPlayers = 3                                           -- Minimum players to start a round [default: 2]
 
 --------------------------------------------------------------------------------
 -- Loot config
@@ -30,7 +30,7 @@ GM.Cfg.DisguiseCooldown = 10000                                 -- Time before a
 --------------------------------------------------------------------------------
 -- Footprints
 --------------------------------------------------------------------------------
-GM.Cfg.FootPrintMaxTime = 30000                                 -- Maximum time a footprint will stay on the ground [default: 30000]
+GM.Cfg.FootPrintMaxTime = 10000                                 -- Maximum time a footprint will stay on the ground [default: 10000]
 GM.Cfg.FootPrintTick = 330                                      -- Time between footprint ticks [default: 330]
 
 --------------------------------------------------------------------------------
@@ -70,6 +70,7 @@ GM.Cfg.CodeColors = {                                           -- Charactes/Nam
     Color( 0.2039, 0.5960, 0.8588 ),                                    -- Blue
     Color( 0.1803, 0.8000, 0.4431 ),                                    -- Green
     Color( 0.9450, 0.7686, 0.0588 ),                                    -- Yellow
+    Color( 0.8274, 0.3294, 0.0000 ),                                    -- Orange
     Color( 0.9058, 0.2980, 0.2352 ),                                    -- Red
     Color( 0.6078, 0.3490, 0.7137 ),                                    -- Purple
     Color( 0.9098, 0.2627, 0.5764 ),                                    -- Pink

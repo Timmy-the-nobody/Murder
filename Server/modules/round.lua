@@ -131,6 +131,8 @@ function GM:StartRound()
         eChar:AttachFlashlight()
 
         pPlayer:Possess( eChar )
+        pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDefault )
+
         eChar:SetValue( "possesser_name", pPlayer:GetName(), true )
 
         -- Avoid blocking 2 characters on the same spawn
