@@ -102,7 +102,7 @@ end
 --------------------------------------------------------------------------------
 --[[ Character:ComputeSpeed ]]--
 function Character:ComputeSpeed()
-    local fSpeedMul = 1.2
+    local fSpeedMul = GM.Cfg.DefaultSpeed
 
     if not self:IsMurderer() and self:IsTeamKiller() then
         fSpeedMul = ( fSpeedMul * GM.Cfg.TeamKillSpeedMultiplier )

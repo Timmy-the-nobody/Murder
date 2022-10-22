@@ -40,8 +40,8 @@ Melee.Subscribe( "ValueChange", function( eMelee, sKey, xValue )
 
                 local fScale = ( 1 - ( ( iCurTime - iStart ) / iDuration ) )
                 Particle(
-                    eMelee:GetLocation() + Vector( 0, 0, 20 ),
-                    Rotator( 2000 * fScale ),
+                    eMelee:GetLocation(),
+                    Rotator( 1440 * fScale ),
                     "nanos-world::P_Smoke_06",
                     true,
                     true
