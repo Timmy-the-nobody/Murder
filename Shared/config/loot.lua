@@ -6,6 +6,11 @@ LOOT_PUMPKIN:SetLootPoints( 1 )
 LOOT_PUMPKIN:SetOffset( Vector( 0, 0, 0 ) )
 LOOT_PUMPKIN:SetScale( Vector( 1.5 ) )
 
+-- Canister
+LOOT_CANISTER = LootManager()
+LOOT_CANISTER:SetName( "Canister" )
+LOOT_CANISTER:SetMesh( "nanos-world::SM_Canister" )
+
 -- Boltcutters
 LOOT_BOLTCUTTERS = LootManager( "nanos-world::SM_Boltcutters" )
 LOOT_BOLTCUTTERS:SetName( "Boltcutters" )
