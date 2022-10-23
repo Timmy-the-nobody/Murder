@@ -60,8 +60,8 @@ GM.Cfg.KnifeAutoPickupDuration = 15000                          -- Time a knife 
 -- VOIP
 --------------------------------------------------------------------------------
 GM.Cfg.VOIPSetting = VOIPSetting.Global                         -- VOIP settings: VOIPSetting.Local, VOIPSetting.Global or VOIPSetting.Muted [default: VOIPSetting.Global]
-GM.Cfg.VOIPChannelDefault = 0                                   -- Default VOIP channel [default: 0]
-GM.Cfg.VOIPChannelDead = 1                                      -- VOIP channel for dead players [default: 1]
+GM.Cfg.SpectatorVOIPChannel = 0                                 -- VOIP channel for spectators and dead players [default: 0]
+GM.Cfg.InGameVOIPChannel = 1                                    -- VOIP channel for players in game [default: 1]
 
 --------------------------------------------------------------------------------
 -- Character code

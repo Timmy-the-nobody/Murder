@@ -139,7 +139,7 @@ Character.Subscribe( "Death", function( eChar, _, _, _, _, pInstigator, eCauser 
     -- Send voice in dead players VOIP channel
     local pPlayer = eChar:GetPlayer()
     if pPlayer and pPlayer:IsValid() then
-        pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDead )
+        pPlayer:SetVOIPChannel( GM.Cfg.SpectatorVOIPChannel )
         pPlayer:UnPossess()
     end
 

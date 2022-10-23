@@ -10,7 +10,7 @@ local function playerInit( pPlayer )
     end
 
     pPlayer:SetVOIPSetting( GM.Cfg.VOIPSetting )
-    pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDefault )
+    pPlayer:SetVOIPChannel( GM.Cfg.SpectatorVOIPChannel )
     pPlayer:ResetCamera()
 
     if pPlayer:IsAdminModeEnabled() then

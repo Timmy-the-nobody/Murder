@@ -1,5 +1,6 @@
 local iNextTick = 0
 local CurTime = CurTime
+local sMap = Server.GetMap()
 
 --[[
     GM:SetRound
@@ -71,7 +72,7 @@ function GM:EndRound( iReason )
 
     -- Clear/Reset stuff
     for _, pPlayer in ipairs( Player.GetAll() ) do
-        pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDefault )
+        pPlayer:SetVOIPChannel( GM.Cfg.SpectatorVOIPChannel )
         pPlayer:ResetCamera()
     end
 
@@ -110,7 +111,6 @@ function GM:StartRound()
         return
     end
 
-    local sMap = Server.GetMap()
     local tSpawns = { Vector() }
     if GM.CharacterSpawns[ sMap ] and ( #GM.CharacterSpawns[ sMap ] > 0 ) then
         tSpawns = GM.CharacterSpawns[ sMap ]
@@ -131,7 +131,7 @@ function GM:StartRound()
         eChar:AttachFlashlight()
 
         pPlayer:Possess( eChar )
-        pPlayer:SetVOIPChannel( GM.Cfg.VOIPChannelDefault )
+        pPlayer:SetVOIPChannel( GM.Cfg.InGameVOIPChannel )
 
         eChar:SetValue( "possesser_name", pPlayer:GetName(), true )
 
