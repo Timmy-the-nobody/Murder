@@ -5,7 +5,7 @@ end
 --------------------------------------------------------------------------------
 -- Doors
 --------------------------------------------------------------------------------
-local iDoorAnimDuration = 3
+local iDoorAnimDuration = 2500
 
 local iDoorMaxZ = 305
 local tDoors = {
@@ -24,7 +24,7 @@ local tDoors = {
 }
 
 local closeDoor
-local iStepsPerTick = ( iDoorMaxZ / ( Server.GetTickRate() * iDoorAnimDuration ) )
+local iStepsPerTick = ( iDoorMaxZ / ( Server.GetTickRate() * ( iDoorAnimDuration * 0.001 ) ) )
 
 --[[ openDoor ]]--
 local function openDoor( eDoor )

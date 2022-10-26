@@ -20,29 +20,44 @@ end
     dumpDoorsList
         desc: Debug function to get door pos, ang, scale
 ]]--
-local function dumpDoorsList()
-    local tDoors = {}
-    for _, v in ipairs( StaticMesh.GetAll() ) do
-        if v:IsFromLevel() and ( v:GetMesh() == "/Game/murder_underground/ResearchMegaPack/ResearchUnderground/Meshes/SM_Metal_Door_2.SM_Metal_Door_2" ) then
-            tDoors[ #tDoors + 1 ] = {
-                pos = v:GetLocation(),
-                ang = v:GetRotation(),
-                scale = v:GetScale()
-            }
-        end
-    end
-    print( NanosUtils.Dump( tDoors ) )
-end
+-- local function dumpDoorsList()
+--     local tDoors = {}
+--     for _, v in ipairs( StaticMesh.GetAll() ) do
+--         if v:IsFromLevel() and ( v:GetMesh() == "/Game/murder_underground/ResearchMegaPack/ResearchUnderground/Meshes/SM_Metal_Door_2.SM_Metal_Door_2" ) then
+--             tDoors[ #tDoors + 1 ] = {
+--                 pos = v:GetLocation(),
+--                 ang = v:GetRotation(),
+--                 scale = v:GetScale()
+--             }
+--         end
+--     end
+--     print( NanosUtils.Dump( tDoors ) )
+-- end
 
 --[[ StaticMesh ValueChange ]]--
-local sDoorSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_open_close.ogg"
+local tDoorSound = {
+    open = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_open.ogg",
+    close = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_close.ogg"
+}
 
 StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
     if ( sKey ~= "door_open" ) or not eSM or not eSM:IsValid() then
         return
     end
 
-    Sound( eSM:GetLocation(), sDoorSound, false, true, SoundType.SFX, 0.3, 1, 60 )
+    local oSound = Sound(
+        eSM:GetLocation(),
+        tDoorSound[ xValue and "open" or "close" ],
+        false,
+        true,
+        SoundType.SFX,
+        0.4,
+        math.random( 90, 110 ) * 0.01,
+        60
+    )
+
+    oSound:AttachTo( eSM, AttachmentRule.SnapToTarget, "", -1, false )
+    oSound:SetRelativeLocation( eSM:GetRotation():GetForwardVector() * 150 )
 end )
 
 --------------------------------------------------------------------------------
