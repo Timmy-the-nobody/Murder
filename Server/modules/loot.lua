@@ -49,6 +49,7 @@ function GM:SpawnLoot()
     )
 
     eLoot:SetGravityEnabled( false )
+    eLoot:SetCollision( CollisionType.IgnoreOnlyPawn )
     eLoot:SetValue( "loot_manager_id", iLootID, true )
 
     eLoot:Subscribe( "Destroy", function()
@@ -76,7 +77,7 @@ function GM:SpawnLoot()
             eChar:SetValue( "total_loot", eChar:GetValue( "total_loot", 0 ) + 1, true )
         end
 
-        pPlayer:Notify( NotificationType.Generic, oRandomLoot:GetName() .. " collected!" )
+        pPlayer:Notify( NotificationType.Info, oRandomLoot:GetName() .. " collected" )
         NW.Broadcast( "GM:Loot:PickupSound", tPickupPos )
 
         if not eChar:IsMurderer() and ( ( iCollectedLoot % GM.Cfg.BonusRequiredCollectables ) == 0 ) then

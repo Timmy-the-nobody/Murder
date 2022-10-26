@@ -43,9 +43,9 @@ local tHUDActions = {
             if eChar:IsMurderer() then
                 GM.WebUI:CallEvent( "SetElementInnerText", "role", "Murderer" )
                 GM.WebUI:CallEvent( "ShowStartScreen", "You're the Murderer", [[
-                    The murderer has to murder everybody.
-                    <br>The murderer has the ability to sprint faster, stab, and throw their knife, but must preferably not get caught in order to not get shot.
-                    <br>The murderer also has the ability to see other player's footprints.
+                    You have to murder everybody, preferably without being spotted
+                    <br>You have the ability to sprint faster with your knife equiped
+                    <br>You can also stab, throw your knife and see other player's footprints
                 ]], GM.Cfg.StartScreenTime )
             else
                 GM.WebUI:CallEvent( "SetElementInnerText", "role", "Bystander" )
@@ -53,17 +53,17 @@ local tHUDActions = {
                 -- Detective
                 if eChar:GetStoredWeapon() and ( eChar:GetStoredWeapon() == WeaponType.Pistol ) then
                     GM.WebUI:CallEvent( "ShowStartScreen", "You're the Detective", [[
-                        The bystanders and detective have to find out who the murderer is and can only win by killing the murderer.
+                        The bystanders and detective have to find out who the murderer is and kill him.
                         <br>If the detective kills another bystander, he becomes blind and drops the gun.
-                        <br>Only other bystanders can pick up the gun, however the detective can pick it up again once they are no longer blind.
+                        <br>Only bystanders can pick up guns, however the detective can pick it up again once they're no longer blind.
                     ]], GM.Cfg.StartScreenTime )
 
                 -- Bystander
                 else
                     GM.WebUI:CallEvent( "ShowStartScreen", "You're a Bystander", [[
-                        The bystanders and detective have to find out who the murderer is and can only win by killing the murderer.
+                        The bystanders and detective have to find out who the murderer is and kill him.
                         <br>If the detective kills another bystander, he becomes blind and drops the gun.
-                        <br>Only other bystanders can pick up the gun, however the detective can pick it up again once they are no longer blind.
+                        <br>Only bystanders can pick up guns, however the detective can pick it up again once they're no longer blind.
                     ]], GM.Cfg.StartScreenTime )
                 end
             end

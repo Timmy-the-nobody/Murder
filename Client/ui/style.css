@@ -298,6 +298,8 @@ body {
     margin-bottom: 0.5vh;
     border-right: none;
     border-radius: var(--roundness);
+    height: fit-content;
+    min-height: 2vh;
     overflow: hidden;
 }
 

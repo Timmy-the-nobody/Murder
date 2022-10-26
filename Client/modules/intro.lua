@@ -1,6 +1,7 @@
 local Vector = Vector
 local Rotator = Rotator
 local CurTime = CurTime
+local LocalCharacter = LocalCharacter
 
 --------------------------------------------------------------------------------
 -- Config
@@ -129,6 +130,10 @@ local function translateCameraTo( tTargetPos, tTargetAng, iDuration, callback )
 
     local tickFunc
     tickFunc = Client.Subscribe( "Tick", function( fDelta )
+        if LocalCharacter() then
+            return
+        end
+
         local iCurTime = CurTime()
 
         pPlayer:SetCameraLocation( moveVector( tStartPos, tTargetPos, iStartTime, iCurTime, iDuration ) )
