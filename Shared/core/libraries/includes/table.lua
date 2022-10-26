@@ -49,3 +49,20 @@ function table.ClearKeys( tTarget )
 
     return tOutput
 end
+
+--[[ RandPairs ]]--
+function RandPairs( tInput )
+    local tKeys = {}
+    for i = 1, #tInput do
+        tKeys[ i ] = i
+    end
+
+    local tOutput = {}
+    for i = 1, #tInput do
+        local iRandKey = math.random( 1, #tKeys )
+        tOutput[ i ] = tInput[ tKeys[ iRandKey ] ]
+        table.remove( tKeys, iRandKey )
+    end
+
+    return pairs( tOutput )
+end
