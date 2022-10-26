@@ -117,23 +117,7 @@ function GM:StartRound()
     end
 
     for _, pPlayer in ipairs( tPlayers ) do
-        local tRandomSpawn = tSpawns[ math.random( 1, #tSpawns ) ]
-
-        local eChar = Character( tRandomSpawn + Vector( 0, 0, 40 ), Rotator( 0, math.random( -180, 180 ), 0 ), "nanos-world::SK_Mannequin" )
-        eChar:SetCameraMode( CameraMode.FPSOnly )
-        eChar:SetCanPunch( false )
-        eChar:SetCanDeployParachute( false )
-        eChar:SetHighFallingTime( -1 )
-        eChar:SetJumpZVelocity( 600 )
-        eChar:SetAccelerationSettings( 1024, 512, 768, 128, 256, 256, 1024 )
-        eChar:SetBrakingSettings( 4, 2, 1024, 3000, 10, 0 )
-        eChar:SetFallDamageTaken( 0 )
-        eChar:AttachFlashlight()
-
-        pPlayer:Possess( eChar )
-        pPlayer:SetVOIPChannel( GM.Cfg.InGameVOIPChannel )
-
-        eChar:SetValue( "possesser_name", pPlayer:GetName(), true )
+        local eChar = pPlayer:CreateCharacter( tSpawns[ math.random( 1, #tSpawns ) ] )
 
         -- Avoid blocking 2 characters on the same spawn
         eChar:SetCollision( CollisionType.IgnoreOnlyPawn )
@@ -150,34 +134,17 @@ function GM:StartRound()
 
     local tAllChars = Character.GetAll()
 
-    -- Murderer
+    -- Define Murderer
     local eMurder = tAllChars[ math.random( 1, #tAllChars ) ]
     eMurder:SetMurderer( true )
     eMurder:SetWeapon( WeaponType.Knife )
 
-    -- Non-murderer characters
-    local tCivs = {}
-    for _, eChar in ipairs( tAllChars ) do
+    -- Define Detective
+    for _, eChar in RandPairs( tAllChars ) do
         if not eChar:IsMurderer() then
-            tCivs[ #tCivs + 1 ] = eChar
+            eChar:SetWeapon( WeaponType.Pistol )
+            break
         end
-    end
-
-    if ( #tCivs >= 1 ) then
-        local eGunner = tCivs[ math.random( 1, #tCivs ) ]
-        eGunner:SetWeapon( WeaponType.Pistol )
-    end
-
-    -- Initialize characters values
-    for _, eChar in ipairs( tAllChars ) do
-        eChar:SetCollectedLoot( 0 )
-        eChar:SetFlashlightBattery( 100 )
-        eChar:GenerateCodeName()
-        eChar:GenerateCodeColor()
-        eChar:ComputeSpeed()
-
-        eChar:SetValue( "default_code_name", eChar:GetCodeName(), false )
-        eChar:SetValue( "default_code_color", eChar:GetCodeColor(), false )
     end
 
     self:SetRound( RoundType.Playing )

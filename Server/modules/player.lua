@@ -3,6 +3,41 @@ function Player:SetScore( iScore )
     self:SetValue( "score", iScore, true )
 end
 
+--[[ Player:CreateCharacter ]]--
+function Player:CreateCharacter( tPos )
+    if self:GetControlledCharacter() then
+        return
+    end
+
+    self:SetVOIPChannel( GM.Cfg.InGameVOIPChannel )
+
+    local eChar = Character( tPos + Vector( 0, 0, 40 ), Rotator( 0, math.random( -180, 180 ), 0 ), "nanos-world::SK_Mannequin" )
+    self:Possess( eChar )
+
+    eChar:SetCameraMode( CameraMode.FPSOnly )
+    eChar:SetCanPunch( false )
+    eChar:SetCanDeployParachute( false )
+    eChar:SetHighFallingTime( -1 )
+    eChar:SetJumpZVelocity( 600 )
+    eChar:SetAccelerationSettings( 1024, 512, 768, 128, 256, 256, 1024 )
+    eChar:SetBrakingSettings( 4, 2, 1024, 3000, 10, 0 )
+    eChar:SetFallDamageTaken( 0 )
+
+    -- Gamemode related
+    eChar:AttachFlashlight()
+    eChar:SetCollectedLoot( 0 )
+    eChar:SetFlashlightBattery( 100 )
+    eChar:GenerateCodeName()
+    eChar:GenerateCodeColor()
+    eChar:ComputeSpeed()
+
+    eChar:SetValue( "default_code_name", eChar:GetCodeName(), false )
+    eChar:SetValue( "default_code_color", eChar:GetCodeColor(), false )
+    eChar:SetValue( "possesser_name", self:GetName(), true )
+
+    return eChar
+end
+
 --[[ playerInit ]]--
 local function playerInit( pPlayer )
     if not pPlayer or not pPlayer:IsValid() then
