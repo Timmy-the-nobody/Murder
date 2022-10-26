@@ -109,22 +109,25 @@ function Character:DisableFlashlight()
 end
 
 --[[ GM:Flashlight:Toggle ]]--
+local tFLCooldown = {}
+
 NW.Receive( "GM:Flashlight:Toggle", function( pPlayer )
+    local iTime = CurTime()
+    if tFLCooldown[ pPlayer ] and ( tFLCooldown[ pPlayer ] > iTime ) then
+        return
+    end
+
+    tFLCooldown[ pPlayer ] = ( iTime + 350 )
+
     local eChar = pPlayer:GetControlledCharacter()
     if not eChar or not eChar:IsValid() or ( eChar:GetHealth() <= 0 ) then
         return
     end
 
     if eChar:IsFlashlightEnabled() then
-        local bSuccess = eChar:DisableFlashlight()
-        if bSuccess then
-            pPlayer:Notify( NotificationType.Info, "Flashlight disabled" )
-        end
+        eChar:DisableFlashlight()
     else
-        local bSuccess = eChar:EnableFlashlight()
-        if bSuccess then
-            pPlayer:Notify( NotificationType.Info, "Flashlight enabled" )
-        end
+        eChar:EnableFlashlight()
     end
 end )
 
@@ -151,6 +154,11 @@ local function triggerLightBug()
     local eChar = tHasFlashlightEnabled[ math.random( 1, #tHasFlashlightEnabled ) ]
     if not eChar or not eChar:IsValid() then
         return
+    end
+
+    local pPlayer = eChar:GetPlayer()
+    if pPlayer and pPlayer:IsValid() then
+        pPlayer:Notify( NotificationType.Generic, "Your flashlight starts to flicker for an unknown reason" )
     end
 
     local iIntervals = 0
@@ -186,42 +194,4 @@ Events.Subscribe( "GM:OnRoundChange", function( _, iNew )
     end
 
     iLightBugInterval = Timer.SetInterval( triggerLightBug, GM.Cfg.FlashlightBugDelay )
-end )
-
---------------------------------------------------------------------------------
--- Chat commands
---------------------------------------------------------------------------------
-local tCommands = {
-    {
-        command = "/ooc",
-        onSend = function( pPlayer, sText )
-            Server.BroadcastChatMessage( "<Bold>[OOC] " .. pPlayer:GetName() .. "</> " .. sText )
-        end,
-        hide = true
-    }
-}
-
-Server.Subscribe( "Chat", function( sText, pPlayer )
-    for _, v in ipairs( tCommands ) do
-        if ( string.sub( sText, 1, #v.command ) == v.command ) then
-            v.onSend( pPlayer, string.sub( sText, #v.command + 2 ) )
-            if v.hide then
-                return false
-            end
-            return
-        end
-    end
-
-    local eChar = pPlayer:GetControlledCharacter()
-    if not eChar or not eChar:IsValid() then
-        tCommands[ 1 ].onSend( pPlayer, sText )
-        return false
-    end
-
-    local sName = eChar:GetCodeName()
-    local sMessage = "<" .. ( ( eChar:GetHealth() > 0 ) and "green" or "red" ) .. ">" .. sName .. "</> " .. sText
-
-    Server.BroadcastChatMessage( sMessage )
-
-    return false
 end )
