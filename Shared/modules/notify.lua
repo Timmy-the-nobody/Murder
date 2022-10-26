@@ -14,19 +14,23 @@ end
 local tNotifInfo = {
     [ NotificationType.Generic ] = {
         color = "#2ecc71",
-        icon = "bell"
+        icon = "bell",
+        sound = "nanos-world::A_Button_Click_Up_Cue"
     },
     [ NotificationType.Error ] = {
         color = "#e74c3c",
-        icon = "circle-xmark"
+        icon = "circle-xmark",
+        sound = "nanos-world::A_Invalid_Action"
     },
     [ NotificationType.Warning ] = {
         color = "#f39c12",
-        icon = "triangle-exclamation"
+        icon = "triangle-exclamation",
+        sound = "nanos-world::A_Button_Click_Up_Cue"
     },
     [ NotificationType.Info ] = {
         color = "#3498db",
-        icon = "circle-info"
+        icon = "circle-info",
+        sound = "nanos-world::A_Button_Click_Up_Cue"
     }
 }
 
@@ -52,6 +56,18 @@ function Player:Notify( iNotifType, sText, iTime )
     iTime = iTime or 5000
 
     GM.WebUI:CallEvent( "Notify", sText, iTime, tNotifInfo[ iNotifType ].color, tNotifInfo[ iNotifType ].icon )
+
+    if tNotifInfo[ iNotifType ].sound then
+        Sound(
+            Vector(),
+            tNotifInfo[ iNotifType ].sound,
+            true,
+            true,
+            SoundType.UI,
+            1,
+            1
+        )
+    end
 end
 
 --[[ GM:Notify ]]--
