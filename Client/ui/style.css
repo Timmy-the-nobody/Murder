@@ -465,7 +465,7 @@ body {
     Rules
 */
 #rules {
-    display: none;
+    /* display: none; */
     width: 90vh;
 }
 
@@ -474,7 +474,7 @@ body {
     overflow: hidden;
     overflow-y: auto;
     display: flex;
-    gap: 2vh;
+    gap: 1vh;
     flex-direction: column;
     padding: 2vh;
 }
@@ -488,6 +488,18 @@ body {
     margin-right: auto;
     height: fit-content;
     gap: 2vh;
+    padding: 2vh;
+    /* border-top: solid 1px var(--bg-color);
+    border-left: none;
+    border-right: none; */
+    background: radial-gradient(
+        circle at 0% 50%,
+        var(--bg-color-2) 0%,
+        var(--bg-color-2) 21vh,
+        transparent 21vh,
+        transparent 100%
+    );
+    border-radius: 50%;
 }
 .rules-image, .rules-image:before {
     min-width: 20vh;
@@ -507,8 +519,8 @@ body {
     display: block;
     position: absolute;
     border: dashed 0.5vh var(--main-color);
-    top: 0vh;
-    left: 0vh;
+    top: 2vh;
+    left: 2vh;
   }
 
 .rules-text-content {
