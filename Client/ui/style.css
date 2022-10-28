@@ -17,11 +17,16 @@
     --roundness: 0.35vh;
 
     --text-color: #dbe5e7;
-    --bg-color: #303030e0;
+    --bg-color: #303030d5;
     --bg-color-2: #1f1f1fe0;
     --shadow-color: #00000086;
     --main-color: #f39c12;
     --main-color-2: #d18812;
+}
+
+* {
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -29,7 +34,6 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    margin: 0;
     font-family: Borda;
     color: var(--text-color);
     font-size: 1.6vh;
@@ -90,6 +94,31 @@ body {
     position: absolute;
     left: var(--margin);
     bottom: var(--margin);
+}
+
+/*
+    Keys Tips
+*/
+#keys-tips {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+    right: var(--margin);
+    top: 50%;
+    height: fit-content;
+    translate: translateY(-50%);
+    /* background-color: var(--main-color-2); */
+}
+
+.key-icon {
+    position: relative;
+    width: 3vh;
+    height: 3vh;
+    background-image: url( "assets://nanos-world/Textures/ControllerKeyPrompts/KeyboardMouse/Dark/F_Key_Dark.png" );
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 /*
@@ -430,4 +459,68 @@ body {
     bottom: var(--margin);
     right: var(--margin);
     /* background-color: var(--main-color); */
+}
+
+/*
+    Rules
+*/
+#rules {
+    display: none;
+    width: 90vh;
+}
+
+.rules-content {
+    max-height: 60vh;
+    overflow: hidden;
+    overflow-y: auto;
+    display: flex;
+    gap: 2vh;
+    flex-direction: column;
+    padding: 2vh;
+}
+
+.rule-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    height: fit-content;
+    gap: 2vh;
+}
+.rules-image, .rules-image:before {
+    min-width: 20vh;
+    min-height: 20vh;
+    background: url("./images/loot.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    border: solid 0.5vh var(--shadow-color);
+    box-sizing: border-box;
+    box-shadow: inset 0 0 3vh black;
+}
+
+.rules-image:before {
+    background: none;
+    content: "";
+    display: block;
+    position: absolute;
+    border: dashed 0.5vh var(--main-color);
+    top: 0vh;
+    left: 0vh;
+  }
+
+.rules-text-content {
+    flex: 1;
+    margin-top: auto;
+    margin-bottom: auto;
+    /* background-color: rebeccapurple; */
+}
+
+.rules-title {
+    font-size: 2.5vh;
+    font-weight: bold;
+    color: var(--main-color);
+    margin-bottom: 1vh;
 }

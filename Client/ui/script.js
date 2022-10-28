@@ -8,6 +8,7 @@ let dNotifContainer = document.getElementById( "notification-container" )
 let dRoundOverviewList = document.getElementById( "round-overview-list" )
 let dRoundOverviewMurderer = document.getElementById( "round-overview-murderer" )
 let dVoiceHUDContainer = document.getElementById( "voice-hud-container" )
+let dKeyTips = document.getElementById( "keys-tips" )
 
 // setElementDisplay
 let setElementDisplay = function( sElement, sDisplay ) {
@@ -241,6 +242,26 @@ let removeTalker = function( sSteamID ) {
     }
 }
 
+// clearKeybinds
+let clearKeybinds = function() {
+    dKeyTips.innerHTML = ``
+}
+
+// addBindTooltip
+let addBindTooltip = function( sIconURL, sText ) {
+    let dBindContainer = document.createElement( "div" )
+    dBindContainer.className = "r-container"
+    dBindContainer.style.padding = "0.25vh 0.5vh"
+    dBindContainer.style.marginLeft = "auto"
+    dBindContainer.style.width = "fit-content"
+    dBindContainer.innerHTML = `
+        <div class="key-icon" style="background-image: url(` + sIconURL + `)"></div>
+        <div class="hud-text" style="line-height: 3.1vh">` + sText + `</div>
+    `
+
+    dKeyTips.appendChild( dBindContainer )
+}
+
 // Nanos events
 if ( typeof( Events ) != "undefined" ) {
     Events.Subscribe( "SetElementDisplay", setElementDisplay )
@@ -260,4 +281,7 @@ if ( typeof( Events ) != "undefined" ) {
 
     Events.Subscribe( "AddTalker", addTalker )
     Events.Subscribe( "RemoveTalker", removeTalker )
+
+    Events.Subscribe( "ClearKeybinds", clearKeybinds )
+    Events.Subscribe( "AddBindTooltip", addBindTooltip )
 }

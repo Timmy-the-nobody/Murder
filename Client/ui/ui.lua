@@ -44,8 +44,6 @@ local tHUDActions = {
                 GM.WebUI:CallEvent( "SetElementInnerText", "role", "Murderer" )
                 GM.WebUI:CallEvent( "ShowStartScreen", "You're the Murderer", [[
                     You have to murder everybody, preferably without being spotted
-                    <br>You have the ability to sprint faster with your knife equiped
-                    <br>You can also stab, throw your knife and see other player's footprints
                 ]], GM.Cfg.StartScreenTime )
             else
                 GM.WebUI:CallEvent( "SetElementInnerText", "role", "Bystander" )
@@ -53,17 +51,13 @@ local tHUDActions = {
                 -- Detective
                 if eChar:GetStoredWeapon() and ( eChar:GetStoredWeapon() == WeaponType.Pistol ) then
                     GM.WebUI:CallEvent( "ShowStartScreen", "You're the Detective", [[
-                        The bystanders and detective have to find out who the murderer is and kill him.
-                        <br>If the detective kills another bystander, he becomes blind and drops the gun.
-                        <br>Only bystanders can pick up guns, however the detective can pick it up again once they're no longer blind.
+                        The bystanders and detective have to find out who the murderer is and kill him
                     ]], GM.Cfg.StartScreenTime )
 
                 -- Bystander
                 else
                     GM.WebUI:CallEvent( "ShowStartScreen", "You're a Bystander", [[
-                        The bystanders and detective have to find out who the murderer is and kill him.
-                        <br>If the detective kills another bystander, he becomes blind and drops the gun.
-                        <br>Only bystanders can pick up guns, however the detective can pick it up again once they're no longer blind.
+                        The bystanders and detective have to find out who the murderer is and kill him
                     ]], GM.Cfg.StartScreenTime )
                 end
             end
@@ -162,6 +156,9 @@ local tValueChange = {
     end,
     [ "flashlight_battery" ] = function( _, xValue )
         GM.WebUI:CallEvent( "SetElementInnerText", "flashlight-battery", math.floor( xValue ) .. "%" )
+    end,
+    [ "stored_weapon" ] = function( _, _ )
+        RebuildKeybinds()
     end
 }
 
@@ -275,4 +272,56 @@ end )
 --[[ Player VOIP ]]--
 Player.Subscribe( "VOIP", function( pPlayer, bIsTalking )
     GM.WebUI:CallEvent( ( bIsTalking and "AddTalker" or "RemoveTalker" ), pPlayer:GetSteamID(), pPlayer:GetName() )
+end )
+
+--[[ RebuildKeybinds ]]--
+function RebuildKeybinds()
+    GM.WebUI:CallEvent( "ClearKeybinds" )
+
+    local pPlayer = Client.GetLocalPlayer()
+    if not pPlayer then
+        return
+    end
+
+    local eChar = pPlayer:GetControlledCharacter()
+    if not eChar then
+        GM.WebUI:CallEvent( "AddBindTooltip", Input.GetKeyIcon( Input.GetMappedKey( "Scoreboard" ), true ), "Scoreboard" )
+        GM.WebUI:CallEvent( "AddBindTooltip", Input.GetKeyIcon( Input.GetMappedKey( "Rules" ), true ), "Rules" )
+        return
+    end
+
+    GM.WebUI:CallEvent( "AddBindTooltip", Input.GetKeyIcon( Input.GetMappedKey( "Flashlight" ), true ), "Flashlight" )
+
+    local bEquiped = ( eChar:GetPicked() ~= nil )
+    bEquiped = bEquiped or ( eChar:GetStoredWeapon() == nil )
+
+    GM.WebUI:CallEvent( "AddBindTooltip", Input.GetKeyIcon( Input.GetMappedKey( "Equip/Unequip Weapon" ), true ), ( bEquiped and "Unequip" or "Equip" ) .. " Weapon" )
+
+    if bEquiped and eChar:IsMurderer() then
+        GM.WebUI:CallEvent( "AddBindTooltip", Input.GetKeyIcon( Input.GetMappedKey( "Throw Knife" ), true ), "Throw Knife" )
+    end
+end
+
+RebuildKeybinds()
+
+Character.Subscribe( "Death", RebuildKeybinds )
+Character.Subscribe( "PickUp", RebuildKeybinds )
+Events.Subscribe( "GM:OnRoundChange", RebuildKeybinds )
+
+--------------------------------------------------------------------------------
+-- Rules
+--------------------------------------------------------------------------------
+local bRulesToggled = false
+
+Input.Register( "Rules", "F2" )
+Input.Bind( "Rules", InputEvent.Pressed, function()
+    bRulesToggled = not bRulesToggled
+
+    if bRulesToggled then
+        GM.WebUI:CallEvent( "SetElementDisplay", "rules", "flex" )
+        Client.SetMouseEnabled( true )
+    else
+        GM.WebUI:CallEvent( "SetElementDisplay", "rules", "none" )
+        Client.SetMouseEnabled( false )
+    end
 end )
