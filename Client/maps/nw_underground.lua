@@ -36,8 +36,8 @@ end
 
 --[[ StaticMesh ValueChange ]]--
 local tDoorSound = {
-    open = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_open.ogg",
-    close = "package://" .. Package.GetPath() .. "/Client/resources/sounds/door_close.ogg"
+    open = "package://" .. Package.GetPath() .. "/Client/resources/sounds/nw_underground/door_open.ogg",
+    close = "package://" .. Package.GetPath() .. "/Client/resources/sounds/nw_underground/door_close.ogg"
 }
 
 StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
@@ -51,7 +51,7 @@ StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
         false,
         true,
         SoundType.SFX,
-        0.4,
+        0.2,
         math.random( 90, 110 ) * 0.01,
         60
     )
@@ -126,7 +126,32 @@ local function initCCTV()
 end
 
 --[[ Package Load ]]--
+local tRedLightPos = {
+    Vector( 1143, 5606, 63 ),
+    Vector( 2412, 3444, 63 ),
+    Vector( -10215, 2777, 199 ),
+    Vector( -439, 9049, -369 ),
+    Vector( -8008, 9032, 152 )
+}
+
 Package.Subscribe( "Load", function()
     destroyAllDoors()
     initCCTV()
+
+    for _, v in ipairs( tRedLightPos ) do
+        Sound(
+            v,
+            "package://" .. Package.GetPath() .. "/Client/resources/sounds/nw_underground/emergency_light_engine_loop.ogg",
+            false,
+            false,
+            SoundType.SFX,
+            0.25,
+            0.5,
+            30,
+            3600,
+            AttenuationFunction.Linear,
+            false,
+            SoundLoopMode.Forever
+        )
+    end
 end )
