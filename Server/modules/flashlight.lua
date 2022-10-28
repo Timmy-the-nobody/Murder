@@ -1,3 +1,5 @@
+local tFlashlightColor = Color( 0.97, 0.76, 0.46 )
+
 --[[ Character:AttachFlashlight ]]--
 function Character:AttachFlashlight()
     if self:GetAttachedFlashlight() then
@@ -5,18 +7,27 @@ function Character:AttachFlashlight()
     end
 
     local eFlashlight = StaticMesh( Vector(), Rotator(), "nanos-world::SM_Flashlight", CollisionType.NoCollision )
-    eFlashlight:SetScale( Vector( 0.6 ) )
-    eFlashlight:AttachTo( self, AttachmentRule.SnapToTarget, "spine_03", -1, false )
-    eFlashlight:SetRelativeRotation( Rotator( 0, 100, 0 ) )
-    eFlashlight:SetRelativeLocation( Vector( 24, -12, 14 ) )
+    eFlashlight:SetScale( Vector( 0.5 ) )
+    eFlashlight:AttachTo( self, AttachmentRule.SnapToTarget, "head", -1, false )
+    eFlashlight:SetRelativeRotation( Rotator( 0, 90, 0 ) )
+    eFlashlight:SetRelativeLocation( Vector( 12, -4, 0 ) )
 
-    local eLight = Light( Vector(), Rotator(), Color.WHITE, LightType.Spot, 35, 2000, 40, 0, 5000, true, true, false )
+    local eLight = Light( Vector(), Rotator(), tFlashlightColor, LightType.Spot, 5, 3000, 28, 0, 5000, true, true, false )
     eLight:AttachTo( eFlashlight, AttachmentRule.SnapToTarget, "", -1, false )
-    eLight:SetTextureLightProfile( LightProfile.SpotLight_03 )
+    eLight:SetTextureLightProfile( LightProfile.Shattered_04 )
     eLight:SetRelativeLocation( Vector( 35, 0, 0 ) )
 
     self:SetValue( "flashlight_mesh", eFlashlight, false )
     self:SetValue( "flashlight_light", eLight, false )
+
+    self:Subscribe( "Destroy", function()
+        if eFlashlight:IsValid() then
+           eFlashlight:Destroy()
+        end
+        if eLight:IsValid() then
+            eLight:Destroy()
+        end
+    end )
 end
 
 --[[ Character:GetAttachedFlashlight ]]--
@@ -90,8 +101,11 @@ function Character:DisableFlashlight()
 
     -- Regen
     local iRegenTimer = Timer.SetInterval( function()
-        self:SetFlashlightBattery( self:GetFlashlightBattery() + 1 )
+        if ( self:GetGaitMode() == GaitMode.Sprinting ) then
+            self:SetFlashlightBattery( self:GetFlashlightBattery() + 1 )
+        end
     end, GM.Cfg.FlashlightRegenTime )
+
     Timer.Bind( iRegenTimer, self )
     self:SetValue( "battery_regen_timer", iRegenTimer )
 
