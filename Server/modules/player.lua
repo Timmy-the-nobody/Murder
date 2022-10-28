@@ -22,6 +22,7 @@ function Player:CreateCharacter( tPos )
     eChar:SetAccelerationSettings( 1024, 512, 768, 128, 256, 256, 1024 )
     eChar:SetBrakingSettings( 4, 2, 1024, 3000, 10, 0 )
     eChar:SetFallDamageTaken( 0 )
+    eChar:SetCapsuleSize( 36, 96 )
 
     -- Gamemode related
     eChar:AttachFlashlight()
