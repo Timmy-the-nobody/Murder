@@ -1,11 +1,12 @@
-Client.SetOutlineColor( Color( 6.48, 4.16, 0.48 ), 0, 1 )
+-- Client.SetOutlineColor( Color( 6.48, 4.16, 0.48 ), 0, 1 )
+local CurTime = CurTime
+local hsvToColor = Color.FromHSV
+local setOutlineColor = Client.SetOutlineColor
 
---[[ Prop ValueChange ]]--
--- Prop.Subscribe( "ValueChange", function( eSM, sKey, _ )
---     if eSM:IsValid() and ( sKey == "loot_manager_id" ) then
---         eSM:SetOutlineEnabled( true, 0 )
---     end
--- end )
+--[[ Client Tick ]]--
+Client.Subscribe( "Tick", function( _ )
+    setOutlineColor( hsvToColor( math.floor( CurTime() * 0.1 ) % 100, 10, 10 ), 0, 1 )
+end )
 
 --[[ Character Highlight ]]--
 Character.Subscribe( "Highlight", function( eChar, bIsEnabled, eObject )
