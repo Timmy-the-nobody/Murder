@@ -1,15 +1,10 @@
--- Pumpkin
-LOOT_PUMPKIN = LootManager()
-LOOT_PUMPKIN:SetName( "Pumpkin" )
-LOOT_PUMPKIN:SetMesh( "nanos-world::SM_Fruit_Pumpkin_01" )
-LOOT_PUMPKIN:SetLootPoints( 1 )
-LOOT_PUMPKIN:SetOffset( Vector( 0, 0, 0 ) )
-LOOT_PUMPKIN:SetScale( Vector( 1.5 ) )
-
 -- Canister
 LOOT_CANISTER = LootManager()
 LOOT_CANISTER:SetName( "Canister" )
 LOOT_CANISTER:SetMesh( "nanos-world::SM_Canister" )
+LOOT_CANISTER:SetLootPoints( 1 )
+LOOT_CANISTER:SetOffset( Vector( 0, 0, 0 ) )
+LOOT_CANISTER:SetScale( Vector( 1.5 ) )
 
 -- Boltcutters
 LOOT_BOLTCUTTERS = LootManager( "nanos-world::SM_Boltcutters" )
@@ -35,6 +30,7 @@ LOOT_SPRAYCAN:SetMesh( "nanos-world::SM_Spraycan_01" )
 LOOT_SUNGLASSES = LootManager()
 LOOT_SUNGLASSES:SetName( "Sunglasses" )
 LOOT_SUNGLASSES:SetMesh( "nanos-world::SM_Sunglasses" )
+LOOT_SUNGLASSES:SetOffset( Vector( 0, 0, 2 ) )
 
 -- Paintbrush
 LOOT_PAINTBRUSH = LootManager()

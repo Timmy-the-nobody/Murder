@@ -69,7 +69,7 @@ function Character:EquipWeapon()
         return false, "You don't have any weapon"
     end
 
-    self:SetWeapon( false )
+    self:SetWeapon( nil )
 
     local eWeapon = GM.Weapons[ iWeaponType ].spawn()
     if GM.Weapons[ iWeaponType ].onDrop then
@@ -128,6 +128,7 @@ function Character:ThrowKnife()
 
     self:PlayAnimation( "nanos-world::A_Mannequin_Throw_01", AnimationSlotType.FullBody, false, 0.25, 0.25, 3, false )
     self:SetValue( "knife_throw_anim", true, false )
+    self:SetMovementEnabled( false )
 
     local iThrowAnimTimer = Timer.SetTimeout( function()
         if not self:IsValid() or not ePicked:IsValid() then
@@ -140,6 +141,7 @@ function Character:ThrowKnife()
 
         self:SetValue( "knife_throw_anim", nil, false )
         self:Drop()
+        self:SetMovementEnabled( true )
 
         local tForward = self:GetControlRotation():GetForwardVector()
 

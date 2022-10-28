@@ -11,7 +11,7 @@ GM.Cfg.RoundMaxTime = 600000                                    -- Maximum durat
 GM.Cfg.RoundEndTime = 15000                                     -- Time before the round starts again [default: 15000]
 GM.Cfg.PlayersWaitTime = 20000                                  -- Minimum time to wait for players to join [default: 20000]
 GM.Cfg.StartScreenTime = 10000                                  -- Time the start screen will stay visible [default: 10000]
-GM.Cfg.MinPlayers = 3                                           -- Minimum players to start a round [default: 2]
+GM.Cfg.MinPlayers = 3                                           -- Minimum players to start a round [default: 3]
 
 --------------------------------------------------------------------------------
 -- Loot config
@@ -19,7 +19,7 @@ GM.Cfg.MinPlayers = 3                                           -- Minimum playe
 GM.Cfg.LootSpawnTime = 4000                                     -- Time between loot spawns [default: 4000]
 GM.Cfg.MaxLootPerPlayer = 3                                     -- Maximum loot per player spawned at the same time [default: 3]
 GM.Cfg.BonusRequiredCollectables = 5                            -- Required collectables to get a new pistol [default: 5]
-GM.Cfg.LootHaloDistance = 1000000                               -- Maximum distance from the loot for the outline to show up [default: 1000000]
+GM.Cfg.LootHaloDistance = 2000000                               -- Maximum distance from the loot for the outline to show up [default: 1000000]
 
 --------------------------------------------------------------------------------
 -- Disguise
@@ -74,7 +74,7 @@ GM.Cfg.CodeColors = {                                           -- Charactes/Nam
     Color( 0.9058, 0.2980, 0.2352 ),                                    -- Red
     Color( 0.6078, 0.3490, 0.7137 ),                                    -- Purple
     Color( 0.9098, 0.2627, 0.5764 ),                                    -- Pink
-    Color( 0.8745, 0.9019, 0.9137 )                                     -- White
+    -- Color( 0.8745, 0.9019, 0.9137 )                                     -- White
 }
 
 GM.Cfg.CodeNames = {                                            -- Code names
