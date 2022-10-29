@@ -1,12 +1,14 @@
+Input.__KeyIcons["MiddleMouseButton"] = "Mouse_Middle_Key"
+
 --------------------------------------------------------------------------------
 -- Weapon Inputs
 --------------------------------------------------------------------------------
-Input.Register( "Equip/Unequip Weapon", "G" )
+Input.Register( "Equip/Unequip Weapon", "MiddleMouseButton" )
 Input.Bind( "Equip/Unequip Weapon", InputEvent.Pressed, function()
     NW.Send( "GM:Weapon:Toggle" )
 end )
 
-Input.Register( "Throw Knife", "A" )
+Input.Register( "Throw Knife", "LeftAlt" )
 Input.Bind( "Throw Knife", InputEvent.Pressed, function()
     NW.Send( "GM:Weapon:ThrowKnife" )
 end )

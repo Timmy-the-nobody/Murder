@@ -224,24 +224,6 @@ body {
     height: 40vh;
 }
 
-#round-overview-murderer {
-    width: 100%;
-    text-align: center;
-    font-size: 2.5vh;
-    font-style: italic;
-    margin: 0;
-    height: 3vh;
-    line-height: 3vh;
-    background-color: var(--bg-color);
-    background: repeating-linear-gradient(
-        -45deg,
-        var(--bg-color),
-        var(--bg-color) 1vh,
-        var(--bg-color-2) 1vh,
-        var(--bg-color-2) 2vh
-    );
-}
-
 #round-overview-list {
     position: relative;
     width: 100%;
@@ -390,7 +372,7 @@ body {
     background-color: var(--bg-color);
     box-shadow: 0 0 0.5vh var(--shadow-color);
     overflow: hidden;
-    backdrop-filter: blur(0.5vh);
+    backdrop-filter: blur(1vh);
 }
 
 .menu-header {
@@ -409,6 +391,26 @@ body {
         var(--main-color-2) 2vh
     );
     box-shadow: 0 1px 0.5vh var(--shadow-color);
+}
+
+.menu-subtitle {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-size: 2.5vh;
+    font-style: italic;
+    padding-top: auto;
+    padding-bottom: auto;
+    height: 4vh;
+    line-height: 4vh;
+    background-color: var(--bg-color);
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--bg-color),
+        var(--bg-color) 1vh,
+        var(--bg-color-2) 1vh,
+        var(--bg-color-2) 2vh
+    );
 }
 
 #scoreboard {
@@ -465,7 +467,7 @@ body {
     Rules
 */
 #rules {
-    /* display: none; */
+    display: none;
     width: 95vh;
 }
 
@@ -476,7 +478,7 @@ body {
     display: flex;
     gap: 2vh;
     flex-direction: column;
-    padding: 2vh;
+    padding-bottom: 2vh;
 }
 
 .rule-container {

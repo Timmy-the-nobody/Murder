@@ -24,7 +24,7 @@ GM.Cfg.LootHaloDistance = 2000000                               -- Maximum dista
 --------------------------------------------------------------------------------
 -- Disguise
 --------------------------------------------------------------------------------
-GM.Cfg.DisguiseLootRequired = 2                                 -- Required loot to disguise as a dead player [default: 2]
+GM.Cfg.DisguiseLootRequired = 5                                 -- Required loot to disguise as a dead player [default: 2]
 GM.Cfg.DisguiseCooldown = 10000                                 -- Time before a player can disguise again [default: 10000]
 
 --------------------------------------------------------------------------------

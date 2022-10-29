@@ -304,8 +304,16 @@ end
 
 RebuildKeybinds()
 
-Character.Subscribe( "Death", RebuildKeybinds )
-Character.Subscribe( "PickUp", RebuildKeybinds )
+Character.Subscribe( "Death", function( eChar )
+    if LocalCharacter() and ( eChar == LocalCharacter() ) then RebuildKeybinds() end
+end )
+Character.Subscribe( "PickUp", function( eChar )
+    if LocalCharacter() and ( eChar == LocalCharacter() ) then RebuildKeybinds() end
+end )
+Character.Subscribe( "Drop", function( eChar )
+    if LocalCharacter() and ( eChar == LocalCharacter() ) then RebuildKeybinds() end
+end )
+
 Events.Subscribe( "GM:OnRoundChange", RebuildKeybinds )
 
 --------------------------------------------------------------------------------
