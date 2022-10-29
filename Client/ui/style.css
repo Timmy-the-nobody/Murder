@@ -17,7 +17,7 @@
     --roundness: 0.35vh;
 
     --text-color: #dbe5e7;
-    --bg-color: #303030d5;
+    --bg-color: #303030e5;
     --bg-color-2: #1f1f1fe0;
     --shadow-color: #00000086;
     --main-color: #f39c12;
@@ -466,7 +466,7 @@ body {
 */
 #rules {
     /* display: none; */
-    width: 90vh;
+    width: 95vh;
 }
 
 .rules-content {
@@ -474,7 +474,7 @@ body {
     overflow: hidden;
     overflow-y: auto;
     display: flex;
-    gap: 1vh;
+    gap: 2vh;
     flex-direction: column;
     padding: 2vh;
 }
@@ -488,22 +488,22 @@ body {
     margin-right: auto;
     height: fit-content;
     gap: 2vh;
-    padding: 2vh;
+    padding: 1.5vh;
     /* border-top: solid 1px var(--bg-color);
     border-left: none;
     border-right: none; */
     background: radial-gradient(
-        circle at 0% 50%,
+        circle at 0vh 50%,
         var(--bg-color-2) 0%,
-        var(--bg-color-2) 21vh,
-        transparent 21vh,
+        var(--bg-color-2) 12vh,
+        transparent 12vh,
         transparent 100%
     );
-    border-radius: 50%;
+    border-radius: 20vh 0 0 20vh;
 }
 .rules-image, .rules-image:before {
-    min-width: 20vh;
-    min-height: 20vh;
+    min-width: 16vh;
+    min-height: 16vh;
     background: url("./images/loot.jpg");
     background-size: contain;
     background-repeat: no-repeat;
@@ -514,7 +514,7 @@ body {
     box-shadow:
         inset 0 -0.5vh 1vh var(--shadow-color),
         0 0 0 0.25vh var(--shadow-color),
-        0 0 1.5vh var(--shadow-color);
+        0 0 1vh var(--shadow-color);
 }
 
 .rules-image:before {
@@ -523,8 +523,8 @@ body {
     display: block;
     position: absolute;
     border: dashed 0.5vh var(--main-color);
-    top: 2vh;
-    left: 2vh;
+    top: 1.5vh;
+    left: 1.5vh;
   }
 
 .rules-text-content {
