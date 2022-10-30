@@ -9,9 +9,9 @@
 --------------------------------------------------------------------------------
 GM.Cfg.RoundMaxTime = 600000                                    -- Maximum duration of a round [default: 600000]
 GM.Cfg.RoundEndTime = 15000                                     -- Time before the round starts again [default: 15000]
-GM.Cfg.PlayersWaitTime = 2000                                  -- Minimum time to wait for players to join [default: 20000]
-GM.Cfg.StartScreenTime = 1000                                  -- Time the start screen will stay visible [default: 10000]
-GM.Cfg.MinPlayers = 1                                           -- Minimum players to start a round [default: 3]
+GM.Cfg.PlayersWaitTime = 20000                                  -- Minimum time to wait for players to join [default: 20000]
+GM.Cfg.StartScreenTime = 10000                                  -- Time the start screen will stay visible [default: 10000]
+GM.Cfg.MinPlayers = 3                                           -- Minimum players to start a round [default: 3]
 
 --------------------------------------------------------------------------------
 -- Loot config
