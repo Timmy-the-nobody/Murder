@@ -291,6 +291,7 @@ function RebuildKeybinds()
     end
 
     GM.WebUI:CallEvent( "AddBindTooltip", Input.GetKeyIcon( Input.GetMappedKey( "Flashlight" ), true ), "Flashlight" )
+    GM.WebUI:CallEvent( "AddBindTooltip", Input.GetKeyIcon( Input.GetMappedKey( "Taunt" ), true ), "Taunt" )
 
     local bEquiped = ( eChar:GetPicked() ~= nil )
     bEquiped = bEquiped or ( eChar:GetStoredWeapon() == nil )
@@ -302,7 +303,7 @@ function RebuildKeybinds()
     end
 end
 
-RebuildKeybinds()
+Package.Subscribe( "Load", RebuildKeybinds )
 
 Character.Subscribe( "Death", function( eChar )
     if LocalCharacter() and ( eChar == LocalCharacter() ) then RebuildKeybinds() end
