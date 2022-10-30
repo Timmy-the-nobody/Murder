@@ -53,7 +53,7 @@ function Player:Notify( iNotifType, sText, iTime )
     end
 
     sText = sText or "???"
-    iTime = iTime or 5000
+    iTime = iTime or 3000
 
     GM.WebUI:CallEvent( "Notify", sText, iTime, tNotifInfo[ iNotifType ].color, tNotifInfo[ iNotifType ].icon )
 

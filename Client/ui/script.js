@@ -214,8 +214,6 @@ let updateRoundOverview = function( tData ) {
             </div>
         `
     }
-
-    console.log( JSON.stringify( tData ) )
 }
 
 // addTalker
