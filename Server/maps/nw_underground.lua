@@ -114,7 +114,8 @@ local function initDoors()
             eDoor:SetScale( tDoor.scale )
         end
 
-        eDoor:SetValue( "door_id", iDoorID, false )
+        eDoor:SetVisibility( false )
+        eDoor:SetValue( "door_id", iDoorID, true )
         eDoor:SetValue( "door_open", false, false )
 
         local eTrigger = Trigger(

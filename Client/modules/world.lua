@@ -9,7 +9,7 @@ Character.Subscribe( "Possessed", function( _, pPlayer )
         -- Effects
         World.SetPPBloom( 0.5, 5 )
         -- World.SetPPChromaticAberration( 1, 0.001 )
-        World.SetPPImageEffects( 0.5, 1.04 )
+        World.SetPPImageEffects( 0.5, 1.02 )
 
         -- Color correction
         World.SetPPFilm( 0.8, 0.55, 0.26, 0.001, 0.3 )

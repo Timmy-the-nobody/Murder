@@ -2,6 +2,30 @@ local iNextTick = 0
 local CurTime = CurTime
 local sMap = Server.GetMap()
 
+--[[ GM:ClearMap ]]--
+function GM:ClearMap()
+    local tClear = {
+        "Character",
+        "Weapon",
+        "Melee",
+        "Prop",
+        "StaticMesh",
+        "Particle",
+        "Trigger",
+        "Light"
+    }
+
+    for _, sClass in ipairs( tClear ) do
+        for _, v in ipairs( _ENV[ sClass ].GetAll() ) do
+            if v:IsValid() then
+                v:Destroy()
+            end
+        end
+    end
+
+    Events.Call( "GM:OnMapCleared" )
+end
+
 --[[
     GM:SetRound
         desc: Sets the round
@@ -78,26 +102,7 @@ function GM:EndRound( iReason )
 
     Timer.SetTimeout( function()
         -- Clear map entities
-        local tClear = {
-            "Character",
-            "Weapon",
-            "Melee",
-            "Prop",
-            "StaticMesh",
-            "Particle",
-            "Trigger",
-            "Light"
-        }
 
-        for _, sClass in ipairs( tClear ) do
-            for _, v in ipairs( _ENV[ sClass ].GetAll() ) do
-                if v:IsValid() then
-                    v:Destroy()
-                end
-            end
-        end
-
-        Events.Call( "GM:OnMapCleared" )
     end, GM.Cfg.RoundEndTime or 5000 )
 end
 
@@ -111,9 +116,11 @@ function GM:StartRound()
         return
     end
 
+    self:ClearMap()
+
     local tSpawns = { Vector() }
-    if GM.CharacterSpawns[ sMap ] and ( #GM.CharacterSpawns[ sMap ] > 0 ) then
-        tSpawns = GM.CharacterSpawns[ sMap ]
+    if self.CharacterSpawns[ sMap ] and ( #self.CharacterSpawns[ sMap ] > 0 ) then
+        tSpawns = self.CharacterSpawns[ sMap ]
     end
 
     for _, pPlayer in ipairs( tPlayers ) do
@@ -129,7 +136,7 @@ function GM:StartRound()
                 eChar:SetInvulnerable( false )
                 eChar:SetCollision( CollisionType.Normal )
             end
-        end, GM.Cfg.StartScreenTime )
+        end, self.Cfg.StartScreenTime )
     end
 
     local tAllChars = Character.GetAll()

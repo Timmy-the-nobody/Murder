@@ -51,9 +51,9 @@ StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
         false,
         true,
         SoundType.SFX,
-        0.2,
+        0.16,
         math.random( 90, 110 ) * 0.01,
-        60
+        50
     )
 
     oSound:AttachTo( eSM, AttachmentRule.SnapToTarget, "", -1, false )
@@ -147,11 +147,65 @@ Package.Subscribe( "Load", function()
             SoundType.SFX,
             0.25,
             0.5,
-            30,
+            20,
             3600,
             AttenuationFunction.Linear,
             false,
             SoundLoopMode.Forever
         )
+    end
+end )
+
+--------------------------------------------------------------------------------
+-- Client Doors
+--------------------------------------------------------------------------------
+local tCSDoors = {}
+
+StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
+    if ( sKey ~= "door_id" ) or not eSM or not eSM:IsValid() then
+        return
+    end
+
+    tCSDoors[ xValue ] = {
+        serverMesh = eSM
+    }
+
+    local eCSDoor = StaticMesh( eSM:GetLocation(), eSM:GetRotation(), eSM:GetMesh(), CollisionType.NoCollision )
+    eCSDoor:SetScale( eSM:GetScale() )
+
+    tCSDoors[ xValue ].clientMesh = eCSDoor
+end )
+
+--[[ StaticMesh Destroy ]]--
+StaticMesh.Subscribe( "Destroy", function( eSM )
+    local iDoorID = eSM:GetValue( "door_id" )
+    if not iDoorID or not tCSDoors[ iDoorID ] then
+        return
+    end
+
+    if tCSDoors[ iDoorID ].clientMesh and tCSDoors[ iDoorID ].clientMesh:IsValid() then
+        tCSDoors[ iDoorID ].clientMesh:Destroy()
+        tCSDoors[ iDoorID ] = nil
+    end
+end )
+
+Client.Subscribe( "Tick", function( fDelta )
+    for _, v in ipairs( tCSDoors ) do
+        if not v.serverMesh or not v.serverMesh:IsValid() then
+            goto continue
+        end
+
+        if not v.clientMesh or not v.clientMesh:IsValid() then
+            goto continue
+        end
+
+        local tCSPos = v.clientMesh:GetLocation()
+        local tSVPos = v.serverMesh:GetLocation()
+
+        if not tCSPos:Equals( tSVPos, 0.1 ) then
+            v.clientMesh:SetLocation( NanosMath.VInterpTo( tCSPos, tSVPos, fDelta, 4 ) )
+        end
+
+        ::continue::
     end
 end )
