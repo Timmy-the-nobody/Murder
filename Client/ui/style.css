@@ -209,7 +209,7 @@ body {
 #end-game-text {
     width: 100%;
     text-align: center;
-    top: 14%;
+    top: 16%;
     font-size: 7vh;
     color:var(--main-color);
     text-transform: uppercase;
