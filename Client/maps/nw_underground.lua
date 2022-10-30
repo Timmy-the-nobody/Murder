@@ -145,7 +145,7 @@ Package.Subscribe( "Load", function()
             false,
             false,
             SoundType.SFX,
-            0.25,
+            0.4,
             0.5,
             20,
             3600,

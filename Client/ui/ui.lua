@@ -271,7 +271,10 @@ end )
 
 --[[ Player VOIP ]]--
 Player.Subscribe( "VOIP", function( pPlayer, bIsTalking )
-    GM.WebUI:CallEvent( ( bIsTalking and "AddTalker" or "RemoveTalker" ), pPlayer:GetSteamID(), pPlayer:GetName() )
+    local eChar = pPlayer:GetControlledCharacter()
+    local sName = eChar and eChar:GetCodeName() or pPlayer:GetName()
+
+    GM.WebUI:CallEvent( ( bIsTalking and "AddTalker" or "RemoveTalker" ), pPlayer:GetSteamID(), sName )
 end )
 
 --[[ RebuildKeybinds ]]--

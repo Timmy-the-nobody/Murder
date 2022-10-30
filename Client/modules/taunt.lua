@@ -14,7 +14,7 @@ local function playTaunt( eChar, iTaunt )
         false,
         true,
         SoundType.SFX,
-        0.4,
+        0.5,
         1,
         70
     )

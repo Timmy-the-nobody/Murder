@@ -5,6 +5,7 @@ Package.Require( "modules/weapon.lua" )
 Package.Require( "modules/loot.lua" )
 Package.Require( "modules/flashlight.lua" )
 Package.Require( "modules/taunt.lua" )
+Package.Require( "modules/communication.lua" )
 
 Package.Require( "modules/admin.lua" )
 
