@@ -2,6 +2,7 @@ local Vector = Vector
 local Rotator = Rotator
 local CurTime = CurTime
 local LocalCharacter = LocalCharacter
+local sMap = Client.GetMap()
 
 --------------------------------------------------------------------------------
 -- Config
@@ -58,11 +59,16 @@ local lastTranslateTo = false
 
 --[[ stopIntro ]]--
 local function stopIntro()
-    LocalPlayer():ResetCamera()
-
     if lastTranslateTo then
         Client.Unsubscribe( "Tick", lastTranslateTo )
         lastTranslateTo = false
+    end
+
+    local pLocal = LocalPlayer()
+    if pLocal and pLocal:IsValid() then
+        local tCurRot = pLocal:GetCameraRotation()
+        pLocal:SetCameraRotation( Rotator( tCurRot.Pitch, tCurRot.Yaw, 0 ) )
+        pLocal:ResetCamera()
     end
 
     Client.SetInputEnabled( true )
@@ -71,16 +77,7 @@ local function stopIntro()
     bIntroRunning = false
 end
 
-if bDebugIntro then
-    stopIntro()
-    return
-end
-
-local sMap = Client.GetMap()
-if not tIntro[ sMap ] then
-    return
-end
-
+stopIntro()
 
 --[[ transition from A to B, in a given time ]]--
 local function moveFloat( fA, fB, iStartTime, iCurTime, iDurationMs )
@@ -178,6 +175,10 @@ end
 
 --[[ startIntro ]]
 local function startIntro()
+    if bDebugIntro or not tIntro[ sMap ] then
+        return
+    end
+
     Client.SetInputEnabled( false )
     Client.SetMouseEnabled( true )
 
@@ -191,5 +192,16 @@ Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
         startIntro()
     else
         stopIntro()
+    end
+end )
+
+--[[ Player ValueChange ]]--
+Player.Subscribe( "ValueChange", function( pPlayer, sKey, xValue )
+    if ( pPlayer == LocalPlayer() ) and ( sKey == "admin_mode_enabled" ) then
+        if xValue then
+            stopIntro()
+        else
+            startIntro()
+        end
     end
 end )

@@ -33,7 +33,7 @@ function Character:SetTeamKiller( bTeamKiller )
 end
 
 --------------------------------------------------------------------------------
--- Code name
+-- Code name/code color
 --------------------------------------------------------------------------------
 --[[ Character:SetCodeName ]]--
 function Character:SetCodeName( sName )
@@ -54,12 +54,9 @@ end
 
 --[[ Character:SetCodeColor ]]--
 function Character:SetCodeColor( tColor )
-    if getmetatable( tColor ) == Color then
+    if ( getmetatable( tColor ) == Color ) then
         self:SetValue( "code_color", tColor, true )
         self:SetMaterialColorParameter( "Tint", tColor * 0.25 )
-        -- self:SetMaterialScalarParameter( "Metallic", 1 )
-        -- self:SetMaterialScalarParameter( "Specular", 1 )
-        -- self:SetMaterialScalarParameter( "Roughness", 1 )
     end
 end
 

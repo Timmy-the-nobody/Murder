@@ -9,9 +9,9 @@
 --------------------------------------------------------------------------------
 GM.Cfg.RoundMaxTime = 600000                                    -- Maximum duration of a round [default: 600000]
 GM.Cfg.RoundEndTime = 15000                                     -- Time before the round starts again [default: 15000]
-GM.Cfg.PlayersWaitTime = 20000                                  -- Minimum time to wait for players to join [default: 20000]
-GM.Cfg.StartScreenTime = 10000                                  -- Time the start screen will stay visible [default: 10000]
-GM.Cfg.MinPlayers = 3                                           -- Minimum players to start a round [default: 3]
+GM.Cfg.PlayersWaitTime = 2000                                  -- Minimum time to wait for players to join [default: 20000]
+GM.Cfg.StartScreenTime = 1000                                  -- Time the start screen will stay visible [default: 10000]
+GM.Cfg.MinPlayers = 1                                           -- Minimum players to start a round [default: 3]
 
 --------------------------------------------------------------------------------
 -- Loot config
@@ -55,6 +55,7 @@ GM.Cfg.KnifeHighlightColor = Color( 20, 0, 0 )                  -- Color of the 
 GM.Cfg.DeadPlayerHighlightColor = Color( 30, 16, 35 )           -- Color of the dead players highlight [default: Color( 30, 16, 35 )]
 
 GM.Cfg.KnifeAutoPickupDuration = 15000                          -- Time a knife will stay on the ground before it gets picked up [default: 15000]
+GM.Cfg.TauntCooldown = 5000                                     -- Time before a player can taunt again [default: 5000]
 
 --------------------------------------------------------------------------------
 -- VOIP
@@ -70,7 +71,7 @@ GM.Cfg.CodeColors = {                                           -- Charactes/Nam
     Color( 0.2039, 0.5960, 0.8588 ),                                    -- Blue
     Color( 0.1803, 0.8000, 0.4431 ),                                    -- Green
     Color( 0.9450, 0.7686, 0.0588 ),                                    -- Yellow
-    Color( 0.8274, 0.3294, 0.0000 ),                                    -- Orange
+    -- Color( 0.8274, 0.3294, 0.0000 ),                                    -- Orange
     Color( 0.9058, 0.2980, 0.2352 ),                                    -- Red
     Color( 0.6078, 0.3490, 0.7137 ),                                    -- Purple
     Color( 0.9098, 0.2627, 0.5764 ),                                    -- Pink
