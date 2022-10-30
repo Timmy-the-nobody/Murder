@@ -19,3 +19,15 @@ for _, sPath in ipairs( Package.GetFiles( "Client/maps", ".lua" ) ) do
 end
 
 Client.SetDebugEnabled( false )
+
+--[[ Chat Location ]]--
+local tVPSize = Client.GetViewportSize()
+Client.SetChatConfiguration(
+    Vector2D( ( tVPSize.Y * 0.025 ), 0),
+    Vector2D( 600, 250 ),
+    Vector2D( 0, 0.9 ),
+    Vector2D( 0, 0.9 ),
+    Vector2D( 0, 1 ),
+    false,
+    true
+)
