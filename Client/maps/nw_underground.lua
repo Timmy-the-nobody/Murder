@@ -203,7 +203,7 @@ Client.Subscribe( "Tick", function( fDelta )
         local tSVPos = v.serverMesh:GetLocation()
 
         if not tCSPos:Equals( tSVPos, 0.1 ) then
-            v.clientMesh:SetLocation( NanosMath.VInterpTo( tCSPos, tSVPos, fDelta, 4 ) )
+            v.clientMesh:SetLocation( NanosMath.VInterpTo( tCSPos, tSVPos, fDelta, 5 ) )
         end
 
         ::continue::
