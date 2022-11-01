@@ -226,7 +226,6 @@ NW.Receive( "GM:Character:RequestDisguise", function( pPlayer, eVictim )
     end
 
     eChar:SetValue( "last_disguise", CurTime(), false )
-
     eChar:SetCollectedLoot( eChar:GetCollectedLoot() - GM.Cfg.DisguiseLootRequired )
     eChar:Disguise( eVictim )
 

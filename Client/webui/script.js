@@ -25,6 +25,11 @@ let setElementInnerText = function( sElement, sValue, sStyle ) {
     }
 }
 
+// setElementInnerHTML
+let setElementInnerHTML = function( sElement, sValue, sStyle ) {
+    document.getElementById( sElement ).innerHTML = sValue
+}
+
 // setElementProperty
 let setElementProperty = function( sElement, sProperty, sValue ) {
     document.getElementById( sElement ).style.setProperty( "--" + sProperty, sValue )
@@ -264,6 +269,7 @@ let addBindTooltip = function( sIconURL, sText ) {
 if ( typeof( Events ) != "undefined" ) {
     Events.Subscribe( "SetElementDisplay", setElementDisplay )
     Events.Subscribe( "SetElementInnerText", setElementInnerText )
+    Events.Subscribe( "SetElementInnerHTML", setElementInnerHTML )
     Events.Subscribe( "SetElementProperty", setElementProperty )
     Events.Subscribe( "SetProperty", setProperty ) 
     Events.Subscribe( "ShowTarget", showTarget )

@@ -1,7 +1,11 @@
 local mathCeil = math.ceil
 local CurTime = CurTime
 
-GM.WebUI = WebUI( "GUI", "file://ui/index.html", true )
+GM.WebUI = WebUI( "GUI", "file://webui/index.html", true )
+GM.WebUI:Subscribe( "Ready", function()
+    GM.WebUI:CallEvent( "SetElementInnerHTML", "req-loot-bystander", "Innocents can loot <b>" .. GM.Cfg.BonusRequiredCollectables .. " collectable(s)</b> to get a pistol" )
+    GM.WebUI:CallEvent( "SetElementInnerHTML", "req-loot-murderer", "The murderer can loot <b>" .. GM.Cfg.DisguiseLootRequired .. " collectable(s)</b> to be able to disguise as a victim" )
+end )
 
 --[[ updateWaitingPlayers ]]--
 local function updateWaitingPlayers()
@@ -257,7 +261,7 @@ Character.Subscribe( "Death", updateScoreboard )
 Events.Subscribe( "GM:OnRoundChange", updateScoreboard )
 
 Player.Subscribe( "ValueChange", function( pPlayer, sKey, _ )
-    if ( sKey == "score" ) then
+    if ( pPlayer == LocalPlayer() ) and ( sKey == "score" ) then
         updateScoreboard()
     end
 end )
