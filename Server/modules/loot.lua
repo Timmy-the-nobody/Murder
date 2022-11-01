@@ -48,6 +48,7 @@ function GM:SpawnLoot()
         CollisionType.Normal
     )
 
+    eLoot:SetScale( oRandomLoot:GetScale() )
     eLoot:SetGravityEnabled( false )
     eLoot:SetCollision( CollisionType.IgnoreOnlyPawn )
     eLoot:SetValue( "loot_manager_id", iLootID, true )

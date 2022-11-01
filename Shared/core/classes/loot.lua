@@ -77,7 +77,7 @@ end
 
 --[[ LootManager:[Get/Set]Scale ]]--
 function LootManager:GetScale()
-    return self.scale
+    return self.scale or Vector( 1 )
 end
 
 function LootManager:SetScale( tScale )

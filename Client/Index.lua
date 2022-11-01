@@ -1,4 +1,4 @@
-Package.Require( "ui/ui.lua" )
+Package.Require( "webui/ui.lua" )
 
 Package.Require( "modules/round.lua" )
 Package.Require( "modules/player.lua" )

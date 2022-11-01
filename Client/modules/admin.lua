@@ -6,20 +6,6 @@ local sIDKey = GM.AdminSubModes[ 1 ].placeholderIDKey
 local iCollision = CollisionChannel.WorldStatic | CollisionChannel.WorldDynamic | CollisionChannel.PhysicsBody | CollisionChannel.Mesh
 local traceLine = Client.TraceLineSingle
 
--- TODO: Remove, used for debug purposes
--- function GETCLOSEMESHES()
---     local tCharPos = LocalCharacter():GetLocation()
---     local tFound = {}
---     for _, v in ipairs(StaticMesh.GetAll()) do
---         if v:IsFromLevel() and v:GetLocation():Distance(tCharPos) < 1000 then
---             if not tFound[v:GetMesh()] then
---                 tFound[ v:GetMesh() ] = true
---                 print(v:GetMesh())
---             end
---         end
---     end
--- end
-
 --[[ getEyeTrace ]]--
 local function getEyeTrace( tFilter )
     local pPlayer = LocalPlayer()
@@ -121,7 +107,8 @@ Player.Subscribe( "ValueChange", function( pPlayer, sKey, xValue )
     end
 end )
 
-StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
+--[[ StaticMesh ValueChange ]]--
+StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, _ )
     if not LocalPlayer():IsAdminModeEnabled() then
         return
     end

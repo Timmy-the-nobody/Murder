@@ -199,7 +199,7 @@ body {
 #game-over, #end-game-text {
     position: absolute;
     left: 50%;
-    top: 10%;
+    top: 14%;
     font-size: 5vh;
     font-weight: bold;
     transform: translate(-50%, -50%);
@@ -209,7 +209,7 @@ body {
 #end-game-text {
     width: 100%;
     text-align: center;
-    top: 16%;
+    top: 20%;
     font-size: 7vh;
     color:var(--main-color);
     text-transform: uppercase;
@@ -467,7 +467,7 @@ body {
     Rules
 */
 #rules {
-    display: none;
+    /* display: none; */
     width: 95vh;
 }
 

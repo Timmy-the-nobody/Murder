@@ -14,9 +14,9 @@ local function playTaunt( eChar, iTaunt )
         false,
         true,
         SoundType.SFX,
-        0.5,
+        0.7,
         1,
-        70
+        80
     )
 
     oTaunt:AttachTo( eChar, AttachmentRule.SnapToTarget, "", -1, false )

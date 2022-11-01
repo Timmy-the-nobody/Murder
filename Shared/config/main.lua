@@ -1,9 +1,3 @@
---[[
-    Credits:
-        Gamemode made with <3 by Timmy (https://github.com/Timmy-the-nobody)
-        Inspired by MechanicalMind's Murder gamemode (https://github.com/MechanicalMind/murder)
-        Audio from Zapsplat.com
-]]--
 --------------------------------------------------------------------------------
 -- Rounds config
 --------------------------------------------------------------------------------
@@ -16,15 +10,15 @@ GM.Cfg.MinPlayers = 3                                           -- Minimum playe
 --------------------------------------------------------------------------------
 -- Loot config
 --------------------------------------------------------------------------------
-GM.Cfg.LootSpawnTime = 4000                                     -- Time between loot spawns [default: 4000]
-GM.Cfg.MaxLootPerPlayer = 3                                     -- Maximum loot per player spawned at the same time [default: 3]
+GM.Cfg.LootSpawnTime = 8000                                     -- Time between loot spawns [default: 4000]
+GM.Cfg.MaxLootPerPlayer = 2                                     -- Maximum loot per player spawned at the same time [default: 3]
 GM.Cfg.BonusRequiredCollectables = 5                            -- Required collectables to get a new pistol [default: 5]
 GM.Cfg.LootHaloDistance = 2000000                               -- Maximum distance from the loot for the outline to show up [default: 1000000]
 
 --------------------------------------------------------------------------------
 -- Disguise
 --------------------------------------------------------------------------------
-GM.Cfg.DisguiseLootRequired = 5                                 -- Required loot to disguise as a dead player [default: 2]
+GM.Cfg.DisguiseLootRequired = 1                                 -- Required loot to disguise as a dead player [default: 1]
 GM.Cfg.DisguiseCooldown = 10000                                 -- Time before a player can disguise again [default: 10000]
 
 --------------------------------------------------------------------------------

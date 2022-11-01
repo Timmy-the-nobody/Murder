@@ -135,7 +135,7 @@ Character.Subscribe( "GrabProp", function( eChar, _ ) eChar:ComputeSpeed() end )
 -- Death
 --------------------------------------------------------------------------------
 --[[ Character Death ]]--
-Character.Subscribe( "Death", function( eChar, _, _, _, _, pInstigator, eCauser )
+Character.Subscribe( "Death", function( eChar, _, _, _, _, pInstigator, _ )
     -- Send voice in dead players VOIP channel
     local pPlayer = eChar:GetPlayer()
     if pPlayer and pPlayer:IsValid() then
