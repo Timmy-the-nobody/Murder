@@ -3,15 +3,15 @@
 --------------------------------------------------------------------------------
 GM.Cfg.RoundMaxTime = 600000                                    -- Maximum duration of a round [default: 600000]
 GM.Cfg.RoundEndTime = 15000                                     -- Time before the round starts again [default: 15000]
-GM.Cfg.PlayersWaitTime = 20000                                  -- Minimum time to wait for players to join [default: 20000]
-GM.Cfg.StartScreenTime = 10000                                  -- Time the start screen will stay visible [default: 10000]
+GM.Cfg.PlayersWaitTime = 10000                                  -- Minimum time to wait for players to join [default: 10000]
+GM.Cfg.StartScreenTime = 5000                                   -- Time the start screen will stay visible [default: 5000]
 GM.Cfg.MinPlayers = 3                                           -- Minimum players to start a round [default: 3]
 
 --------------------------------------------------------------------------------
 -- Loot config
 --------------------------------------------------------------------------------
-GM.Cfg.LootSpawnTime = 8000                                     -- Time between loot spawns [default: 4000]
-GM.Cfg.MaxLootPerPlayer = 2                                     -- Maximum loot per player spawned at the same time [default: 3]
+GM.Cfg.LootSpawnTime = 12000                                    -- Time between loot spawns [default: 4000]
+GM.Cfg.MaxLootPerPlayer = 1                                     -- Maximum loot per player spawned at the same time [default: 3]
 GM.Cfg.BonusRequiredCollectables = 5                            -- Required collectables to get a new pistol [default: 5]
 GM.Cfg.LootHaloDistance = 2000000                               -- Maximum distance from the loot for the outline to show up [default: 1000000]
 
