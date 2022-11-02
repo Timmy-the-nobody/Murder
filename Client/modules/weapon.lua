@@ -1,3 +1,7 @@
+-- TODO: Remove when it's added natively
+Input.__KeyIcons[ "MiddleMouseButton" ] = "Mouse_Middle_Key"
+-- TODO end
+
 --------------------------------------------------------------------------------
 -- Weapon Inputs
 --------------------------------------------------------------------------------
