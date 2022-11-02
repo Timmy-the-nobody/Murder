@@ -141,6 +141,7 @@ Character.Subscribe( "Death", function( eChar, _, _, _, _, pInstigator, _ )
     if pPlayer and pPlayer:IsValid() then
         pPlayer:UnPossess()
         pPlayer:SetVOIPChannel( GM.Cfg.SpectatorVOIPChannel )
+        pPlayer:SetVOIPSetting( VOIPSetting.Global )
     end
 
     -- Drop stored weapon

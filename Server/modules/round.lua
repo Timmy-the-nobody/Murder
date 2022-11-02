@@ -101,6 +101,7 @@ function GM:EndRound( iReason )
         end
 
         pPlayer:SetVOIPChannel( GM.Cfg.SpectatorVOIPChannel )
+        pPlayer:SetVOIPSetting( VOIPSetting.Global )
         pPlayer:ResetCamera()
     end
 end
