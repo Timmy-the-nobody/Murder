@@ -96,14 +96,13 @@ function GM:EndRound( iReason )
 
     -- Clear/Reset stuff
     for _, pPlayer in ipairs( Player.GetAll() ) do
+        if pPlayer:GetControlledCharacter() then
+            pPlayer:UnPossess()
+        end
+
         pPlayer:SetVOIPChannel( GM.Cfg.SpectatorVOIPChannel )
         pPlayer:ResetCamera()
     end
-
-    Timer.SetTimeout( function()
-        -- Clear map entities
-
-    end, GM.Cfg.RoundEndTime or 5000 )
 end
 
 --[[
