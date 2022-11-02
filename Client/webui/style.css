@@ -460,14 +460,13 @@ body {
     height: calc(50vh - var(--margin));
     bottom: var(--margin);
     right: var(--margin);
-    /* background-color: var(--main-color); */
 }
 
 /*
     Rules
 */
 #rules {
-    /* display: none; */
+    display: none;
     width: 95vh;
 }
 

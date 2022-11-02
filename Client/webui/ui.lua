@@ -214,7 +214,7 @@ Client.Subscribe( "Tick", function( fDelta )
     iNextTick = iTime + 1000
 
     local iSecondsLeft = mathCeil( GM:GetRoundTimeLeft() / 1000 )
-    GM.WebUI:CallEvent( "SetElementInnerText", "round-time", "Time left: " .. iSecondsLeft .. "s" )
+    GM.WebUI:CallEvent( "SetElementInnerText", "round-time", "Time left: " .. FormatTime( iSecondsLeft ) )
 end )
 
 --------------------------------------------------------------------------------
