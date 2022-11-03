@@ -17,7 +17,7 @@ NW.Receive( "GM:Loot:PickupSound", function( tPos )
 end )
 
 --[[ GM:OnRoundChange ]]--
-Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
+Events.Subscribe( "GM:OnRoundChange", function( _, iNew )
     if ( iNew ~= RoundType.Playing ) then
         if lootHighlightTick then
             Client.Unsubscribe( "Tick", lootHighlightTick )
@@ -42,6 +42,8 @@ Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
 
         local eChar = LocalCharacter()
         if not eChar or not eChar:IsValid() then
+            Client.Unsubscribe( "Tick", lootHighlightTick )
+            lootHighlightTick = false
             return
         end
 
