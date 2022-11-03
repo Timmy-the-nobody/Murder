@@ -1,7 +1,7 @@
--- Client.SetOutlineColor( Color( 6.48, 4.16, 0.48 ), 0, 1 )
 local CurTime = CurTime
 local hsvToColor = Color.FromHSV
 local setOutlineColor = Client.SetOutlineColor
+local lootHighlightTick = false
 
 --[[ Character Highlight ]]--
 Character.Subscribe( "Highlight", function( eChar, bIsEnabled, eObject )
@@ -17,8 +17,6 @@ NW.Receive( "GM:Loot:PickupSound", function( tPos )
 end )
 
 --[[ GM:OnRoundChange ]]--
-local lootHighlightTick = false
-
 Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
     if ( iNew ~= RoundType.Playing ) then
         if lootHighlightTick then
