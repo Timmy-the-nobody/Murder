@@ -3,11 +3,6 @@ local CurTime = CurTime
 local hsvToColor = Color.FromHSV
 local setOutlineColor = Client.SetOutlineColor
 
---[[ Client Tick ]]--
-Client.Subscribe( "Tick", function( _ )
-    setOutlineColor( hsvToColor( math.floor( CurTime() * 0.1 ) % 100, 10, 10 ), 0, 1 )
-end )
-
 --[[ Character Highlight ]]--
 Character.Subscribe( "Highlight", function( eChar, bIsEnabled, eObject )
     if LocalCharacter() and ( LocalCharacter() == eChar )  then
@@ -38,6 +33,8 @@ Events.Subscribe( "GM:OnRoundChange", function( iOld, iNew )
     local tHighlighted = {}
 
     lootHighlightTick = Client.Subscribe( "Tick", function( _ )
+        setOutlineColor( hsvToColor( math.floor( CurTime() * 0.1 ) % 100, 10, 10 ), 0, 1 )
+
         local iTime = CurTime()
         if ( iTime < iNextTick ) then
             return
