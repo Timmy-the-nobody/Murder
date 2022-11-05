@@ -28,12 +28,17 @@ Events.Subscribe( "GM:OnRoundChange", function( _, iNew )
     end
 
     local iNextTick = 0
+    local iNextOutlineColorChange = 0
     local tHighlighted = {}
 
     lootHighlightTick = Client.Subscribe( "Tick", function( _ )
-        setOutlineColor( hsvToColor( math.floor( CurTime() * 0.1 ) % 100, 10, 10 ), 0, 1 )
-
         local iTime = CurTime()
+
+        if ( iTime > iNextOutlineColorChange ) then
+            setOutlineColor( hsvToColor( math.floor( iTime * 0.1 ) % 100, 10, 10 ), 0, 1 )
+            iNextOutlineColorChange = ( iTime + 80 )
+        end
+
         if ( iTime < iNextTick ) then
             return
         end
