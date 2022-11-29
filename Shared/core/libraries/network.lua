@@ -1,4 +1,4 @@
-local NWReceive = Events.Subscribe
+local NWReceive = Events.SubscribeRemote
 local NWSend = Events.CallRemote
 local NWBroadcast = Events.BroadcastRemote
 
