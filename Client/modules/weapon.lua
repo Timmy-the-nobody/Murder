@@ -1,6 +1,6 @@
--- TODO: Remove when it's added natively
-Input.__KeyIcons[ "MiddleMouseButton" ] = "Mouse_Middle_Key"
--- TODO end
+-- -- TODO: Remove when it's added natively
+-- Input.__KeyIcons[ "MiddleMouseButton" ] = "Mouse_Middle_Key"
+-- -- TODO end
 
 --------------------------------------------------------------------------------
 -- Weapon Inputs
@@ -21,7 +21,7 @@ end )
 Client.SetHighlightColor( GM.Cfg.KnifeHighlightColor, 0, HighlightMode.Always )
 
 --[[ Melee ValueChange ]]--
-local sKnifeThrowSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/knife_throw.ogg"
+local sKnifeThrowSound = "package://" .. Package.GetName() .. "/Client/resources/sounds/knife_throw.ogg"
 
 Melee.Subscribe( "ValueChange", function( eMelee, sKey, xValue )
     if eMelee:IsValid() and ( sKey == "thrown_knife" ) then

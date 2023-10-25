@@ -1,6 +1,6 @@
 local mathFloor = math.floor
 local worldToScreen = Client.ProjectWorldToScreen
-local traceLine = Client.TraceLineSingle
+local traceLine = Trace.LineSingle
 
 --[[
     LocalPlayer

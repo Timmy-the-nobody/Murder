@@ -1,7 +1,7 @@
 GM = GM or {}
 GM.Cfg = GM.Cfg or {}
 
-Package.RequirePackage( "nanos-world-weapons" )
+-- Package.RequirePackage( "nanos-world-weapons" )
 
 --------------------------------------------------------------------------------
 -- Core files

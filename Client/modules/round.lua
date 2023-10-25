@@ -16,7 +16,7 @@ end )
 --------------------------------------------------------------------------------
 -- Ambiance Sounds
 --------------------------------------------------------------------------------
-local sPackagePath = Package.GetPath()
+local sPackagePath = Package.GetName()
 local tPlaying = {}
 
 local tAmbiance = {

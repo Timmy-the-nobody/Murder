@@ -5,7 +5,7 @@ Input.Bind( "Flashlight", InputEvent.Pressed, function()
 end )
 
 --[[ Character ValueChange ]]--
-local sToggleSound = "package://" .. Package.GetPath() .. "/Client/resources/sounds/flashlight_toggle.ogg"
+local sToggleSound = "package://" .. Package.GetName() .. "/Client/resources/sounds/flashlight_toggle.ogg"
 
 Character.Subscribe( "ValueChange", function( eChar, sKey, xValue )
     if ( sKey ~= "flashlight_enabled" ) or not eChar or not eChar:IsValid() then

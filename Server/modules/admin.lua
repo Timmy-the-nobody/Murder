@@ -112,7 +112,7 @@ function GM:LoadAllSpawns( iSubMode )
         ::continue::
     end
 
-    Package.Log( #self[ sTable ][ sCurMap ] .. " " .. self.AdminSubModes[ iSubMode ].name .. " available on this map" )
+    Console.Log( #self[ sTable ][ sCurMap ] .. " " .. self.AdminSubModes[ iSubMode ].name .. " available on this map" )
 end
 
 for k, _ in ipairs( GM.AdminSubModes ) do

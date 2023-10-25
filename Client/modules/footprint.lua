@@ -3,7 +3,7 @@ local iFootprintDuration = ( GM.Cfg.FootPrintMaxTime * 0.001 )
 
 --[[ addFootprint ]]--
 local function addFootprint( tPos, tAng, bRight, tColor )
-    local tTrace = Client.TraceLineSingle(
+    local tTrace = Trace.LineSingle(
         tPos,
         tPos - Vector( 0, 0, 200 ),
         CollisionChannel.WorldStatic | CollisionChannel.WorldDynamic,
@@ -20,7 +20,7 @@ local function addFootprint( tPos, tAng, bRight, tColor )
         0.01
     )
 
-    local sTexturePath = "package://" .. Package.GetPath() .. "/Client/resources/images/footprint_" .. ( bRight and "r" or "l" ) .. ".png"
+    local sTexturePath = "package://" .. Package.GetName() .. "/Client/resources/images/footprint_" .. ( bRight and "r" or "l" ) .. ".png"
     tColor.A = 0.5
 
     eDecal:SetMaterialTextureParameter( "Texture", sTexturePath )

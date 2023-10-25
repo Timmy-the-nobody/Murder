@@ -36,8 +36,8 @@ end
 
 --[[ StaticMesh ValueChange ]]--
 local tDoorSound = {
-    open = "package://" .. Package.GetPath() .. "/Client/resources/sounds/nw_underground/door_open.ogg",
-    close = "package://" .. Package.GetPath() .. "/Client/resources/sounds/nw_underground/door_close.ogg"
+    open = "package://" .. Package.GetName() .. "/Client/resources/sounds/nw_underground/door_open.ogg",
+    close = "package://" .. Package.GetName() .. "/Client/resources/sounds/nw_underground/door_close.ogg"
 }
 
 StaticMesh.Subscribe( "ValueChange", function( eSM, sKey, xValue )
@@ -141,7 +141,7 @@ Package.Subscribe( "Load", function()
     for _, v in ipairs( tRedLightPos ) do
         Sound(
             v,
-            "package://" .. Package.GetPath() .. "/Client/resources/sounds/nw_underground/emergency_light_engine_loop.ogg",
+            "package://" .. Package.GetName() .. "/Client/resources/sounds/nw_underground/emergency_light_engine_loop.ogg",
             false,
             false,
             SoundType.SFX,

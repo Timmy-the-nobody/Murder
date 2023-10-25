@@ -4,7 +4,7 @@ local eSelectedEnt = false
 local sIDKey = GM.AdminSubModes[ 1 ].placeholderIDKey
 
 local iCollision = CollisionChannel.WorldStatic | CollisionChannel.WorldDynamic | CollisionChannel.PhysicsBody | CollisionChannel.Mesh
-local traceLine = Client.TraceLineSingle
+local traceLine = Trace.LineSingle
 
 --[[ getEyeTrace ]]--
 local function getEyeTrace( tFilter )

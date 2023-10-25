@@ -5,7 +5,7 @@ Input.Bind( "Interact", InputEvent.Pressed, function()
         return
     end
 
-    local tTrace = Client.TraceLineSingle(
+    local tTrace = Trace.LineSingle(
         eChar:GetLocation(),
         ( LocalPlayer():GetCameraRotation():GetForwardVector() * 500 ),
         CollisionChannel.Pawn,
