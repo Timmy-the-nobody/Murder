@@ -32,7 +32,7 @@ if Server then
     ]]--
     function NW.Send( sEventName, xPlayer, ... )
         if not _tNWStr[ sEventName ] then
-            Package.Warn( "Trying to send a non-regitered NW packet: " .. sEventName )
+            Console.Warn( "Trying to send a non-regitered NW packet: " .. sEventName )
             return false
         end
 
@@ -68,7 +68,7 @@ if Server then
     ]]--
     function NW.Broadcast( sEventName, ... )
         if not _tNWStr[ sEventName ] then
-            Package.Warn( "Trying to broadcast a non-regitered NW packet: " .. sEventName )
+            Console.Warn( "Trying to broadcast a non-regitered NW packet: " .. sEventName )
             return false
         end
 
@@ -87,7 +87,7 @@ else
     ]]--
     function NW.Send( sEventName, ... )
         if not _tNWStr[ sEventName ] then
-            Package.Warn( "Trying to send a non-regitered NW packet: " .. sEventName )
+            Console.Warn( "Trying to send a non-regitered NW packet: " .. sEventName )
             return
         end
 
@@ -106,7 +106,7 @@ end
 ]]--
 function NW.Receive( sEventName, fCallback )
     if not _tNWStr[ sEventName ] then
-        Package.Warn( "Trying to receive a non-regitered NW packet: " .. sEventName )
+        Console.Warn( "Trying to receive a non-regitered NW packet: " .. sEventName )
         return false
     end
 
