@@ -1,16 +1,14 @@
---[[ Flashlight Input ]]--
-Input.Register( "Flashlight", "F" )
-Input.Bind( "Flashlight", InputEvent.Pressed, function()
-    NW.Send( "GM:Flashlight:Toggle" )
-end )
+-- Input: "Flashlight"
+Input.Register("Flashlight", "F")
+Input.Bind("Flashlight", InputEvent.Pressed, function()
+    NW.Send("GM:Flashlight:Toggle")
+end)
 
---[[ Character ValueChange ]]--
-local sToggleSound = "package://" .. Package.GetName() .. "/Client/resources/sounds/flashlight_toggle.ogg"
+-- Character: "ValueChange"
+local sToggleSound = "package://"..Package.GetName().."/Client/resources/sounds/flashlight_toggle.ogg"
 
-Character.Subscribe( "ValueChange", function( eChar, sKey, xValue )
-    if ( sKey ~= "flashlight_enabled" ) or not eChar or not eChar:IsValid() then
-        return
-    end
+Character.Subscribe("ValueChange", function(eChar, sKey, xValue)
+    if (sKey ~= "flashlight_enabled") or not eChar or not eChar:IsValid() then return end
 
     Sound(
         eChar:GetLocation(),
@@ -19,7 +17,7 @@ Character.Subscribe( "ValueChange", function( eChar, sKey, xValue )
         true,
         SoundType.SFX,
         0.3,
-        ( xValue and 1.2 or 1 ),
+        (xValue and 1.2 or 1),
         50
     )
-end )
+end)

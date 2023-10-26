@@ -1,4 +1,5 @@
-if ( Server.GetMap() ~= "murder-underground::nw_underground" ) then
+if (Server.GetMapAsset() ~= "murder-underground::nw_underground") then
+    print("nonononono")
     return
 end
 
@@ -24,138 +25,134 @@ local tDoors = {
 }
 
 local closeDoor
-local iStepsPerTick = ( iDoorMaxZ / ( Server.GetTickRate() * ( iDoorAnimDuration * 0.001 ) ) )
+local iStepsPerTick = (iDoorMaxZ / (Server.GetTickRate() * (iDoorAnimDuration * 0.001)))
 
---[[ openDoor ]]--
-local function openDoor( eDoor )
-    if eDoor:GetValue( "door_open" ) or eDoor:GetValue( "door_anim" ) then
+-- openDoor
+local function openDoor(eDoor)
+    if eDoor:GetValue("door_open") or eDoor:GetValue("door_anim") then
         return
     end
 
-    eDoor:SetValue( "door_open", true, true )
-    eDoor:SetValue( "door_anim", true, false )
+    eDoor:SetValue("door_open", true, true)
+    eDoor:SetValue("door_anim", true, false)
 
-    local tEndPos = tDoors[ eDoor:GetValue( "door_id" ) ].pos
+    local tEndPos = tDoors[eDoor:GetValue("door_id")].pos
     local doorTick
 
-    doorTick = Server.Subscribe( "Tick", function( fDelta )
+    doorTick = Server.Subscribe("Tick", function(fDelta)
         if not eDoor:IsValid() then
-            Server.Unsubscribe( "Tick", doorTick )
+            Server.Unsubscribe("Tick", doorTick)
             return
         end
 
-        local tNewPos = eDoor:GetLocation() + Vector( 0, 0, iStepsPerTick )
-        eDoor:SetLocation( tNewPos )
+        local tNewPos = eDoor:GetLocation() + Vector(0, 0, iStepsPerTick)
+        eDoor:SetLocation(tNewPos)
 
-        if ( tNewPos.Z >= tEndPos.Z ) then
-            Server.Unsubscribe( "Tick", doorTick )
+        if (tNewPos.Z >= tEndPos.Z) then
+            Server.Unsubscribe("Tick", doorTick)
 
-            eDoor:SetLocation( tEndPos )
-            eDoor:SetValue( "door_anim", nil, false )
+            eDoor:SetLocation(tEndPos)
+            eDoor:SetValue("door_anim", nil, false)
 
-            if ( table.Count( eDoor:GetValue( "characters_in_sphere", {} ) ) == 0 ) then
-                closeDoor( eDoor )
+            if (table.Count(eDoor:GetValue("characters_in_sphere", {})) == 0) then
+                closeDoor(eDoor)
                 return
             end
         end
-    end )
+    end)
 end
 
---[[ closeDoor ]]--
-closeDoor = function( eDoor )
-    if not eDoor:GetValue( "door_open" ) or eDoor:GetValue( "door_anim" ) then
-        return
-    end
+-- closeDoor
+closeDoor = function(eDoor)
+    if not eDoor:GetValue("door_open") or eDoor:GetValue("door_anim") then return end
 
-    local tInSphere = eDoor:GetValue( "characters_in_sphere", {} )
-    if ( table.Count( tInSphere ) > 0 ) then
-        return
-    end
+    local tInSphere = eDoor:GetValue("characters_in_sphere", {})
+    if (table.Count(tInSphere) > 0) then return end
 
-    eDoor:SetValue( "door_open", false, true )
-    eDoor:SetValue( "door_anim", true, false )
+    eDoor:SetValue("door_open", false, true)
+    eDoor:SetValue("door_anim", true, false)
 
-    local tEndPos = tDoors[ eDoor:GetValue( "door_id" ) ].pos - Vector( 0, 0, iDoorMaxZ )
+    local tEndPos = tDoors[eDoor:GetValue("door_id")].pos - Vector(0, 0, iDoorMaxZ)
     local doorTick
 
-    doorTick = Server.Subscribe( "Tick", function( fDelta )
+    doorTick = Server.Subscribe("Tick", function(fDelta)
         if not eDoor:IsValid() then
-            Server.Unsubscribe( "Tick", doorTick )
+            Server.Unsubscribe("Tick", doorTick)
             return
         end
 
-        local tNewPos = eDoor:GetLocation() - Vector( 0, 0, iStepsPerTick )
-        eDoor:SetLocation( tNewPos )
+        local tNewPos = eDoor:GetLocation() - Vector(0, 0, iStepsPerTick)
+        eDoor:SetLocation(tNewPos)
 
-        if ( tNewPos.Z <= tEndPos.Z ) then
-            Server.Unsubscribe( "Tick", doorTick )
+        if (tNewPos.Z <= tEndPos.Z) then
+            Server.Unsubscribe("Tick", doorTick)
 
-            eDoor:SetLocation( tEndPos )
-            eDoor:SetValue( "door_anim", nil, false )
+            eDoor:SetLocation(tEndPos)
+            eDoor:SetValue("door_anim", nil, false)
 
-            if ( table.Count( eDoor:GetValue( "characters_in_sphere", {} ) ) > 0 ) then
-                openDoor( eDoor )
+            if (table.Count(eDoor:GetValue("characters_in_sphere", {})) > 0) then
+                openDoor(eDoor)
                 return
             end
         end
-    end )
+    end)
 end
 
---[[ initDoors ]]--
+-- initDoors
 local function initDoors()
-    for iDoorID, tDoor in ipairs( tDoors ) do
+    for iDoorID, tDoor in ipairs(tDoors) do
         local eDoor = StaticMesh(
-            tDoor.pos - Vector( 0, 0, iDoorMaxZ ),
+            tDoor.pos - Vector(0, 0, iDoorMaxZ),
             tDoor.ang,
             "murder-underground::SM_Metal_Door_2"
         )
 
         if tDoor.scale then
-            eDoor:SetScale( tDoor.scale )
+            eDoor:SetScale(tDoor.scale)
         end
 
-        eDoor:SetVisibility( false )
-        eDoor:SetValue( "door_id", iDoorID, true )
-        eDoor:SetValue( "door_open", false, false )
+        eDoor:SetVisibility(false)
+        eDoor:SetValue("door_id", iDoorID, true)
+        eDoor:SetValue("door_open", false, false)
 
         local eTrigger = Trigger(
-            eDoor:GetLocation() + ( tDoor.ang:GetForwardVector() * 160 ) + Vector( 0, 0, 150 ),
+            eDoor:GetLocation() + (tDoor.ang:GetForwardVector() * 160) + Vector(0, 0, 150),
             Rotator(),
-            Vector( 400 ),
+            Vector(400),
             TriggerType.Sphere,
             false,
-            Color( 1, 0, 0 ),
+            Color(1, 0, 0),
             { "Character" }
         )
 
-        eTrigger:Subscribe( "BeginOverlap", function( _, eChar )
+        eTrigger:Subscribe("BeginOverlap", function(_, eChar)
             if not eDoor:IsValid() then
                 return
             end
 
-            local tInSphere = eDoor:GetValue( "characters_in_sphere", {} )
-            tInSphere[ eChar ] = true
-            eDoor:SetValue( "characters_in_sphere", tInSphere, false )
+            local tInSphere = eDoor:GetValue("characters_in_sphere", {})
+            tInSphere[eChar] = true
+            eDoor:SetValue("characters_in_sphere", tInSphere, false)
 
-            openDoor( eDoor )
-        end )
+            openDoor(eDoor)
+        end)
 
-        eTrigger:Subscribe( "EndOverlap", function( _, eChar )
+        eTrigger:Subscribe("EndOverlap", function(_, eChar)
             if not eDoor:IsValid() then
                 return
             end
 
-            local tInSphere = eDoor:GetValue( "characters_in_sphere", {} )
-            tInSphere[ eChar ] = nil
-            eDoor:SetValue( "characters_in_sphere", tInSphere, false )
+            local tInSphere = eDoor:GetValue("characters_in_sphere", {})
+            tInSphere[eChar] = nil
+            eDoor:SetValue("characters_in_sphere", tInSphere, false)
 
-            closeDoor( eDoor )
-        end )
+            closeDoor(eDoor)
+        end)
     end
 end
 
---[[ GM:OnMapCleared ]]--
-Events.Subscribe( "GM:OnMapCleared", initDoors )
+-- Events: "GM:OnMapCleared"
+Events.Subscribe("GM:OnMapCleared", initDoors)
 
---[[ Package Load ]]--
-Package.Subscribe( "Load", initDoors )
+-- Package: "Load"
+Package.Subscribe("Load", initDoors)

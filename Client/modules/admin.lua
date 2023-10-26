@@ -62,9 +62,7 @@ local function enableAdminMode()
 
     adminTick = Client.Subscribe( "Tick", function( _ )
         local tTrace = getEyeTrace( tFilter )
-        if not tTrace.Success then
-            return
-        end
+        if not tTrace.Success then return end
 
         if tTrace.Entity and tTrace.Entity:IsValid() and tTrace.Entity:GetValue( sIDKey ) then
             if not eSelectedEnt then

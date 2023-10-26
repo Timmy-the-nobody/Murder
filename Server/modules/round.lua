@@ -1,6 +1,6 @@
 local iNextTick = 0
 local CurTime = CurTime
-local sMap = Server.GetMap()
+local sMap = Server.GetMapAsset()
 
 ---`🔹 Server`<br>
 ---Clears the map

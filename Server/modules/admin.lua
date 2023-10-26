@@ -1,4 +1,4 @@
-local sCurMap = Server.GetMap()
+local sCurMap = Server.GetMapAsset()
 local StaticMesh = StaticMesh
 
 --------------------------------------------------------------------------------

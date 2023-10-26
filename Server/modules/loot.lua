@@ -1,5 +1,5 @@
 local tSpawnedLoot = {}
-local sMap = Server.GetMap()
+local sMap = Server.GetMapAsset()
 
 --[[ Character:SetCollectedLoot ]]--
 function Character:SetCollectedLoot( iLootCount )

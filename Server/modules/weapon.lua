@@ -128,7 +128,7 @@ function Character:ThrowKnife()
 
     self:PlayAnimation( "nanos-world::A_Mannequin_Throw_01", AnimationSlotType.FullBody, false, 0.25, 0.25, 3, false )
     self:SetValue( "knife_throw_anim", true, false )
-    self:SetMovementEnabled( false )
+    self:SetInputEnabled( false )
 
     local iThrowAnimTimer = Timer.SetTimeout( function()
         if not self:IsValid() or not ePicked:IsValid() then
@@ -141,7 +141,7 @@ function Character:ThrowKnife()
 
         self:SetValue( "knife_throw_anim", nil, false )
         self:Drop()
-        self:SetMovementEnabled( true )
+        self:SetInputEnabled( true )
 
         local tForward = self:GetControlRotation():GetForwardVector()
 
