@@ -1,7 +1,7 @@
 local sOOCCmd = "/ooc"
 
 local stringFormat = string.format
-local sendChatMessage = Server.SendChatMessage
+local sendChatMessage = Chat.SendChatMessage
 local broadcastChatMessage = Server.BroadcastChatMessage
 
 -- Chat: "PlayerSubmit"
